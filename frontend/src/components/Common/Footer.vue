@@ -1,13 +1,13 @@
-// 메인페이지
+// footer
 <template>
-  <div class="home">
+  <div>
     
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'Footer',
 
 }
 </script>
