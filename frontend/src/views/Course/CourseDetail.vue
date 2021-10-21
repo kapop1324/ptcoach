@@ -1,13 +1,13 @@
-// 메인페이지
+// 코스 운동 페이지
 <template>
-  <div class="home">
+  <div>
     
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'CourseDetail',
 
 }
 </script>
