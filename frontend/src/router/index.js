@@ -11,7 +11,7 @@ import Dashboard from '@/views/Mypage/Dashboard.vue'
 import Mypage from '@/views/Mypage/Mypage.vue'
 import PostureLists from '@/views/Posture/PostureLists.vue'
 import PostureDetail from '@/views/Posture/PostureDetail.vue'
-
+import Login from '@/views/User/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -62,6 +62,11 @@ const routes = [
     name: 'PostureDetail',
     component: PostureDetail,
   },
+  {
+    path: '/user/login',
+    name: 'Login',
+    component: Login,
+  },  
 ]
 
 const router = new VueRouter({
