@@ -11,15 +11,18 @@ $yellow-color: #FFEEBB;  // step 노란색
 $orange-color: #FF8B49;  // 버튼 오렌지색
 
 // fonts
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
-$font-family: "Nanum Gothic", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+$font-family: 'Inter', sans-serif;
+
+// @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+// $font-family: "Nanum Gothic", sans-serif;
 // $title-font-size: 28px;
 
 
 // container
 .content-box {
 	width: 80vw;
-	height: 100%;
+	// height: 100%;
 	margin: 0 auto;
 	position: relative;
 	top: 100px;
