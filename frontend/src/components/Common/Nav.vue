@@ -48,7 +48,7 @@ export default {
   position: absolute;
   top: 8vh;
   left: 5vw;
-  color: $main-color;
+  color: $logo-color;
   display: inline-block;
 }
 
@@ -98,7 +98,7 @@ export default {
 #NavRoot .login-btn a {
   font-family: $kor-font-family;
   border-radius: 15px;
-  border: 2px solid $main-color;
+  border: 2px solid $logo-color;
   border-width: 2px; 
   margin: 10px;
   padding: 5px;
