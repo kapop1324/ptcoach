@@ -1,7 +1,8 @@
 // 자세교정 선택 페이지
 <template>
   <div>
-    
+
+  
   </div>
 </template>
 

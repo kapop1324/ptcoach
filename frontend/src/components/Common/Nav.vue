@@ -2,18 +2,20 @@
 <template>
   <div id="NavRoot">
     <div class="logo"><router-link to="/">우리집PT코치</router-link></div>
-          <div class="menu-item1">
-            <router-link to="/course">코스 운동</router-link>
-          </div>          
-          <div class="menu-item2">          
-            <router-link to="/posture">자세 교정</router-link>
-          </div>             
-          <div class="menu-item3">           
-            <router-link to="/dashboard">대시 보드</router-link>
-          </div>    
-          <div class="login-btn">   
-            <router-link to="/user/login">로그인</router-link>
-          </div>                
+    <div class="menus">
+      <div class="menu-item">
+        <router-link to="/course">코스 운동</router-link>
+      </div>          
+      <div class="menu-item">          
+        <router-link to="/posture">자세 교정</router-link>
+      </div>             
+      <div class="menu-item">           
+        <router-link to="/dashboard">대시 보드</router-link>
+      </div>    
+    </div>
+    <div class="login-btn">   
+      <router-link to="/user/login">로그인</router-link>
+    </div>                
   </div>
 </template>
 
@@ -28,86 +30,58 @@ export default {
 @import "../../styles/common.scss";
 
 #NavRoot {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  // display: flex;
+  // align-items: center;
+  background-color: #ffffff;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 10000;
-  //box-shadow: 1px 1px 7px 3px rgba(129, 127, 127, 0.849);
+  box-shadow: 1px 1px 7px 3px rgba(207, 207, 207, 0.479);
 }
 #NavRoot .logo a {
-  font-family: $kor-font-family;
-  font-size: $title-font-size;
+  font-size: 28px;
   font-weight: bold;
-  margin-left: 2vw;
-  font-size: 2vw;
+  margin-left: 40px;
   text-decoration: none;
   position: absolute;
-  top: 8vh;
-  left: 5vw;
-  color: $main-color;
+  top: 15px;
+  left: 8px;
+  color: $logo-color;
   display: inline-block;
 }
+#NavRoot .menus {
+  padding-top: 25px;
+  padding-bottom: 20px;
+  position: relative;
+  display: flex;
+  left: 300px;
+  width: 300px;
+  justify-content: space-between;
+}
+#NavRoot .menu-item a {
+  text-decoration: none;
+  font-size: 1.1rem;
+  color: $black-color;
+  border-bottom: 6px solid transparent;
+}
 
-#NavRoot .menu-item1 a {
-  font-family: $kor-font-family;  
-  margin: 10px;
-  font-size: 1.2vw;
-  text-decoration: none;
-  position: absolute;
-  top: 8vh;
-  left: 30vw;
-  color: black;
-}
-#NavRoot .menu-item2 a {
-  font-family: $kor-font-family;
-  margin: 10px;
-  display: inline-block;  
-  font-size: 1.2vw;
-  text-decoration: none;
-  position: absolute;
-  top: 8vh;
-  left: 40vw;
-  color: black;
-}
-#NavRoot .menu-item3 a {  
-  font-family: $kor-font-family;
-  margin: 10px;
-  display: inline-block;  
-  font-size: 1.2vw;
-  text-decoration: none;
-  position: absolute;
-  top: 8vh;
-  left: 50vw;
-  color: black;
-}
-#NavRoot .menu-item4 a {
-  font-family: $kor-font-family;
-  margin: 10px;
-  display: inline-block;  
-  font-size: 1.2vw;
-  text-decoration: none;
-  position: absolute;
-  top: 8vh;
-  right: 15vw;
-  color: black;
+#NavRoot .menu-item a:focus,
+#NavRoot .menu-item a:active,
+#NavRoot .menu-item a:hover {
+  border-bottom-color: $yellow-color;
 }
 #NavRoot .login-btn a {
-  font-family: $kor-font-family;
-  border-radius: 15px;
-  border: 2px solid $main-color;
-  border-width: 2px; 
-  margin: 10px;
-  padding: 5px;
-  display: inline-block;  
-  font-size: 1vw;
-  text-decoration: none;
+  border-radius: 30px;
+  border: .7px solid $dark-color;
+  padding: 6px 12px;
+  display: inline-block; 
   position: absolute;
-  top: 8vh;
-  right: 25vw;
-  color: black;   
+  text-decoration: none;
+  top: 22px;
+  right: 40px;
+  font-size: 0.85rem;
+  color: $black-color;
 }
 </style>
