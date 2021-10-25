@@ -2,16 +2,13 @@
 
 // colors
 $white-color: #f6f6f6;
-$black-color: #242424; // footer, 검은 구분선
-$dark-color: #626262; // 보통의 글씨 컬러
-$light-color: #f4f6f6;
-$gray-color: #c4c4c4; // 취소버튼, 비활성 버튼, 연한 구분선 등
-$main-color: #1225a2;
-$point-color: #ffd0a5; // 메인 버튼 컬러
-// $sub-color: #b1b6b7; // 메인 컬러와 그룹으로 쓰이는 컬러
-// $sub-point-color: #f28e85; // 추가 버튼, a 링크 포인트 컬러
-// $sub-light-color: #ddc9c6;
-// $heart-color: #f66352;
+$black-color: #1b1b1b;
+$dark-color: #626262;
+$logo-color: #1225a2;  // 로고 파란색
+$footer-color: #ffd0a5; // footer 연한 오렌지색
+$light-color: #FDF8E9;  // 운동 선택 연노란색
+$yellow-color: #FFEEBB;  // step 노란색
+$orange-color: #FF8B49;  // 버튼 오렌지색
 
 // fonts
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
