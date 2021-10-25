@@ -15,7 +15,7 @@
     </div>
     <div class="login-btn">   
       <router-link to="/user/login">로그인</router-link>
-    </div>                
+    </div>
   </div>
 </template>
 
