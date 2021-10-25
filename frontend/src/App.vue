@@ -2,7 +2,9 @@
   <div id="app">
 
     <Nav />
-    <router-view/>
+    <div class="content-box">
+      <router-view/>
+    </div>
     <Footer/>
 
   </div>
@@ -22,26 +24,33 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
+@import "./styles/common.scss";
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: $font-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: $black-color;
+  min-width: 375px;
 }
 
-#nav {
-  padding: 30px;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+} 
+::-webkit-scrollbar-thumb {
+  background-color: #ced1df;
+  border: 1px solid transparent;
+  border-radius: 10px;
+} 
+::-webkit-scrollbar-track { 
+  background-color: #f4f6f6;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+::selection {
+  // background: #eaedff;
+  background: $light-color;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
-
