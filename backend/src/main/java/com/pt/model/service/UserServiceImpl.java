@@ -23,7 +23,8 @@ public class UserServiceImpl implements UserService {
     @Override
 	public User login(User user) throws Exception {
 		
-		return userRepositorySupport.login(user);
+		//return userRepositorySupport.login(user);
+    	return userDao.findByEmail(user.getEmail());
 	}
     
 	@Override
@@ -33,21 +34,15 @@ public class UserServiceImpl implements UserService {
 	}
     
 	@Override
-	public User userinfo(String email) throws Exception {
+	public User finduserEmail(String email) throws Exception {
 		
-		return userRepositorySupport.userinfo(email);
+		return userDao.findByEmail(email);
 	}
 	
 	@Override
-	public String idcheck(String email) throws Exception {
-		
-		return userRepositorySupport.idcheck(email);
-	}
-
-	@Override
 	public long leave(String email) throws Exception {
 
-		return userRepositorySupport.leave(email);
+		return userDao.deleteByEmail(email);
 	}
 
 

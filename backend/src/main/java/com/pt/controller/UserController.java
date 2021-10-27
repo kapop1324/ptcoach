@@ -123,8 +123,8 @@ public class UserController {
     	
     	try {
     		
-    		String idcheck = userService.idcheck(email);
-    		
+    		User idcheck = userService.finduserEmail(email);
+    	
     		if(idcheck == null) {
     			message = "success";
     			result.put("message", message);
@@ -154,7 +154,7 @@ public class UserController {
     	
     	try {
     		
-    		User user = userService.userinfo(email);
+    		User user = userService.finduserEmail(email);
     		
     		if(user == null) {
     			message = "fail";

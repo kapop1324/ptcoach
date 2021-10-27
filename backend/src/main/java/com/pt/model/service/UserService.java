@@ -13,9 +13,7 @@ public interface UserService {
 	
 	public User join(User user) throws Exception;
     
-    public User userinfo(String email) throws Exception;
-    
-    public String idcheck(String email) throws Exception;
+    public User finduserEmail(String email) throws Exception;
     
     @Transactional
     public long leave(String email) throws Exception;

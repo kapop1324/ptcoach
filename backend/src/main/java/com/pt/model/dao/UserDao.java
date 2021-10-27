@@ -8,5 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDao extends JpaRepository<User, String>{
+	
+	public User findByEmail(String email);
+	
+	public long deleteByEmail(String email);
+
 
 }
