@@ -5,23 +5,24 @@ $white-color: #f6f6f6;
 $black-color: #1b1b1b;
 $dark-color: #626262;
 $logo-color: #1225a2;  // 로고 파란색
-$footer-color: #ffd0a5; // footer 연한 오렌지색
+$footer-color: #FFD0A5; // footer 연한 오렌지색
 $light-color: #FDF8E9;  // 운동 선택 연노란색
 $yellow-color: #FFEEBB;  // step 노란색
 $orange-color: #FF8B49;  // 버튼 오렌지색
 
 // fonts
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
-$font-family: "Nanum Gothic", sans-serif;
-// $title-font-size: 28px;
+// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+// $font-family: 'Inter', sans-serif;
 
+// @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+// $font-family: "Nanum Gothic", sans-serif;
+// $title-font-size: 28px;
 
 // container
 .content-box {
 	width: 80vw;
 	height: 100%;
 	margin: 0 auto;
-	position: relative;
-	top: 100px;
+	padding-top: 100px;
   min-width: 375px;
 }

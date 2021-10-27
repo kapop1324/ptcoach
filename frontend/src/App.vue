@@ -27,12 +27,28 @@ export default {
 <style lang="scss">
 @import "./styles/common.scss";
 
+@font-face {
+    font-family: 'SBAggroM';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroM.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SBAggroL';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 #app {
-  font-family: $font-family;
+  font-family: 'SBAggroM';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $black-color;
   min-width: 375px;
+  background-color: $light-color;
+  min-height: 100vh;
 }
 
 ::-webkit-scrollbar {
@@ -50,7 +66,7 @@ export default {
 
 ::selection {
   // background: #eaedff;
-  background: $light-color;
+  background: #ffe2c7;
 }
 
 </style>
