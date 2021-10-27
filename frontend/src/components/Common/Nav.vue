@@ -30,8 +30,6 @@ export default {
 @import "../../styles/common.scss";
 
 #NavRoot {
-  // display: flex;
-  // align-items: center;
   background-color: #ffffff;
   position: fixed;
   top: 0;
@@ -59,6 +57,7 @@ export default {
   left: 300px;
   width: 300px;
   justify-content: space-between;
+  font-family: 'SBAggroL';
 }
 #NavRoot .menu-item a {
   text-decoration: none;
@@ -83,5 +82,6 @@ export default {
   right: 40px;
   font-size: 0.85rem;
   color: $black-color;
+  font-family: 'SBAggroL';
 }
 </style>
