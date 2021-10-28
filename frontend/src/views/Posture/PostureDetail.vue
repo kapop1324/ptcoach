@@ -3,24 +3,26 @@
     <div class="pos-content-main">
       <div class="title">{{$route.query.name}}나무자세</div> 
       <!-- 의문점.. list형식으로 step1과 사진을 받아오는 걸까..? -->
+      <div class="pos-vedio">
       <Vedio/>
+      </div>
       <Description/>
       <!-- step 개수에 따라서 component 만들기 -->
       <div class="pos-content-step">
         <Step v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Step>
       </div>
-      <div class="clear"> CLEAR </div>
+      <div class="clear"> 완료 </div>
       <Res/>
     </div>
 </template>
 
 <script>
-import Vedio from '@/components/PostureDetail/Vedio.vue'
-import Description from '@/components/PostureDetail/Description.vue'
-import Step from '@/components/PostureDetail/Step.vue'
-import Res from '@/components/PostureDetail/Result.vue'
+import Vedio from '@/components/Detail/Vedio.vue'
+import Description from '@/components/Detail/Description.vue'
+import Step from '@/components/Detail/Step.vue'
+import Res from '@/components/Detail/Result.vue'
 export default {
-  name: 'PostureDetail',
+  name: 'Detail',
   components:{
     Vedio,
     Description,
@@ -51,6 +53,15 @@ export default {
   position: absolute;
   font-size: 38px;
   font-weight: bold;
+}
+.pos-vedio {
+  width: 34%;
+  height: 64%;  
+  top: 22%;
+  left: 11%;
+  position: absolute;
+  border: solid black;
+  margin: 10px;
 }
 .clear {
   top: 75%;
