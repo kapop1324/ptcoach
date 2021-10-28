@@ -1,3 +1,4 @@
+//시작 버튼 누르면 시작
 <template>
     <div id="ClockRoot">
         <div class="clock">
@@ -10,6 +11,7 @@
 <script>
 export default {
     name: "Clock",
+    
 }
 </script>
 

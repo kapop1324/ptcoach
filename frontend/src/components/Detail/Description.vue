@@ -23,18 +23,18 @@ export default {
 
 img {
     top: 22%;
-    width: 30%;
-    height: 45%;  
-    left: 48%;
+    width: 22%;
+    height: 42%;  
+    left: 50%;
     position: absolute;
     //border: solid black;
     margin: 10px;
 }
 .Desc {
     top: 72%;
-    width: 30%;
+    width: 26%;
     height: 14%;  
-    left: 48%;
+    left: 50%;
     position: absolute;
     //border: solid black;
     color: gray;

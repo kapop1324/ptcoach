@@ -1,14 +1,14 @@
 <template>
-    <div id="StepRoot">
-      <div class="step-box">
-        <div class="step">step {{num}}</div>
+    <div id="ExeRoot">
+      <div class="exe-box">
+        <div class="exe"> 운동 {{num}}</div>
       </div>
     </div>
 </template>
 
 <script>
 export default {
-  name: "Step",
+  name: "Exe",
   props: {
     num: Array,
   },
@@ -18,7 +18,8 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
 
-.step-box {
+
+.exe-box {
   top: 15%;
   height: 40px;
   width: 120px;
@@ -28,9 +29,8 @@ export default {
   font-size: 22px;
   text-align: center;
   margin: 20px;
-  border: 2px solid #b6b6b6;  
 }
-.step {
+.exe {
   padding-top: 5px;
 }
 

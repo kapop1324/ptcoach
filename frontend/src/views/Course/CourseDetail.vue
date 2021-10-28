@@ -1,8 +1,11 @@
 // 코스 운동 페이지
+// 각 운동별 횟수: ?회
+// 운동 설명 어디에서 보여줄 지 
+// '시작'버튼 누르면 시계start, '완료' 누르면 시계end
 <template>
     <div class="course-content-main">
       <div class="course-title">코스1 /</div>  
-      <div class="title">스쿼트</div>        
+      <div class="title">운동1</div>        
       <div class="course-vedio">
       <Vedio/>
       </div>
@@ -11,26 +14,29 @@
       </div>
       <!-- step 개수에 따라서 component 만들기 -->
       <div class="course-content-step">
-        <Step v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Step>
+        <Exe v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Exe>
       </div>
-      <div class="clear"> 완료 </div>
+      <!-- 시작 버튼 누르면 시계 시작, 글씨 완료로 바뀜 -->
+      <div class="clear-btn">
+        <div class="clear"> 완료 </div>
+      </div>  
     </div>
 </template>
 
 <script>
 import Vedio from '@/components/Detail/Vedio.vue'
-import Step from '@/components/Detail/Step.vue'
+import Exe from '@/components/Detail/Exe.vue'
 import Clock from '../../components/Detail/Clock.vue'
 export default {
   name: 'Detail',
   components:{
     Vedio,
-    Step: Step,
+    Exe: Exe,
     Clock,
   },
   data(){
     return{
-      items:['01','02','03']
+      items:['1','2','3']
     }
   }
 
@@ -73,7 +79,7 @@ export default {
   right: 20%;
   position: absolute;  
 }
-.clear {
+.clear-btn{
   top: 75%;
   height: 40px;
   width: 100px;
@@ -83,6 +89,9 @@ export default {
   border-radius: 30px;
   background-color: $orange-color;
   text-align: center;
+}
+.clear{
+  padding-top: 8px;
 }
 .course-content-step {
   top: 42%;
