@@ -18,10 +18,10 @@ export default {
 
 
 .VedioBox {
-  width: 35%;
-  height: 70%;  
-  top: 15%;
-  left: 5%;
+  width: 32%;
+  height: 64%;  
+  top: 22%;
+  left: 12%;
   position: absolute;
   border: solid black;
   margin: 10px;

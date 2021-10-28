@@ -7,7 +7,7 @@
       <Description/>
       <!-- step 개수에 따라서 component 만들기 -->
       <div class="pos-content-step">
-      <Step v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Step>
+        <Step v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Step>
       </div>
       <div class="clear"> CLEAR </div>
       <Res/>
@@ -46,8 +46,8 @@ export default {
   background-color: $light-color;
 }
 .title {
-  top: 5%;
-  left: 5%;
+  top: 14%;
+  left: 12%;
   position: absolute;
   font-size: 38px;
   font-weight: bold;
@@ -56,7 +56,7 @@ export default {
   top: 75%;
   height: 40px;
   width: 100px;
-  right: 3%;
+  right: 10%;
   position: absolute;
   font-size: 22px ;
   border-radius: 30px;
@@ -64,7 +64,8 @@ export default {
   text-align: center;
 }
 .pos-content-step {
-  top: 15%;
-  right: 5%;
+  top: 22%;
+  right: 8%;
+  position: absolute;
 }
 </style>
