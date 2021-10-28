@@ -12,6 +12,7 @@ import Mypage from '@/views/Mypage/Mypage.vue'
 import PostureLists from '@/views/Posture/PostureLists.vue'
 import PostureDetail from '@/views/Posture/PostureDetail.vue'
 import Login from '@/views/User/Login.vue'
+import Join from '@/views/User/Join.vue'
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+  },
+  {
+    path: '/user/join',
+    name: 'Join',
+    component: Join,
   },
 
   {
