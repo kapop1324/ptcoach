@@ -60,7 +60,7 @@ export default {
             if(res.data.message == "success"){
 
               this.$store.state.userEmail = data.email
-              alert("로그인 성공");
+              this.$store.dispatch("login",data.email);
               this.$router.push({name:'Home'});
             }else if(res.data.message == "fail"){
               alert("로그인 실패");
