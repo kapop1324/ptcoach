@@ -17,8 +17,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
-#StepRoot{
-}
+
 
 .step-box {
   top: 15%;
@@ -27,9 +26,9 @@ export default {
   right: 5%;
   border-radius: 30px;
   background-color: $yellow-color;
-  font-size: 26px;
+  font-size: 22px;
   text-align: center;
-  
+  margin: 20px;
 }
 
 </style>

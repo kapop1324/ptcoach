@@ -19,7 +19,7 @@ export default {
 
 .result {
     position:absolute;
-    top: 90%;
+    top: 94%;
     left: 45%;
     font-size: 20px;
     color: $logo-color;
