@@ -16,14 +16,4 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
 
-
-.VedioBox {
-  width: 32%;
-  height: 64%;  
-  top: 22%;
-  left: 12%;
-  position: absolute;
-  border: solid black;
-  margin: 10px;
-}
 </style>
