@@ -6,6 +6,7 @@
       </div>
       <div>
         <input v-model="email" placeholder="이메일 입력하세요" type="text">
+        <button type="button" @click="idcheck">중복확인</button>
       </div>
     </div>
     <div>
@@ -76,7 +77,8 @@ export default {
         name: "",
         password: "",
         time: "",
-        weight: 0
+        weight: 0,
+        idpossible : false,
     }
   },
   methods: {
@@ -92,8 +94,10 @@ export default {
         time: "",
         weight: this.weight
       };
-
-      UserApi.Join(
+      if(this.idpossible == false){
+        alert("이메일 중복확인을 해주세요")
+      }else{
+        UserApi.Join(
           data,
           res => {
             if(res.data.message == "success"){
@@ -113,10 +117,41 @@ export default {
             console.log(error);
           }
         );
+      }
+      
+    },
+
+    idcheck(){
+
+      let data = {
+        email : this.email
+      }
+
+      UserApi.IdCheck(
+          data,
+          res => {
+            if(res.data.message == "success"){
+              alert("사용 가능");
+              this.idpossible = true;
+            }else if(res.data.message == "fail"){
+              alert("사용 불가");
+            }else{
+              alert("사용 불가");
+
+            }
+          },
+          error => {
+            alert("에러발생");
+            console.log(error);
+          }
+        );
+
 
     }
+
   },
 
+  
 }
 
 </script>
