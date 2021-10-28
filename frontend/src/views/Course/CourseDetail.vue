@@ -1,12 +1,13 @@
 // 코스 운동 페이지
 <template>
     <div class="course-content-main">
-      <!-- 의문점.. list형식으로 step1과 사진을 받아오는 걸까..? -->
+      <div class="course-title">코스1 /</div>  
+      <div class="title">스쿼트</div>        
       <div class="course-vedio">
       <Vedio/>
       </div>
-      <div>
-        
+      <div class="clock">
+      <Clock/>
       </div>
       <!-- step 개수에 따라서 component 만들기 -->
       <div class="course-content-step">
@@ -19,11 +20,13 @@
 <script>
 import Vedio from '@/components/Detail/Vedio.vue'
 import Step from '@/components/Detail/Step.vue'
+import Clock from '../../components/Detail/Clock.vue'
 export default {
   name: 'Detail',
   components:{
     Vedio,
     Step: Step,
+    Clock,
   },
   data(){
     return{
@@ -43,6 +46,19 @@ export default {
   border-radius: 30px;
   background-color: $light-color;
 }
+.course-title {
+  top: 14%;
+  left: 28%;
+  position: absolute;
+  font-size: 38px;
+}
+.title {
+  top: 14.5%;
+  left: 37%;
+  position: absolute;
+  font-size: 32px;
+  color:gray;
+}
 .course-vedio {
   width: 32%;
   height: 64%;  
@@ -51,6 +67,11 @@ export default {
   position: absolute;
   border: solid black;
   margin: 10px;
+}
+.clock {
+  top: 22%;
+  right: 20%;
+  position: absolute;  
 }
 .clear {
   top: 75%;
