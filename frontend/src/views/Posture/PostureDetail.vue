@@ -11,7 +11,9 @@
       <div class="pos-content-step">
         <Step v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Step>
       </div>
-      <div class="clear"> 완료 </div>
+      <div class="clear-btn">
+        <div class="clear"> 완료 </div>
+      </div>  
       <Res/>
     </div>
 </template>
@@ -48,8 +50,8 @@ export default {
   background-color: $light-color;
 }
 .title {
-  top: 14%;
-  left: 12%;
+  top: 16%;
+  left: 14%;
   position: absolute;
   font-size: 38px;
   font-weight: bold;
@@ -57,26 +59,30 @@ export default {
 .pos-vedio {
   width: 34%;
   height: 64%;  
-  top: 22%;
-  left: 11%;
+  top: 24%;
+  left: 13%;
   position: absolute;
   border: solid black;
   margin: 10px;
 }
-.clear {
+.clear-btn {
   top: 75%;
   height: 40px;
   width: 100px;
-  right: 10%;
+  right: 14%;
   position: absolute;
   font-size: 22px ;
   border-radius: 30px;
   background-color: $orange-color;
   text-align: center;
+  border: 2px solid #b6b6b6;
+}
+.clear{
+  padding-top: 8px;
 }
 .pos-content-step {
-  top: 22%;
-  right: 8%;
+  top: 24%;
+  right: 12%;
   position: absolute;
 }
 </style>
