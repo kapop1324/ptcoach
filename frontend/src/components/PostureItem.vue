@@ -4,6 +4,7 @@
     <router-link class="r-link" :to="{name: 'PostureDetail', params: {id: exInfo.id}}">
       <div class="pos-title">{{ exInfo.name }}</div>
       <div class="post-img">
+        <!-- <img :src="exInfo.path" alt="스쿼트 샘플이미지"> -->
         <!-- <img src="@/assets/squat_sample.png" alt="스쿼트 샘플이미지"> -->
         <img src="@/assets/squat_sample_remove.png" alt="스쿼트 샘플이미지">
       </div>
