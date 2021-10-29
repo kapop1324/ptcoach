@@ -1,6 +1,7 @@
 // Navbar
 <template>
   <div id="NavRoot">
+    <!-- <img src="@/assets/runner.png" style="width:40px;" alt=""> -->
     <div class="logo"><router-link to="/">우리집PT코치</router-link></div>
     <div class="menus">
       <div class="menu-item">
@@ -30,7 +31,10 @@ export default {
 @import "../../styles/common.scss";
 
 #NavRoot {
-  background-color: #ffffff;
+  // background-color: #ffffff;
+  background-color: #dadfd9;
+  // background: linear-gradient(to right, #816AE2, #9181F2);
+  background: linear-gradient(to right, #b293ff, #32cafe);
   position: fixed;
   top: 0;
   left: 0;
@@ -47,6 +51,8 @@ export default {
   top: 15px;
   left: 8px;
   color: $logo-color;
+  // color: #3c6135;y
+  color: rgb(80, 0, 184);
   display: inline-block;
 }
 #NavRoot .menus {
@@ -63,6 +69,9 @@ export default {
   text-decoration: none;
   font-size: 1.1rem;
   color: $black-color;
+  color: #fff;
+  // color: #3c6135;
+  // color: rgb(88, 0, 202);
   border-bottom: 6px solid transparent;
 }
 
@@ -73,7 +82,8 @@ export default {
 }
 #NavRoot .login-btn a {
   border-radius: 30px;
-  border: .7px solid $dark-color;
+  // border: .7px solid $dark-color;
+  border: .7px solid rgb(224, 224, 224);
   padding: 6px 12px;
   display: inline-block; 
   position: absolute;
@@ -82,6 +92,7 @@ export default {
   right: 40px;
   font-size: 0.85rem;
   color: $black-color;
-  font-family: 'SBAggroL';
+  color: #fff;
+  // font-family: 'SBAggroL';
 }
 </style>

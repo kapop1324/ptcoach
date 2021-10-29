@@ -61,7 +61,7 @@ export default {
   font-family: 'SBAggroL';
 }
 .pos-div:active, .pos-div:hover {
-  transform:scale(1.06);
+  transform:scale(1.045);
   box-shadow: 0 0 10px #99a6ff21, 0 0 15px #99a6ff21, 0 0 25px #99a6ff21;
 }
 
