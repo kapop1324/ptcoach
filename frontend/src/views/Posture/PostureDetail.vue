@@ -69,7 +69,7 @@ export default {
   top: 75%;
   height: 40px;
   width: 100px;
-  right: 14%;
+  right: 16%;
   position: absolute;
   font-size: 22px ;
   border-radius: 30px;
@@ -81,7 +81,7 @@ export default {
 }
 .pos-content-step {
   top: 24%;
-  right: 12%;
+  right: 14%;
   position: absolute;
 }
 </style>
