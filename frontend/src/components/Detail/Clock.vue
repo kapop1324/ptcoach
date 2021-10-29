@@ -2,7 +2,7 @@
 <template>
     <div id="ClockRoot">
         <div class="clock">
-            
+            {{minutes}}:{{seconds}}   
         </div>
 
     </div>
@@ -11,6 +11,42 @@
 <script>
 export default {
     name: "Clock",
+    props:{
+    },
+    data(){
+        return{
+        timer: null,
+        totalTime: 0,  
+        }
+    },    
+    methods: {
+        clockStart(){
+            this.timer = setInterval(() => this.countdown(), 1000);
+        },
+        clockStop(){
+            clearInterval(this.timer);
+            this.timer=null;
+        },        
+        countdown() {
+        if(this.totalTime >= 0) {
+            this.totalTime++;
+        }
+        },
+        padTime(time) {
+        return (time < 10 ? '0' : '') + time;
+        },
+        
+    },
+    computed: {
+        minutes() {
+        const minutes = Math.floor(this.totalTime / 60);
+        return this.padTime(minutes);
+        },
+        seconds() {
+        const seconds = this.totalTime - (this.minutes * 60);
+        return this.padTime(seconds);
+        }
+    }         
     
 }
 </script>
@@ -18,9 +54,9 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
 .clock {
-    width: 120px;
-    height: 130px;  
-    border: solid black;
+    font-size: 60px;
+    width: 180px;
+    height: 90px;  
 }
 
 </style>

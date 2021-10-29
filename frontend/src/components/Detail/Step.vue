@@ -28,10 +28,9 @@ export default {
   font-size: 22px;
   text-align: center;
   margin: 20px;
-  border: 2px solid #b6b6b6;  
 }
 .step {
-  padding-top: 5px;
+  padding-top: 6px;
 }
 
 </style>
