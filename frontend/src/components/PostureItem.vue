@@ -36,15 +36,15 @@ export default {
   border-radius: 20px;
   width: 190px;
   height: 250px;
-  padding: 20px 15px 10px;
+  padding: 20px 10px 10px 18px;
 }
 .pos-title {
   font-size: 1.4rem;
 }
 .post-img {
-  width: 120px;
+  width: 100px;
   // height: 150px;
-  margin: 10px 0 15px auto;
+  margin: 20px 10px 27px auto;
   // margin: 10px auto 15px;
 }
 .post-img > img {
