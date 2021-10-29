@@ -1,6 +1,6 @@
 // 자세교정 선택 페이지
 <template>
-  <div>
+  <div id="posture">
     <div class="title">
       부족한 운동을 선택하고<br>집중적으로 교정해보세요
     </div>
