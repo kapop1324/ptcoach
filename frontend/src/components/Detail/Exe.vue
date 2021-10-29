@@ -10,7 +10,7 @@
 export default {
   name: "Exe",
   props: {
-    num: Array,
+    num: Number,
   },
 }
 </script>

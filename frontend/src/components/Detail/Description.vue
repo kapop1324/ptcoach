@@ -1,11 +1,10 @@
 <template>
     <div id="DescriptionRoot">
-        <!-- <img src="@/assets/images/ex.PNG"> -->
         <img src="@/assets/squat_sample_remove.png" alt="스쿼트 샘플이미지">
         <div class="Desc">
-            <span>1. 릴렉스한 채로 선다. 어깨 넓이로 발을 벌리고 양 팔은 몸에 가볍게 붙인다.
-            2 앉아있기(정자세)
-            3 앉아있기(잘못된자세) : 허리가 굽은경우 - 허리를 피세요</span>
+            <p>1. 릴렉스한 채로 선다. 어깨 넓이로 발을 벌리고 양 팔은 몸에 가볍게 붙인다.</p>
+            <p>2 앉아있기(정자세)</p>
+            <p>3 앉아있기(잘못된자세) : 허리가 굽은경우 - 허리를 피세요</p>
         </div>    
     </div>
 </template>
@@ -20,23 +19,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
-
+p { margin: 0px 0px 2px 0px; line-height: 120%;}
 img {
     top: 22%;
-    width: 22%;
-    height: 42%;  
-    left: 50%;
+    width: 20%;
+    height: 45%;  
+    left: 48%;
     position: absolute;
-    //border: solid black;
     margin: 10px;
 }
 .Desc {
     top: 72%;
-    width: 26%;
-    height: 14%;  
+    width: 25%;
+    height: 12%;  
     left: 50%;
     position: absolute;
-    //border: solid black;
     color: gray;
     margin: 10px;    
 }

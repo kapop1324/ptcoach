@@ -9,7 +9,7 @@
       <Description/>
       <!-- step 개수에 따라서 component 만들기 -->
       <div class="pos-content-step">
-        <Step v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Step>
+        <Step v-for="(item,i) in items" v-bind:num="i" v-bind:key="i"></Step>
       </div>
       <div class="clear-btn">
         <div class="clear"> 완료 </div>
@@ -69,7 +69,7 @@ export default {
   top: 75%;
   height: 40px;
   width: 100px;
-  right: 14%;
+  right: 16%;
   position: absolute;
   font-size: 22px ;
   border-radius: 30px;
@@ -81,7 +81,7 @@ export default {
 }
 .pos-content-step {
   top: 24%;
-  right: 12%;
+  right: 14%;
   position: absolute;
 }
 </style>

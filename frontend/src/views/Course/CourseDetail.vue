@@ -16,11 +16,15 @@
       </div> -->
       <!-- 운동별로 정해진 반복 세트(set)와 횟수(count) 들어옴 -->
       <div class="set-count">
-        <div>{{set}}세트  {{count}}회</div>
+        <div class="cont">{{set}}0세트  {{count}}0회</div>
+        <!-- <div class="cont">{{set}}0세트  {{count}}0회</div> -->
+        <div id="chart">
+        <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="chart.series"></apexchart>
+        </div>    
       </div>   
 
       <div class="course-content-step">        
-        <Exe v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Exe>
+        <Exe v-for="(item,i) in items" v-bind:num="i" v-bind:key="i"></Exe>
       </div>
       <!-- 시작 버튼 누르면 시계 시작 -->
       <div class="clear-btn">
@@ -33,18 +37,38 @@
 import Vedio from '@/components/Detail/Vedio.vue'
 import Exe from '@/components/Detail/Exe.vue'
 import Clock from '../../components/Detail/Clock.vue'
+import VueApexCharts from 'vue-apexcharts'
 export default {
   name: 'Detail',
   components:{
     Vedio,
     Exe: Exe,
     Clock,
+    apexchart:VueApexCharts,
   },
   data(){
     return{
       items:['1','2','3'],
       msg:"시작",
+      chart: {
+        series: [70],
+        chartOptions: {
+        chart: {
+          height: 150,
+          type: 'radialBar',
+        },
+        plotOptions: {
+          radialBar: {
+              hollow: {
+              size: '70%',
+            }
+          },
+        },
+        labels: ['count'],
+        },      
     }
+  }
+    
   },
   methods: {
     start(){
@@ -74,21 +98,21 @@ export default {
 }
 .comment {
   top: 18%;
-  left: 36%;
+  left: 40%;
   position: absolute;  
   font-size: 24px;
 }
 .course-vedio {
   width: 34%;
   height: 64%;  
-  top: 24%;
+  top: 26%;
   left: 13%;
   position: absolute;
   border: solid black;
   margin: 10px;
 }
 img {
-    top: 42%;
+    top: 44%;
     width: 20%;
     height: 42%;  
     left: 50%;
@@ -97,24 +121,30 @@ img {
     margin: 10px;
 }
 .clock {
-  top: 26%;
+  top: 28%;
   right: 35%;
   position: absolute;  
 }
 .course-title {
   top: 26%;
-  right: 20%;
   position: absolute;  
   font-size: 30px;  
 }
 .set-count {
   top: 26%;
-  right: 20%;
+  right: 19%;
+  width: 150px;
   position: absolute;  
   font-size: 24px;
+  text-align: center;  
+}
+#chart {
+  top: 100%;
+
+  position: absolute;
 }
 .clear-btn{
-  top: 75%;
+  top: 78%;
   height: 40px;
   width: 100px;
   right: 20%;
@@ -128,7 +158,7 @@ img {
   padding-top: 8px;
 }
 .course-content-step {
-  top: 46%;
+  top: 48%;
   right: 18%;
   position: absolute;
 }
