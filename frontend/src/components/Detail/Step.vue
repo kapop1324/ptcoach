@@ -10,7 +10,7 @@
 export default {
   name: "Step",
   props: {
-    num: Array,
+    num: Number,
   },
 }
 </script>

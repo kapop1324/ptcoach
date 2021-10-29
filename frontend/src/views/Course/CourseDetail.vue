@@ -20,7 +20,7 @@
       </div>   
 
       <div class="course-content-step">        
-        <Exe v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Exe>
+        <Exe v-for="(item,i) in items" v-bind:num="i" v-bind:key="i"></Exe>
       </div>
       <!-- 시작 버튼 누르면 시계 시작 -->
       <div class="clear-btn">
