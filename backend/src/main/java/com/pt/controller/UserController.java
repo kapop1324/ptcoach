@@ -95,7 +95,7 @@ public class UserController {
     	try {
     		
     		User insert = userService.join(user);
-    		
+    		System.out.println(insert);
     		if(insert != null) {
     			message = "success";
     			result.put("message", message);
@@ -149,7 +149,6 @@ public class UserController {
     public ResponseEntity<HashMap> userinfo(@RequestParam String email){
     	
     	HashMap result = new HashMap();
-
     	String message = "";
     	
     	try {
@@ -176,7 +175,7 @@ public class UserController {
     //탈퇴
     @DeleteMapping("/leave")
     public ResponseEntity<HashMap> leave(@RequestParam String email){
-    	
+    	System.out.println(email);
     	HashMap result = new HashMap();
     			
     	String message = "";
