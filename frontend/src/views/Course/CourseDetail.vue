@@ -1,24 +1,30 @@
 // 코스 운동 페이지
 // 각 운동별 횟수: ?회
-// 운동 설명 어디에서 보여줄 지 
 // '시작'버튼 누르면 시계start, '완료' 누르면 시계end
 <template>
     <div class="course-content-main">
-      <div class="course-title">코스1 /</div>  
-      <div class="title">운동1</div>        
       <div class="course-vedio">
       <Vedio/>
       </div>
+      <img src="@/assets/squat_sample_remove.png" alt="스쿼트 샘플이미지">
       <div class="clock">
-      <Clock/>
+      <Clock ref="clock"/>
       </div>
-      <!-- step 개수에 따라서 component 만들기 -->
-      <div class="course-content-step">
+      <div class="comment"> 멀리서 측면으로 서주세요</div>
+      <!-- <div class="course-title">
+        <div>{{course}}코스1</div>
+      </div> -->
+      <!-- 운동별로 정해진 반복 세트(set)와 횟수(count) 들어옴 -->
+      <div class="set-count">
+        <div>{{set}}세트  {{count}}회</div>
+      </div>   
+
+      <div class="course-content-step">        
         <Exe v-for="(item,i) in items" v-bind:num="items[i]" v-bind:key="i"></Exe>
       </div>
-      <!-- 시작 버튼 누르면 시계 시작, 글씨 완료로 바뀜 -->
+      <!-- 시작 버튼 누르면 시계 시작 -->
       <div class="clear-btn">
-        <div class="clear"> 완료 </div>
+        <div class="clear" v-on:click="start">{{msg}}</div>
       </div>  
     </div>
 </template>
@@ -36,9 +42,23 @@ export default {
   },
   data(){
     return{
-      items:['1','2','3']
+      items:['1','2','3'],
+      msg:"시작",
     }
-  }
+  },
+  methods: {
+    start(){
+      if(this.msg=="시작"){
+        this.msg="완료";
+        this.$refs.clock.clockStart()
+      } 
+      else{
+      this.msg="시작";
+      this.$refs.clock.clockStop()
+      } 
+    },
+    
+  },
 
 }
 </script>
@@ -52,32 +72,46 @@ export default {
   border-radius: 30px;
   background-color: $light-color;
 }
-.course-title {
-  top: 14%;
-  left: 28%;
-  position: absolute;
-  font-size: 38px;
-}
-.title {
-  top: 14.5%;
-  left: 37%;
-  position: absolute;
-  font-size: 32px;
-  color:gray;
+.comment {
+  top: 18%;
+  left: 36%;
+  position: absolute;  
+  font-size: 24px;
 }
 .course-vedio {
-  width: 32%;
+  width: 34%;
   height: 64%;  
-  top: 22%;
-  left: 28%;
+  top: 24%;
+  left: 13%;
   position: absolute;
   border: solid black;
   margin: 10px;
 }
+img {
+    top: 42%;
+    width: 20%;
+    height: 42%;  
+    left: 50%;
+    position: absolute;
+    //border: solid black;
+    margin: 10px;
+}
 .clock {
-  top: 22%;
+  top: 26%;
+  right: 35%;
+  position: absolute;  
+}
+.course-title {
+  top: 26%;
   right: 20%;
   position: absolute;  
+  font-size: 30px;  
+}
+.set-count {
+  top: 26%;
+  right: 20%;
+  position: absolute;  
+  font-size: 24px;
 }
 .clear-btn{
   top: 75%;
@@ -94,7 +128,7 @@ export default {
   padding-top: 8px;
 }
 .course-content-step {
-  top: 42%;
+  top: 46%;
   right: 18%;
   position: absolute;
 }

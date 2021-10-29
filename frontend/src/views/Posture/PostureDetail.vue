@@ -75,7 +75,6 @@ export default {
   border-radius: 30px;
   background-color: $orange-color;
   text-align: center;
-  border: 2px solid #b6b6b6;
 }
 .clear{
   padding-top: 8px;

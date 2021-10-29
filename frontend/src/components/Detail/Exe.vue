@@ -1,5 +1,5 @@
 <template>
-    <div id="ExeRoot">
+    <div id="ExeRoot"> 
       <div class="exe-box">
         <div class="exe"> 운동 {{num}}</div>
       </div>
