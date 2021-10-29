@@ -17,6 +17,7 @@
       <!-- 운동별로 정해진 반복 세트(set)와 횟수(count) 들어옴 -->
       <div class="set-count">
         <div class="cont">{{set}}0세트  {{count}}0회</div>
+        <!-- <div class="cont">{{set}}0세트  {{count}}0회</div> -->
         <div id="chart">
         <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="chart.series"></apexchart>
         </div>    
@@ -126,23 +127,21 @@ img {
 }
 .course-title {
   top: 26%;
-  right: 20%;
   position: absolute;  
   font-size: 30px;  
 }
 .set-count {
   top: 26%;
-  right: 21%;
+  right: 19%;
   width: 150px;
   position: absolute;  
   font-size: 24px;
-  text-align: right;  
+  text-align: center;  
 }
 #chart {
   top: 100%;
-  left: 40%;
+
   position: absolute;
-  margin: 4px;  
 }
 .clear-btn{
   top: 78%;
