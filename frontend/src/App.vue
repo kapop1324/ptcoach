@@ -65,8 +65,8 @@ export default {
 }
 
 ::selection {
-  // background: #eaedff;
-  background: #ffe2c7;
+  background: #eaedffe1;
+  // background: #ffe8d3;
 }
 
 </style>

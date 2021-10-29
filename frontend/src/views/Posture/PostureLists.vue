@@ -1,6 +1,6 @@
 // 자세교정 선택 페이지
 <template>
-  <div>
+  <div id="posturelist">
     <div class="title">
       부족한 운동을 선택하고<br>집중적으로 교정해보세요
     </div>
@@ -24,7 +24,7 @@ export default {
   data (){
     return {
       exerciseList: [
-        {id:1, name: '스쿼트', part: ['하체', '근력']},
+        {id:1, name: '스쿼트', part: ['하체', '근력'], path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},
         {id:2, name: '숄더 프레스', part: ['상체', '근력']},
         {id:3, name: '스탠딩 킥백', part: ['하체', '근력', '대퇴근']},
         {id:4, name: '스탠딩 숄더 프레스', part: ['전신', '유산소']},
@@ -39,6 +39,9 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
 
+#posturelist {
+  padding-bottom: 10%;
+}
 ul {
 	padding: 0;
 	margin: 0;
