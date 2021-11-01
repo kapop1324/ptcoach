@@ -1,7 +1,7 @@
 // 코스 선택 아이템 1개
 <template>
   <div class="cor-div">
-    <router-link class="r-link" :to="{name: 'CourseDetail', params: {id: courseInfo.id}}">
+    <router-link class="r-link" :to="{name: 'CourseExp', params: {id: courseInfo.id}}">
       <div class="cor-title">{{ courseInfo.name }}</div>
       <div class="all-ex">
         <div class="one-ex" v-for="(course, idx) in courseInfo.course" :key="`c-${idx}`">
