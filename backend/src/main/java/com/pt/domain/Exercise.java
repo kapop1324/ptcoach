@@ -27,11 +27,14 @@ public class Exercise {
 	
 	private String part;
 	
+	private String category;
+	
 	@Builder
-	public Exercise(String name, String part) {
+	public Exercise(String name, String part, String category) {
 		
 		this.name = name;
 		this.part = part;
+		this.category = category;
 		
 	}
 	
