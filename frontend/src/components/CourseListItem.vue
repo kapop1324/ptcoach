@@ -34,7 +34,7 @@ export default {
   color: $black-color;
 }
 .cor-div {
-  box-shadow: 0 0 10px #515dac63;
+  box-shadow: 0px 1px 15px 1px #99a6ff21;
   background-color: #ffffff;
   border-radius: 20px;
   width: 80%;
@@ -68,7 +68,7 @@ export default {
   height: 100%;
 }
 .cor-div:active, .cor-div:hover {
-  transform:scale(1.015);
+  transform:scale(1.013);
   box-shadow: 0 0 10px #99a6ff21, 0 0 15px #99a6ff21, 0 0 25px #99a6ff21;
 }
 </style>
