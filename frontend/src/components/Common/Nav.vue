@@ -1,7 +1,7 @@
 // Navbar
 <template>
   <div id="NavRoot">
-    <div class="logo"><router-link to="/"><img src="@/assets/logo.png" style="height:47px" alt=""></router-link></div>
+    <div class="logo"><router-link to="/"><img src="@/assets/logo2.png" style="height:47px" alt=""></router-link></div>
     <div class="menus">
       <div class="menu-item">
         <router-link to="/course">코스 운동</router-link>
@@ -49,7 +49,7 @@ export default {
   display: inline-block;
 }
 #NavRoot .menus {
-  padding-top: 30px;
+  padding-top: 32px;
   padding-bottom: 20px;
   position: relative;
   display: flex;
