@@ -37,6 +37,7 @@ export default {
   width: 190px;
   height: 250px;
   padding: 20px 10px 10px 18px;
+  box-shadow: 0px 1px 15px 1px #99a6ff21;
 }
 .pos-title {
   font-size: 1.4rem;
@@ -52,8 +53,8 @@ export default {
   height: 100%;
 }
 .pos-tag {
-  background-color: $logo-color;
-  color: $white-color;
+  background-color: $light-color;
+  color: $black-color;
   border-radius: 3px;
   margin-right: 5px;
   font-size: 0.9rem;
