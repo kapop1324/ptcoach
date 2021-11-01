@@ -27,7 +27,13 @@ export default {
         {id:4, name: '코스 4', course: [{exercise:'운동1', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동2', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동3', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동4', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},]},
       ],
     }
-  }
+  },
+  // created() {
+
+  // },
+  methods: {
+
+  },
 }
 </script>
 
