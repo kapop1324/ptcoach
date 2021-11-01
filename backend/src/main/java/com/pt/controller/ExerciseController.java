@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pt.domain.Exercise;
-import com.pt.domain.ExerciseRes;
 import com.pt.domain.User;
+import com.pt.domain.res.ExerciseRes;
 import com.pt.model.service.ExerciseService;
 
 @RestController
@@ -52,5 +52,33 @@ public class ExerciseController {
 	    	
 	    	return new ResponseEntity<HashMap>(result,HttpStatus.OK);
 	    }
-
+	 	
+	 	@GetMapping("/detail")
+	    public ResponseEntity<HashMap> exercise_detail_list(@RequestParam int idx){
+	    	
+	    	HashMap result = new HashMap();
+	    	String message = "";
+	    	
+	    	try {
+	    		
+	    		List<ExerciseRes> list = exerciseservice.exercise_detail_list(idx);
+	    		
+	    		if(list != null) {
+	    			result.put("exercise_list", list);
+	    			message = "success";
+	    		}else {
+	    			message = "fail";
+	    		}
+	    		
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				message = "error";
+			}
+	    	
+	    	result.put("message", message);
+	    	
+	    	return new ResponseEntity<HashMap>(result,HttpStatus.OK);
+	    }
+	 	
 }

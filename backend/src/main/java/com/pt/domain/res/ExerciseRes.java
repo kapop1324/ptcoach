@@ -1,7 +1,10 @@
-package com.pt.domain;
+package com.pt.domain.res;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+
+import com.pt.domain.Exercise;
+import com.pt.domain.ExerciseImage;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,30 +15,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ExerciseRes {
 	
-	private int idx;
-	
-	private String name;
-	
-	private String part;
-	
+
+
 	private String path;
 	
 	private int step;
 	
-	private int exerciseidx;
+	private String desc;
+	
+
 	
 	public ExerciseRes(Exercise ex, ExerciseImage exi) {
 		
-		 this.idx = ex.getIdx();
-		
-		 this.name = ex.getName();
-		
-		 this.part = ex.getPart();
 		
 		 this.path = exi.getPath();
 		
 		 this.step = exi.getStep();
+		 
+		 this.desc = exi.getDesc();
 		
-		 this.exerciseidx = exi.getExerciseidx();
+
 	}
 }

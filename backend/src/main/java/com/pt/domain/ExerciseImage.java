@@ -27,5 +27,14 @@ public class ExerciseImage {
 	
 	@Column(name="exercise_idx")
 	private int exerciseidx;
+	
+	private String desc;
+	
+	public ExerciseImage(String path, int step, int exerciseidx, String desc) {
+		this.path = path;
+		this.step = step;
+		this.exerciseidx = exerciseidx;
+		this.desc = desc;
+	}
 
 }
