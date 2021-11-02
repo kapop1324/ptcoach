@@ -1,41 +1,50 @@
-// 자세코칭 페이지(운동 사진 고유번호, step개수, step별 이미지, 정확도 수치)
+// 자세코칭 페이지(운동고유번호, 사진경로,단계,설명, 정확도)
+//postureDetail:
+// {idx:1(운동고유번호), name(운동명):"", detail:[{path:"", desc:"", step:1}
+// 															,{path:"", desc:"", step:2}
+// 															,{path:"", desc:"", step:3}]}
 <template>
-    <div class="pos-content-main">
-      <div class="title">{{$route.query.name}}나무자세</div> 
-      <!-- 의문점.. list형식으로 step1과 사진을 받아오는 걸까..? -->
+    <div class="pos-content-main" >
+      <div class="title">운동1</div> 
       <div class="pos-vedio">
-      <Vedio/>
+      <!-- step번호를 넘기면 이step에 해당하는 정확도만 가져오기         -->
+      <div v-if="id==1">
+        <div v-for="(item,i) in detail"  v-bind:key="i">
+        <Ex1 v-bind:step="detail[i].step"></Ex1>
+        </div>
       </div>
-      <Description/>
+      
+      </div>
+      <Description v-for="(item,i) in detail" v-bind:path="i.path" v-bind:desc="i.desc" v-bind:key="i"></Description>
       <!-- step 개수에 따라서 component 만들기 -->
       <div class="pos-content-step">
-        <Step v-for="(item,i) in items" v-bind:num="i" v-bind:key="i"></Step>
+        <Step v-for="(item,i) in detail" v-bind:num="i.step" v-bind:key="i"></Step>
       </div>
+      <!-- <div class="result">{{acc}}% 일치합니다</div>   -->
       <div class="clear-btn">
         <div class="clear"> 완료 </div>
       </div>  
-      <Res/>
+      <!-- <Res/> -->
     </div>
 </template>
 
 <script>
-import Vedio from '@/components/Detail/Vedio.vue'
+import Ex1 from '@/components/Vedio/Ex1.vue'
 import Description from '@/components/Detail/Description.vue'
 import Step from '@/components/Detail/Step.vue'
-import Res from '@/components/Detail/Result.vue'
 export default {
   name: 'Detail',
   components:{
-    Vedio,
+    Ex1: Ex1,
     Description,
     Step: Step,
-    Res,
   },
   data(){
     return{
-      items:['01','02','03']
+      id:this.$route.params.id,
+      detail:[{path:"", desc:"", step:1},{path:"", desc:"", step:2},{path:"", desc:"", step:3}]
     }
-  }
+  },
 
 }
 </script>
@@ -47,7 +56,7 @@ export default {
   height: 38vw;
   width: 165vh;
   border-radius: 30px;
-  background-color: $light-color;
+  background-color: $white-color;
 }
 .title {
   top: 16%;
@@ -62,7 +71,7 @@ export default {
   top: 24%;
   left: 13%;
   position: absolute;
-  border: solid black;
+  // border: solid black;
   margin: 10px;
 }
 .clear-btn {
@@ -73,7 +82,7 @@ export default {
   position: absolute;
   font-size: 22px ;
   border-radius: 30px;
-  background-color: $orange-color;
+  background-color: $logo-color;
   text-align: center;
 }
 .clear{
@@ -83,5 +92,13 @@ export default {
   top: 24%;
   right: 14%;
   position: absolute;
+}
+.result {
+    position:absolute;
+    top: 94%;
+    left: 45%;
+    font-size: 20px;
+    color: $logo-color;
+    font-weight: bold;
 }
 </style>

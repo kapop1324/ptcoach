@@ -25,7 +25,7 @@ export default {
   width: 120px;
   right: 5%;
   border-radius: 30px;
-  background-color: $yellow-color;
+  background-color: $light-color;
   font-size: 22px;
   text-align: center;
   margin: 20px;

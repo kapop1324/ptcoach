@@ -1,10 +1,11 @@
 // 코스 운동 페이지
 // 각 운동별 횟수: ?회
 // '시작'버튼 누르면 시계start, '완료' 누르면 시계end
+// 운동 넘어갈때 마다 store에 시간 저장하고 초기화 
 <template>
     <div class="course-content-main">
       <div class="course-vedio">
-      <Vedio/>
+      <!-- <Vedio/> -->
       </div>
       <img src="@/assets/squat_sample_remove.png" alt="스쿼트 샘플이미지">
       <div class="clock">
@@ -34,14 +35,12 @@
 </template>
 
 <script>
-import Vedio from '@/components/Detail/Vedio.vue'
 import Exe from '@/components/Detail/Exe.vue'
 import Clock from '../../components/Detail/Clock.vue'
 import VueApexCharts from 'vue-apexcharts'
 export default {
   name: 'Detail',
   components:{
-    Vedio,
     Exe: Exe,
     Clock,
     apexchart:VueApexCharts,
@@ -151,7 +150,7 @@ img {
   position: absolute;
   font-size: 22px ;
   border-radius: 30px;
-  background-color: $orange-color;
+  background-color: $logo-color;
   text-align: center;
 }
 .clear{
