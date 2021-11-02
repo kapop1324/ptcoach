@@ -17,36 +17,32 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name="course")
-public class Course {
+@Table(name="exercise_detailed_record")
+public class ExerciseDetailedRecord {
 	
 	@Id
 	@GeneratedValue
 	private int idx;
 	
-	@Column(name = "course_name")
-	private String coursename;
+	@Column(name = "accuracy")
+	private int accuracy;
 	
-	@Column(name = "exercise_name")
-	private String exercisename;
+	@Column(name = "count")
+	private int count;
 	
 	@Column(name = "step")
 	private int step;
 	
-	@Column(name = "set")
-	private int set;
-	
-	@Column(name = "exercise_idx")
-	private int exerciseidx;
+	@Column(name = "exercise_record_idx")
+	private int exerciserecordidx;
 	
 	@Builder
-	public Course(String coursename, String exercisename, int step, int set,int exerciseidx) {
+	public ExerciseDetailedRecord(int accuracy, int count, int step, int exerciserecordidx) {
 
-		this.coursename = coursename;
-		this.exercisename = exercisename;
+		this.accuracy = accuracy;
+		this.count = count;
 		this.step = step;
-		this.set = set;
-		this.exerciseidx = exerciseidx;
+		this.exerciserecordidx = exerciserecordidx;
 		
 	}
 
