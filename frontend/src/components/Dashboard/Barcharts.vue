@@ -1,7 +1,7 @@
+// 운동별 자세 정확도 평균(한달)+최근정확도 퍼센트 (b)
 <template>
   <div>
-    <apexchart width="500" height="350" type="bar" :options="chartOptions" :series="series"></apexchart>
-
+    <apexchart width="300" height="350" type="bar" :options="chartOptions" :series="series"></apexchart>
   </div>
 </template>
 
@@ -15,19 +15,13 @@ export default {
   },
   data: function() {
     return {
-      // chart: {
-      //   chartOptions: {
-      //     chart: { id: "basic-bar"},
-      //     xaxis: { categories: ["이번달 평균", "가장 최근(언제인지 적어야할거같은데..)",] }
-      //   },
-      //   series: [{ name: "value", data: [73, 88] } ]
-      // },
       chartOptions: {
         chart: { id: "basic-bar"},
-        xaxis: { categories: ["이번달 평균", "가장 최근(언제인지 적어야할거같은데..)",] },
+        xaxis: { categories: ["이번달 평균", "가장 최근",] },
         yaxis: { title: { text: "운동 정확도 (%)" }},
+        // colors: ['#b293ff'],
       },
-      series: [{ name: "운동 정확도(%)", data: [73, 88] } ]
+      series: [{ name: "운동 정확도(%)", data: [73, 88] }],
     }
   },
 }
