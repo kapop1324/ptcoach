@@ -30,10 +30,14 @@ export default {
   data(){
     return {
       step: 0,
-      exerciseList: [{idx:1, course_name:'코스 1', step:'0', exercise_name:'squat', 
-                      exercise_image:[{idx:0, path:"@/assets/squat_sample_remove.png", step:"1", desc:"1. 어깨 넓이로 발을 벌리고 양 팔은 몸에 가볍게 붙인다."}, 
+      src(){
+      //return `http://i5c102.p.ssafy.io/api/feed/${this.feed.images[0].newname}`
+      return this.exerciseList[this.step].exercise_image.path;
+      },
+      exerciseList: [{idx:1, course_name:'코스 1', step:'1', exercise_name:'lunge', 
+                      exercise_image:[{idx:0, path:"http://k5c201.p.ssafy.io/image/thumbnail/lunge.png", step:"1", desc:"1. 어깨 넓이로 발을 벌리고 양 팔은 몸에 가볍게 붙인다."}, 
                       {idx:1, path:"@/assets/squat_sample_remove.png", step:"2", desc:"2. 숨을 들이쉬면서 무릎을 굽혀 허리를 내린다."}]},
-      {idx:2, course_name:'코스 2', step:'1', exercise_name:'lunge', 
+      {idx:2, course_name:'코스 2', step:'2', exercise_name:'lunge', 
                       exercise_image:[{idx:0, path:"", step:"1", desc:"1. 어깨 넓이로 발을 벌리고 양 팔은 몸에 가볍게 붙인다."}, 
                       {idx:1, path:"", step:"2", desc:"2. 숨을 들이쉬면서 무릎을 굽혀 허리를 내린다."}]},
       // desc: `1. 어깨 넓이로 발을 벌리고 양 팔은 몸에 가볍게 붙인다.
@@ -51,10 +55,10 @@ export default {
     },
   },
   computed: {
-    src(){
-      //return `http://i5c102.p.ssafy.io/api/feed/${this.feed.images[0].newname}`
-      return `${this.exerciseList[this.step].exercise_image.path}`;
-    },
+    // src(){
+    //   //return `http://i5c102.p.ssafy.io/api/feed/${this.feed.images[0].newname}`
+    //   return this.exerciseList[this.step].exercise_image.path;
+    // },
   },
 
 }
@@ -98,9 +102,10 @@ h1 {
   position: absolute;
   font-size: 22px ;
   border-radius: 30px;
-  background-color: $orange-color;
+  background-color: $logo-color;
   text-align: center;
   cursor: pointer;
+  color: white;
 }
 
 .start {
