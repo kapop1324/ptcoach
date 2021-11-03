@@ -1,8 +1,8 @@
+//step을 받아서 stat_num이면 사이즈 커지게
 <template>
     <div id="StepRoot">
-      <div class="step-box">
-        <div class="step">step {{num}}</div>
-      </div>
+      <div v-if="num==newstep" class="step-box">step{{num}}</div>
+      <div v-else-if="num!=newstep" class="new-step-box">step{{num}}</div>
     </div>
 </template>
 
@@ -11,6 +11,7 @@ export default {
   name: "Step",
   props: {
     num: Number,
+    newstep: Number,
   },
 }
 </script>
@@ -24,13 +25,26 @@ export default {
   width: 120px;
   right: 5%;
   border-radius: 30px;
+  background-color: #968989;
+  background-color: white;
+  font-size: 22px;
+  text-align: center;
+  margin: 20px;
+  padding-top: 10px;
+}
+.new-step-box {
+  top: 15%;
+  height: 40px;
+  width: 120px;
+  right: 5%;
+  border-radius: 30px;
   background-color: $light-color;
   font-size: 22px;
   text-align: center;
   margin: 20px;
+  padding-top: 10px;
 }
-.step {
-  padding-top: 6px;
-}
+
+
 
 </style>
