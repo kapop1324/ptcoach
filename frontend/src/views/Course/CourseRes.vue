@@ -90,10 +90,10 @@ h1 {
 }
 
 #okBtn {
-  background: $orange-color;
+  background: $light-color;
   border: none;
   border-radius: 10px;
   padding: 10px 15px;
-  font-family: 'SBAggroM';
+  font-family: 'SBAggroL';
 }
 </style>
