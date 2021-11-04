@@ -1,16 +1,14 @@
 // 코스 선택 아이템 1개
 <template>
   <div class="cor-div">
-    <router-link class="r-link" :to="{name: 'CourseExp', params: {id: courseInfo.id}}">
+    <router-link class="r-link" :to="{name: 'CourseExp', params: {id: courseInfo.idx}}">
       <div class="cor-title">{{ courseInfo.name }}</div>
       <div class="all-ex">
         <div class="one-ex" v-for="(course, idx) in courseInfo.course" :key="`c-${idx}`">
           <div class="ex-img">
-            <!-- <img :src="course.path" alt="운동 샘플이미지"> -->
-            <img src="@/assets/squat_sample.png" alt="운동 샘플이미지">
-            <!-- <img src="@/assets/squat_sample_remove.png" alt="운동 샘플이미지"> -->
+            <img :src="course.path" :alt="`${course.exercisename} 썸네일이미지`">
           </div>
-          <div class="ex-title">{{ course.exercise }}</div>
+          <div class="ex-title">{{ course.exercisename }}</div>
         </div>
       </div>
     </router-link>

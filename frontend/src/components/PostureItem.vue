@@ -1,16 +1,15 @@
 // 자세교정 선택 아이템 1개
 <template>
-  <div class="pos-div">
-    <router-link class="r-link" :to="{name: 'PostureDetail', params: {id: exInfo.id}}">
-      <div class="pos-title">{{ exInfo.name }}</div>
-      <div class="post-img">
-        <!-- <img :src="exInfo.path" alt="스쿼트 샘플이미지"> -->
-        <!-- <img src="@/assets/squat_sample.png" alt="스쿼트 샘플이미지"> -->
-        <img src="@/assets/squat_sample_remove.png" alt="스쿼트 샘플이미지">
+  <div>
+    <router-link class="r-link" :to="{name: 'PostureDetail', params: {id: exInfo.idx}}">
+      <div class="pos-div">
+        <div class="pos-title">{{ exInfo.exercisename }}</div>
+        <div class="post-img">
+          <img :src="exInfo.path" :alt="`${exInfo.exercisename} 썸네일이미지`">
+        </div>
+        <span class="pos-tag">{{ exInfo.part }}</span>
+        <span class="pos-tag">{{ exInfo.exercisename }}</span>
       </div>
-      <span class="pos-tag" v-for="(tag, idx) in exInfo.part" :key="idx">
-        {{ tag }}
-      </span>
     </router-link>
   </div>
 </template>
@@ -43,10 +42,9 @@ export default {
   font-size: 1.4rem;
 }
 .post-img {
-  width: 100px;
-  // height: 150px;
-  margin: 20px 10px 27px auto;
-  // margin: 10px auto 15px;
+  width: 190px;
+  height: 130px;
+  margin: 23px 10px 30px auto;
 }
 .post-img > img {
   width: 100%;
@@ -59,7 +57,6 @@ export default {
   margin-right: 5px;
   font-size: 0.9rem;
   padding: 3px 12px;
-  font-family: 'SBAggroL';
 }
 .pos-div:active, .pos-div:hover {
   transform:scale(1.045);

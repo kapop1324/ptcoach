@@ -15,6 +15,7 @@
 
 <script>
 import PostureItem from "@/components/PostureItem.vue"
+import http from '@/util/http-common';
 
 export default {
   name: 'PostureLists',
@@ -23,16 +24,25 @@ export default {
   },
   data (){
     return {
-      exerciseList: [
-        {id:1, name: '스쿼트', part: ['하체', '근력'], path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},
-        {id:2, name: '숄더 프레스', part: ['상체', '근력']},
-        {id:3, name: '스탠딩 킥백', part: ['하체', '근력', '대퇴근']},
-        {id:4, name: '스탠딩 숄더 프레스', part: ['전신', '유산소']},
-        {id:5, name: '런지', part: ['하체', '근육']},
-        {id:6, name: '팔벌려 높이뛰기', part: ['전신', '근력', '점프']},
-      ],
+      exerciseList: [],
     }
-  }
+  },
+  created() {
+   this.getPostureList()
+  },
+  methods: {
+    getPostureList() {
+      http.get('/exercise/list')
+      .then(res => {
+        console.log(res.data)
+        this.exerciseList = res.data.exercise_list
+      })
+      .catch(err => {
+        console.log(err)
+        console.log('자세교정 에러')
+      })
+    }
+  },
 }
 </script>
 
