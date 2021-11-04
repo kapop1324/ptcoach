@@ -22,6 +22,7 @@
 import Barcharts from "@/components/Dashboard/Barcharts.vue"
 import Donutcharts from "@/components/Dashboard/Donutcharts.vue"
 import Linecharts from "@/components/Dashboard/Linecharts.vue"
+import http from '@/util/http-common';
 
 export default {
   name: 'Dashboard',
@@ -29,7 +30,24 @@ export default {
     Barcharts,
     Donutcharts,
     Linecharts,
-  }
+  },
+  created() {
+   this.getDashboard()
+  },
+  methods: {
+    getDashboard() {
+      // http.get('/dashboard/record', {params: {email: (유저이메일 어디서 가져옴? 로컬스토리지 or store??)}})
+      http.get('/dashboard/record', {params: {email: "rlaxogjs1234"}})
+      .then(res => {
+        console.log(res.data)
+        // this.exerciseList = res.data.exercise_list
+      })
+      .catch(err => {
+        console.log(err)
+        console.log('대시보드 에러')
+      })
+    },
+  },
 }
 </script>
 
