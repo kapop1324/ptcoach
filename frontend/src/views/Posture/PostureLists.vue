@@ -15,7 +15,7 @@
 
 <script>
 import PostureItem from "@/components/PostureItem.vue"
-import http from '@/util/http-common';
+import PostureApi from "../../api/PostureApi"
 
 export default {
   name: 'PostureLists',
@@ -32,16 +32,16 @@ export default {
   },
   methods: {
     getPostureList() {
-      http.get('/exercise/list')
-      .then(res => {
-        console.log(res.data)
-        this.exerciseList = res.data.exercise_list
-      })
-      .catch(err => {
-        console.log(err)
-        console.log('자세교정 에러')
-      })
-    }
+      PostureApi.GetPostureList(
+        res => {
+          this.exerciseList = res.data.exercise_list
+        },
+        error => {
+          console.log(error)
+          console.log('자세교정 에러')
+        }
+      )
+    },
   },
 }
 </script>
