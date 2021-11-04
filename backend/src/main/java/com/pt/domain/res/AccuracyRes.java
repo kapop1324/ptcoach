@@ -14,7 +14,7 @@ public class AccuracyRes {
 
 	private String exercisename;
 	private int accuracy;
-	private Date date;
+	private String date;
 	
 	
 	@Builder
@@ -26,7 +26,7 @@ public class AccuracyRes {
 	}
 	
 	@Builder
-	public AccuracyRes(String exercisename, int accuracy, Date date) {
+	public AccuracyRes(String exercisename, int accuracy, String date) {
 		
 		this.exercisename = exercisename;
 		this.accuracy = accuracy;

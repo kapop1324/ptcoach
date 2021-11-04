@@ -38,13 +38,17 @@ public class ExerciseRecord {
 	@Column(name = "date")
 	private Date date;
 	
+	@Column(name = "accuracy")
+	private int accuracy;
+	
 	@Builder
-	public ExerciseRecord(String useremail, int courseidx, int time, Date date) {
+	public ExerciseRecord(String useremail, int courseidx, int time, Date date, int accuracy) {
 
 		this.useremail = useremail;
 		this.courseidx = courseidx;
 		this.time = time;
 		this.date = date;
+		this.accuracy = accuracy;
 		
 	}
 
