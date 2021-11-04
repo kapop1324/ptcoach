@@ -8,11 +8,11 @@
       <div class="title">운동1</div> 
       <div class="pos-vedio">
       <!-- step번호를 넘기면 이step에 해당하는 정확도만 가져오기         -->
-      <div v-if="id==1">
+      <div v-if="id==2">
         <!-- <div v-for="(item,i) in detail"  v-bind:key="i">
         <Ex1 v-bind:step="detail[i].step"></Ex1>
         </div> -->
-        <Ex1 v-on:sendStep="updateStep"></Ex1>
+        <Ex2 v-on:sendStep="updateStep"></Ex2>
       </div>
       
       </div>
@@ -27,13 +27,13 @@
 </template>
 
 <script>
-import Ex1 from '@/components/Vedio/Ex1.vue'
+import Ex2 from '@/components/Vedio/Ex2.vue'
 // import Description from '@/components/Detail/Description.vue'
 import Step from '@/components/Detail/Step.vue'
 export default {
   name: 'Detail',
   components:{
-    Ex1: Ex1,
+    Ex2: Ex2,
     // Description,
     Step: Step,
   },
