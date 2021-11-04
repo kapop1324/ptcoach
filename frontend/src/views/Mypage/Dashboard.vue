@@ -22,6 +22,7 @@
 import Barcharts from "@/components/Dashboard/Barcharts.vue"
 import Donutcharts from "@/components/Dashboard/Donutcharts.vue"
 import Linecharts from "@/components/Dashboard/Linecharts.vue"
+import DashboardApi from "../../api/DashboardApi"
 
 export default {
   name: 'Dashboard',
@@ -29,7 +30,23 @@ export default {
     Barcharts,
     Donutcharts,
     Linecharts,
-  }
+  },
+  created() {
+   this.getDashboard()
+  },
+  methods: {
+    getDashboard() {
+      DashboardApi.GetDashboard(
+        res => {
+          console.log(res.data)
+        },
+        error => {
+          console.log(error)
+          console.log('대시보드 에러')
+        }
+      )
+    },
+  },
 }
 </script>
 

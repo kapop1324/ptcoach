@@ -12,8 +12,7 @@
 
 <script>
 import CourseListItem from "@/components/CourseListItem.vue"
-// import CourseApi from "../../api/CourseApi"
-import http from '@/util/http-common';
+import CourseApi from "../../api/CourseApi"
 
 export default {
   name: 'CourseLists',
@@ -29,32 +28,17 @@ export default {
    this.getCourseList()
   },
   methods: {
-    // store 접근 에러남
-    // getCourseList() {
-    //   CourseApi.GetCourseList(
-    //     res => {
-    //       console.log(res.data)
-    //       this.courseList = res.data.courseList
-    //       // this.$store.state.courseList = res.data.courseList
-    //       this.$store.dispatch("getCourseList", res.data.courseList);
-    //     },
-    //     error => {
-    //       console.log(error)
-    //       console.log('에러')
-    //     }
-    //   )
-    // },
     getCourseList() {
-      http.get('/course/list')
-      .then(res => {
-        // console.log(res.data)
-        console.log(res)
-        this.courseList = res.data.courseList
-      })
-      .catch(err => {
-        console.log(err)
-        console.log('운동코스 에러')
-      })
+      CourseApi.GetCourseList(
+        res => {
+          this.courseList = res.data.courseList
+          this.$store.dispatch("getCourseList", res.data.courseList);
+        },
+        error => {
+          console.log(error)
+          console.log('운동코스 에러')
+        }
+      )
     },
   },
 }
