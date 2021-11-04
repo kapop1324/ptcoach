@@ -39,10 +39,17 @@ public class ExerciseRecordDaoQdsl {
     //코스명을 받으면 -> 운동고유번호, 운동명, 단계, 세트
     // 운동고유번호를 통해 -> exercise_image에서 사진경로,단계,설명 필요
     public List<CourseDetailRes> course_detail(String coursename){
+
+
+
+
         Stack<CourseDetailRes> stack = new Stack<>();
 
         //where부분에 ne 부분에 exercise_idx를 찾는 select문이 들어가야함
         //qCourse부분에 exercise_idx가 없기 때문에 받는것도 필요할듯
+        //하나의큰리스트 course전체를 담는리ㅣ스트
+        //course하나를 담는 리스트
+        //list안에 리스트를 담아서
         List<Tuple> course_list = jpaQueryFactory.select(qCourse,qExercise,qExerciseImage)
                 .from(qCourse).innerJoin(qExercise).on(qCourse.exercisename.eq(qExercise.name))
                 .innerJoin(qExerciseImage).on(qExercise.idx.eq(qExerciseImage.exerciseidx))
