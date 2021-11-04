@@ -48,6 +48,7 @@ export default {
       http.get('/course/list')
       .then(res => {
         // console.log(res.data)
+        console.log(res)
         this.courseList = res.data.courseList
       })
       .catch(err => {
