@@ -176,8 +176,6 @@ public class DashboardDaoQdsl {
 		
 		List<String> exercise_name = jpaQueryFactory.select(qExercise.name).from(qExercise).fetch();
 
-		StringTemplate dateFormat = Expressions.stringTemplate("DATE_FORMAT({0}, {1})", qExerciseRecord.date, ConstantImpl.create("%y-%m"));
-		
 		List<Tuple> accuracy_list = jpaQueryFactory.select(qCourse.exercisename,qExerciseRecord.accuracy.avg(),qExerciseRecord.date)
 				.from(qExerciseRecord)
 				.innerJoin(qCourse).on(qExerciseRecord.courseidx.eq(qCourse.idx))
