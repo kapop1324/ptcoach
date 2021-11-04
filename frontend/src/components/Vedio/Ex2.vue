@@ -3,8 +3,8 @@
     <!-- <div>Teachable Machine Pose Model</div> -->
     <div><canvas id="canvas"></canvas></div>
     <div>
-      <p>{{speak}}</p>
-      <p>{{stat}}</p>
+      <p class="speak">{{speak}}</p>
+      <!-- <p class="stat">{{stat}}</p> -->
     <div class="result">{{acc}}% 일치</div> 
     </div>
 
@@ -23,7 +23,6 @@
 
 <script >
 import * as tmPose from "@teachablemachine/pose";
-// import AipreesApi from "../../api/AipressApi";
 import { mapState } from 'vuex'
 
 // More API functions here:
@@ -56,14 +55,6 @@ export default {
     let data = {
       stat : this.$store.state.stat,
     };
-
-    // AipreesApi.Insert(
-    //   data,
-    //   res => {
-    //     this.stat = res.data.insert.stat;
-    //   }
-
-    // );
 
 
   },
@@ -151,7 +142,7 @@ export default {
             this.step++;
             this.stat = "basic";
             this.dialog = true;
-            this.speak = "step1 성공"
+            this.speak = "step1 성공!! step2를 진행해 주세요."
 
             if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
             this.stat = "up_false";
@@ -168,7 +159,7 @@ export default {
             this.speak ="팔 넓이를 좁혀 주세요/ 팔을 어깨 선과 맞춰 주세요."
             } 
 
-            this.acc = prediction[2].probability.toFixed(2) * 100;
+            this.acc = prediction[1].probability.toFixed(2) * 100;
             console.log("stat:"+this.stat);
             console.log("acc:"+this.acc);
         }
@@ -178,9 +169,11 @@ export default {
           this.$emit("sendStep",this.step);
           this.stat = "up_true";
           this.dialog = true;
-          this.speak = "step2성공, step종료,페이지가 넘어갑니다."
+          this.speak = "step2 성공!! '완료' 버튼을 눌러주세요."
           console.log("stat:"+this.stat);
           console.log("acc:"+this.acc);
+
+          this.acc = prediction[2].probability.toFixed(2) * 100;
         }
         this.drawPose(pose);
     },
@@ -202,6 +195,18 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
+.speak {
+    position:absolute;
+    top: 84%;
+    left: 0.2%;  
+    font-size: 24px;
+}
+.stat {
+    position:absolute;
+    top: 92%;
+    left: 0.2%;  
+    font-size: 24px;
+}
 .result {
     position:absolute;
     top: 96%;

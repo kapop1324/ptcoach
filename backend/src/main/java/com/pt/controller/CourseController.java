@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pt.domain.res.CourseDetailRes;
 import com.pt.domain.res.CourseRes;
+import com.pt.domain.res.CourseResFin;
 import com.pt.model.service.CourseService;
 
 @RestController
@@ -33,35 +34,15 @@ public class CourseController {
 		
 		try {
 			
-			List<CourseRes> list = courseservice.course_list();
+			List<CourseResFin> list = courseservice.course_list();
 			
 			if(list != null) {
 				
 				message = "success";
 				result.put("message", message);
 				
-				String prev = list.get(0).getCoursename();
-				String now = list.get(0).getCoursename();
+				result.put("courseList", list);
 				
-				List<CourseRes> tmp = new ArrayList<CourseRes>();
-				List<List<CourseRes>> tmp2 = new ArrayList<List<CourseRes>>();
-				
-				tmp.add(list.get(0));
-			
-				for(int i = 1; i < list.size(); i++) {
-					now = list.get(i).getCoursename();
-					if(!now.equals(prev)) {
-						tmp2.add(tmp);
-						tmp = new ArrayList<CourseRes>();
-						tmp.add(list.get(i));
-					}else {
-						tmp.add(list.get(i));
-					}
-					prev = now;
-				}
-				tmp2.add(tmp);
-				
-				result.put("courseList", tmp2);
 				
 			}else {
 				

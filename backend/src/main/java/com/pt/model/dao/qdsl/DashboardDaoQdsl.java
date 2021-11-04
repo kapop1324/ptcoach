@@ -1,5 +1,7 @@
 package com.pt.model.dao.qdsl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,6 +30,9 @@ import com.pt.domain.res.CourseDetailRes;
 import com.pt.domain.res.CourseRes;
 import com.pt.domain.res.PartRes;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ConstantImpl;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository
@@ -39,7 +44,6 @@ public class DashboardDaoQdsl {
 	QCourse qCourse = QCourse.course;
 	QExercise qExercise = QExercise.exercise;
 	QExerciseRecord qExerciseRecord = QExerciseRecord.exerciseRecord;
-	QExerciseDetailedRecord qExerciseDetailedRecord = QExerciseDetailedRecord.exerciseDetailedRecord;
 	
 	
 	//전체 운동 시간
@@ -108,9 +112,8 @@ public class DashboardDaoQdsl {
 	//운동별 최근정확도 및 평균정확도
 	public List<AccuracyResFin> accuracy(String email){
 		
-		List<Tuple> whole_list = jpaQueryFactory.select(qCourse.exercisename,qExerciseDetailedRecord.accuracy.avg())
+		List<Tuple> whole_list = jpaQueryFactory.select(qCourse.exercisename,qExerciseRecord.accuracy.avg())
 				.from(qExerciseRecord)
-				.innerJoin(qExerciseDetailedRecord).on(qExerciseRecord.idx.eq(qExerciseDetailedRecord.exerciserecordidx))
 				.innerJoin(qCourse).on(qExerciseRecord.courseidx.eq(qCourse.idx))
 				.where(qExerciseRecord.useremail.eq(email))
 				.groupBy(qCourse.exercisename)
@@ -129,11 +132,10 @@ public class DashboardDaoQdsl {
 		
 		while(!whole_stack.isEmpty()) {
 			whole_res.add(whole_stack.pop());
-		}
+		} 
 		
-		List<Tuple> recent_list = jpaQueryFactory.select(qCourse.exercisename,qExerciseDetailedRecord.accuracy.avg())
+		List<Tuple> recent_list = jpaQueryFactory.select(qCourse.exercisename,qExerciseRecord.accuracy.avg())
 				.from(qExerciseRecord)
-				.innerJoin(qExerciseDetailedRecord).on(qExerciseRecord.idx.eq(qExerciseDetailedRecord.exerciserecordidx))
 				.innerJoin(qCourse).on(qExerciseRecord.courseidx.eq(qCourse.idx))
 				.where(qExerciseRecord.useremail.eq(email).and(qExerciseRecord.date.eq(jpaQueryFactory.select(qExerciseRecord.date.max()).from(qExerciseRecord).where(qExerciseRecord.useremail.eq(email)))))
 				.groupBy(qCourse.exercisename)
@@ -173,10 +175,9 @@ public class DashboardDaoQdsl {
 	public List<AccuracyTransitionRes> accuracy_transition(String email){
 		
 		List<String> exercise_name = jpaQueryFactory.select(qExercise.name).from(qExercise).fetch();
-		System.out.println(exercise_name);
-		List<Tuple> accuracy_list = jpaQueryFactory.select(qCourse.exercisename,qExerciseDetailedRecord.accuracy.avg(),qExerciseRecord.date)
+
+		List<Tuple> accuracy_list = jpaQueryFactory.select(qCourse.exercisename,qExerciseRecord.accuracy.avg(),qExerciseRecord.date)
 				.from(qExerciseRecord)
-				.innerJoin(qExerciseDetailedRecord).on(qExerciseRecord.idx.eq(qExerciseDetailedRecord.exerciserecordidx))
 				.innerJoin(qCourse).on(qExerciseRecord.courseidx.eq(qCourse.idx))
 				.where(qExerciseRecord.useremail.eq(email))
 				.groupBy(qExerciseRecord.date, qCourse.exercisename)
@@ -191,7 +192,9 @@ public class DashboardDaoQdsl {
 			double rate1 = t.get(1, double.class);
 			int rate = (int) rate1;
 			Date date = t.get(2, Date.class);
-			accuracy_stack.add(new AccuracyRes(ex,rate,date));
+			SimpleDateFormat fm = new SimpleDateFormat("MM-dd");
+			String to = fm.format(date);
+			accuracy_stack.add(new AccuracyRes(ex,rate,to));
 		}
 		
 		List<AccuracyRes> accuracy_res = new ArrayList<AccuracyRes>();
@@ -201,13 +204,14 @@ public class DashboardDaoQdsl {
 		}
 		
 		List<Integer> accuracy = new ArrayList<Integer>();
-		List<Date> date = new ArrayList<Date>();
+		List<String> date = new ArrayList<String>();
 		
 		List<AccuracyTransitionRes> res = new ArrayList<AccuracyTransitionRes>();
 		
 		for(int i = 0; i < exercise_name.size(); i++) {
 			int cnt = 0;
 			accuracy = new ArrayList<Integer>();
+			date = new ArrayList<String>();
 			for(int j = 0; j < accuracy_res.size(); j++) {
 				
 				if(exercise_name.get(i).equals(accuracy_res.get(j).getExercisename())) {
@@ -215,8 +219,9 @@ public class DashboardDaoQdsl {
 					date.add(accuracy_res.get(j).getDate());
 				}
 				
-				if(cnt == 5 || j == accuracy_res.size()-1) {
+				if(cnt == 30 || j == accuracy_res.size()-1) {
 					if(accuracy.size() > 0) {
+						
 						res.add(new AccuracyTransitionRes(exercise_name.get(i),accuracy,date));
 					}
 					

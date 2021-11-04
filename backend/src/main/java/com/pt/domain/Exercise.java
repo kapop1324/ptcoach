@@ -29,6 +29,8 @@ public class Exercise {
 	
 	private String category;
 	
+	
+	
 	@Builder
 	public Exercise(String name, String part, String category) {
 		
