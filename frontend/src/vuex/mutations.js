@@ -5,7 +5,7 @@ export default {
     LOGOUT: function(state){
         state.userEmail = ''
     },
-    // GETCOURSELIST: function(state, res){
-    //     state.courseList = res
-    // }
+    GETCOURSELIST: function(state, res){
+        state.courseList = res
+    }
 }
