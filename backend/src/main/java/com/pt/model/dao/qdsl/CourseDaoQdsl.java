@@ -74,7 +74,7 @@ public class CourseDaoQdsl {
 					tmp.add(new CourseRes(course_list.get(j).getExercisename(),course_list.get(j).getPath()));
 				}
 			}
-			res.add(new CourseResFin(course_name_list.get(i),tmp));
+			res.add(new CourseResFin(i+1,course_name_list.get(i),tmp));
 		}
 		
 		

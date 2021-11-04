@@ -16,12 +16,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CourseResFin {
 	
+	private int idx;
 	private String name;
 	private List<CourseRes> course;
 	
 	@Builder
-	public CourseResFin(String name, List<CourseRes> course) {
+	public CourseResFin(int idx, String name, List<CourseRes> course) {
 		
+		this.idx = idx;
 		this.name = name;
 		this.course = course;
 
