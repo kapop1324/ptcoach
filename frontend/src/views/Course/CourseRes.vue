@@ -21,7 +21,7 @@
 
 <script>
 import CourseResItem from '@/components/CourseResItem.vue'
-import CourseApi from '@/api/CourseApi'
+import CourseApi from '@/api/CourseApi.js'
 
 export default {
   name: 'CourseRes',
@@ -38,20 +38,24 @@ export default {
 				{user_email:'ssafy@ssafy.com',course_idx:2, time:200, accuracy:70}],
     }
   },
+  created() {
+    console.log(this.email)
+  },
   methods: {
     toHome(){
       //email이 비어있으면 바로 홈으로, 아니면 post(저장) 후에 홈으로
-      // let record = {
-
-      // }
+      let record = [{useremail: this.email, courseidx:1, time:60, accuracy:88 },
+                    {useremail: this.email, courseidx:4, time:80, accuracy:82}]
+        
       console.log(this.email)
       if(!(this.email == null || this.email == '')){
         CourseApi.SaveRecord(
-          this.exercise_record,
+          record,
           res => {
             if(res.data.message == "success"){
-              this.$router.push({name:'Home'});
+              alert("기록 저장 성공");
             }else{
+              console.log(record)
               alert("기록 저장 실패");
             }
           }
