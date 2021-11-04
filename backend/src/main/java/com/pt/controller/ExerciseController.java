@@ -18,13 +18,13 @@ import com.pt.domain.res.ExerciseRes;
 import com.pt.model.service.ExerciseService;
 
 @RestController
-@RequestMapping("/exercixe")
+@RequestMapping("/exercise")
 @CrossOrigin("*")
 public class ExerciseController {
 	
 		@Autowired
 		ExerciseService exerciseservice;
-	
+	 
 	 	@GetMapping("/list")
 	    public ResponseEntity<HashMap> exercise_list(){
 	    	
