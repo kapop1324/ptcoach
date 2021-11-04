@@ -23,7 +23,7 @@
 
 <script >
 import * as tmPose from "@teachablemachine/pose";
-import AipreesApi from "../../api/AipressApi";
+// import AipreesApi from "../../api/AipressApi";
 import { mapState } from 'vuex'
 
 // More API functions here:
@@ -57,13 +57,13 @@ export default {
       stat : this.$store.state.stat,
     };
 
-    AipreesApi.Insert(
-      data,
-      res => {
-        this.stat = res.data.insert.stat;
-      }
+    // AipreesApi.Insert(
+    //   data,
+    //   res => {
+    //     this.stat = res.data.insert.stat;
+    //   }
 
-    );
+    // );
 
 
   },
