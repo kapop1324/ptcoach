@@ -1,14 +1,8 @@
 <template>
     <div id="DescriptionRoot">
-        <!-- <img src="{{path}}" alt="스쿼트 샘플이미지">
+        <img :src="path">
         <div class="Desc">
             <p>{{desc}}</p>
-        </div>     -->
-        <img src="@/assets/squat_sample_remove.png" alt="스쿼트 샘플이미지">
-        <div class="Desc">
-            <p>1. 릴렉스한 채로 선다. 어깨 넓이로 발을 벌리고 양 팔은 몸에 가볍게 붙인다.</p>
-            <p>2 앉아있기(정자세)</p>
-            <p>3 앉아있기(잘못된자세) : 허리가 굽은경우 - 허리를 피세요</p>
         </div>          
     </div>
 </template>
@@ -17,8 +11,8 @@
 export default {
     name: "Description",
     props: {
-        //path:"",
-        //desc:"",
+        path:String,
+        desc:String,
     },
 }
 </script>
