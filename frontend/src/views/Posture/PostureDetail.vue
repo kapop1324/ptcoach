@@ -2,8 +2,8 @@
     <div class="pos-content-main" >
       <div class="title">{{ex_list[0].exercisename}}</div> 
       <div class="pos-vedio">
-      <div v-if="ex_list[0].idx==2">
-        <Ex2 v-on:sendStep="updateStep"></Ex2>
+      <div v-if="ex_list[0].idx==4">
+        <Ex4 v-on:sendStep="updateStep"></Ex4>
       </div>
       </div>
       <Description v-if="desc_step==newstep" v-bind:path="ex_list[desc_step-1].path" v-bind:desc="ex_list[desc_step-1].desc"></Description>
@@ -15,13 +15,13 @@
 
 <script>
 import PostureApi from "../../api/PostureApi"
-import Ex2 from '@/components/Vedio/Ex2.vue'
+import Ex4 from '@/components/Vedio/Ex4.vue'
 import Description from '@/components/Detail/Description.vue'
 import Step from '@/components/Detail/Step.vue'
 export default {
   name: 'PostureDetail',
   components:{
-    Ex2: Ex2,
+    Ex4: Ex4,
     Description:Description,
     Step: Step,
   },
