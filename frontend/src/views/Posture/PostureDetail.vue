@@ -1,54 +1,70 @@
-// 자세코칭 페이지(운동고유번호, 사진경로,단계,설명, 정확도)
-//postureDetail:
-// {idx:1(운동고유번호), name(운동명):"", detail:[{path:"", desc:"", step:1}
-// 															,{path:"", desc:"", step:2}
-// 															,{path:"", desc:"", step:3}]}
 <template>
     <div class="pos-content-main" >
-      <div class="title">운동1</div> 
+      <div class="title">{{ex_list[0].exercisename}}</div> 
       <div class="pos-vedio">
-      <!-- step번호를 넘기면 이step에 해당하는 정확도만 가져오기         -->
-      <div v-if="id==2">
-        <!-- <div v-for="(item,i) in detail"  v-bind:key="i">
-        <Ex1 v-bind:step="detail[i].step"></Ex1>
-        </div> -->
+      <div v-if="ex_list[0].idx==2">
         <Ex2 v-on:sendStep="updateStep"></Ex2>
       </div>
-      
       </div>
-      <!-- <Description v-for="(item,i) in detail" v-bind:path="i.path" v-bind:desc="i.desc" v-bind:key="i"></Description> -->
+      <Description v-if="desc_step==newstep" v-bind:path="ex_list[desc_step-1].path" v-bind:desc="ex_list[desc_step-1].desc"></Description>
       <div class="pos-content-step" >
-        <!-- Ex1으로 부터 stat_num받아서 넘겨주기 -->
-        <Step v-for="(item,i) in detail" v-bind:newstep="newstep" v-bind:num="detail[i].step" v-bind:key="i"></Step>
+        <Step v-for="(item,i) in ex_list" v-bind:newstep="newstep" v-bind:num="ex_list[i].step" v-bind:key="i"></Step>
       </div>
-
-      <!-- <Res/> -->
     </div>
 </template>
 
 <script>
+import PostureApi from "../../api/PostureApi"
 import Ex2 from '@/components/Vedio/Ex2.vue'
-// import Description from '@/components/Detail/Description.vue'
+import Description from '@/components/Detail/Description.vue'
 import Step from '@/components/Detail/Step.vue'
 export default {
-  name: 'Detail',
+  name: 'PostureDetail',
   components:{
     Ex2: Ex2,
-    // Description,
+    Description:Description,
     Step: Step,
   },
   data(){
     return{
-      id:this.$route.params.id,
-      detail:[{path:"", desc:"", step:1},{path:"", desc:"", step:2}],
+      id: 0,
       newstep:1,
+      desc_step:1,
+      ex_list:[
+      ]
     }
   },
+    created() {
+        let data = {
+            id:this.$route.params.id,
+        };
+
+        PostureApi.PostureDetail(
+            data,
+            res => {
+            if(res.data.message == "success"){
+              this.ex_list=res.data.exercise_list;
+              console.log(this.ex_list);
+            }else if(res.data.message == "fail"){
+                alert("정보불러오기 실패");
+            }else{
+                alert("정보불러오기 실패");
+            }
+            },
+            error => {
+                alert("에러발생");
+                console.log(error);
+            }
+        );
+    },  
+  
+  
   methods: {
     updateStep(step){
       this.newstep=step;
+      this.desc_step=step;
       console.log("step 넘어옴 :" +step);
-    }
+    },    
   },
 
 }
