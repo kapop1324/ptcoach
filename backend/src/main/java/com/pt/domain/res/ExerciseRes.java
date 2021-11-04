@@ -15,24 +15,36 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ExerciseRes {
 	
-
-
+	private String exercisename;
+	
 	private String path;
 	
 	private int step;
 	
 	private String desc;
 	
-
+	private String part;
 	
+	private String category;
+	
+	private int idx;
+
+
 	public ExerciseRes(Exercise ex, ExerciseImage exi) {
 		
+		this.idx = ex.getIdx();
 		
-		 this.path = exi.getPath();
+		this.exercisename = ex.getName();
 		
-		 this.step = exi.getStep();
+		this.path = exi.getPath();
+		
+		this.step = exi.getStep();
 		 
-		 this.desc = exi.getDesc();
+		this.desc = exi.getDesc();
+		 
+		this.part = ex.getPart();
+		 
+		this.category = ex.getCategory();
 		
 
 	}

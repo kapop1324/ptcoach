@@ -10,22 +10,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class CourseRes {
 	
 	private String coursename;
 	private String exercisename;
 	private String path;
-
+	
 	
 	@Builder
-	public CourseRes(Course c, Exercise ex, ExerciseImage exi) {
-		
-		this.coursename = c.getCoursename();
-		this.exercisename = c.getExercisename();
-		this.path = exi.getPath();
+	public CourseRes( String exercisename, String path) {
+
+		this.exercisename = exercisename;
+		this.path = path;
 
 	}
 
+	
+	@Builder
+	public CourseRes(String coursename, String exercisename, String path) {
+		
+		this.coursename = coursename;
+		this.exercisename = exercisename;
+		this.path = path;
+
+	}
+	
+	
 }
