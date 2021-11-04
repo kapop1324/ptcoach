@@ -12,6 +12,8 @@
 
 <script>
 import CourseListItem from "@/components/CourseListItem.vue"
+// import CourseApi from "../../api/CourseApi"
+import http from '@/util/http-common';
 
 export default {
   name: 'CourseLists',
@@ -20,18 +22,39 @@ export default {
   },
   data (){
     return {
-      courseList: [
-        {id:1, name: '코스 1', course: [{exercise:'운동1', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동2', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동3', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동4', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},]},
-        {id:2, name: '코스 2', course: [{exercise:'운동1', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동2', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동3', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동4', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},]},
-        {id:3, name: '코스 3', course: [{exercise:'운동1', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동2', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동3', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동4', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},]},
-        {id:4, name: '코스 4', course: [{exercise:'운동1', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동2', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동3', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},{exercise:'운동4', path:"k5c201.p.ssafy.io/images/thumbnail/sidestep.png"},]},
-      ],
+      courseList: []
     }
   },
-  // created() {
-
-  // },
+  created() {
+   this.getCourseList()
+  },
   methods: {
+    // store 접근 에러남
+    // getCourseList() {
+    //   CourseApi.GetCourseList(
+    //     res => {
+    //       console.log(res.data)
+    //       this.courseList = res.data.courseList
+    //       // this.$store.state.courseList = res.data.courseList
+    //       this.$store.dispatch("getCourseList", res.data.courseList);
+    //     },
+    //     error => {
+    //       console.log(error)
+    //       console.log('에러')
+    //     }
+    //   )
+    // },
+    getCourseList() {
+      http.get('/course/list')
+      .then(res => {
+        // console.log(res.data)
+        this.courseList = res.data.courseList
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+
 
   },
 }
