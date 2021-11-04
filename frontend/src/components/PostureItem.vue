@@ -1,16 +1,13 @@
 // 자세교정 선택 아이템 1개
 <template>
   <div class="pos-div">
-    <router-link class="r-link" :to="{name: 'PostureDetail', params: {id: exInfo.id}}">
-      <div class="pos-title">{{ exInfo.name }}</div>
+    <router-link class="r-link" :to="{name: 'PostureDetail', params: {id: exInfo.idx}}">
+      <div class="pos-title">{{ exInfo.exercisename }}</div>
       <div class="post-img">
-        <!-- <img :src="exInfo.path" alt="스쿼트 샘플이미지"> -->
-        <!-- <img src="@/assets/squat_sample.png" alt="스쿼트 샘플이미지"> -->
-        <img src="@/assets/squat_sample_remove.png" alt="스쿼트 샘플이미지">
+        <img :src="exInfo.path" :alt="`${exInfo.exercisename} 썸네일이미지`">
       </div>
-      <span class="pos-tag" v-for="(tag, idx) in exInfo.part" :key="idx">
-        {{ tag }}
-      </span>
+      <span class="pos-tag">{{ exInfo.part }}</span>
+      <span class="pos-tag">{{ exInfo.exercisename }}</span>
     </router-link>
   </div>
 </template>

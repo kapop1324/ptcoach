@@ -52,10 +52,9 @@ export default {
       })
       .catch(err => {
         console.log(err)
+        console.log('운동코스 에러')
       })
-    }
-
-
+    },
   },
 }
 </script>
