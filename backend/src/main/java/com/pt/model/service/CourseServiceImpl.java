@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.pt.domain.res.CourseDetailRes;
 import com.pt.domain.res.CourseRes;
+import com.pt.domain.res.CourseResFin;
 import com.pt.model.dao.CourseDao;
 import com.pt.model.dao.qdsl.CourseDaoQdsl;
 
@@ -20,9 +21,9 @@ public class CourseServiceImpl implements CourseService {
 	private CourseDaoQdsl coursedaoqdsl;
 
 	@Override
-	public List<CourseRes> course_list() throws Exception {
+	public List<CourseResFin> course_list() throws Exception {
 		
-		List<CourseRes> list = coursedaoqdsl.course_list();
+		List<CourseResFin> list = coursedaoqdsl.course_list();
 		
 		return list;
 	}

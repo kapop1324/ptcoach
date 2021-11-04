@@ -15,6 +15,7 @@ import com.pt.domain.QExercise;
 import com.pt.domain.QExerciseImage;
 import com.pt.domain.res.CourseDetailRes;
 import com.pt.domain.res.CourseRes;
+import com.pt.domain.res.CourseResFin;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -29,31 +30,52 @@ public class CourseDaoQdsl {
 	QExerciseImage qExerciseImage = QExerciseImage.exerciseImage;
 	
 	
-	public List<CourseRes> course_list() {
+	public List<CourseResFin> course_list() {
+		
+		List<String> course_name_list = jpaQueryFactory.select(qCourse.coursename)
+				.from(qCourse)
+				.groupBy(qCourse.coursename)
+				.orderBy(qCourse.coursename.asc())
+				.fetch();
+		
 		
 		Stack<CourseRes> stack = new Stack<CourseRes>();
 		
-		List<Tuple> course_list = jpaQueryFactory.select(qCourse,qExercise,qExerciseImage)
+		List<Tuple> tuple = jpaQueryFactory.select(qCourse,qExercise,qExerciseImage)
 				.from(qCourse).innerJoin(qExercise).on(qCourse.exercisename.eq(qExercise.name))
 				.innerJoin(qExerciseImage).on(qExercise.idx.eq(qExerciseImage.exerciseidx))
-				.where(qExerciseImage.step.eq(0)).orderBy(qCourse.coursename.desc())
+				.where(qExerciseImage.step.eq(0)).orderBy(qCourse.coursename.asc())
 				.fetch();
 		
-		List<CourseRes> res = new ArrayList<CourseRes>();
+		List<CourseRes> course_list = new ArrayList<CourseRes>();
 		
-		for(Tuple t : course_list) {
+		for(Tuple t : tuple) {
 			
 			Course c = t.get(0,Course.class);
 			Exercise ex = t.get(1,Exercise.class);
 			ExerciseImage exi = t.get(2,ExerciseImage.class);
-			stack.add(new CourseRes(c,ex,exi));
+			stack.add(new CourseRes(c.getCoursename(),ex.getName(),exi.getPath()));
 			
 		}
 		
 		while(!stack.isEmpty()) {
-			res.add(stack.pop());
+			course_list.add(stack.pop());
 		}
 		
+		
+		List<CourseResFin> res = new ArrayList<CourseResFin>();
+		List<CourseRes> tmp = new ArrayList<CourseRes>();
+		
+		for(int i = 0; i < course_name_list.size(); i++) {
+			tmp = new ArrayList<CourseRes>();
+			for(int j = 0; j < course_list.size(); j++) {
+				
+				if(course_name_list.get(i).equals(course_list.get(j).getCoursename())) {
+					tmp.add(new CourseRes(course_list.get(j).getExercisename(),course_list.get(j).getPath()));
+				}
+			}
+			res.add(new CourseResFin(course_name_list.get(i),tmp));
+		}
 		
 		
 		return res;

@@ -194,7 +194,7 @@ public class DashboardDaoQdsl {
 			double rate1 = t.get(1, double.class);
 			int rate = (int) rate1;
 			Date date = t.get(2, Date.class);
-			SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat fm = new SimpleDateFormat("MM-dd");
 			String to = fm.format(date);
 			accuracy_stack.add(new AccuracyRes(ex,rate,to));
 		}
