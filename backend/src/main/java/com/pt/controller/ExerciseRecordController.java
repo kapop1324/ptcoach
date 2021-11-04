@@ -34,34 +34,39 @@ public class ExerciseRecordController {
     @Autowired
     private HttpServletResponse response;
 
+    //exerciseRecord 총 4개 리스트 형식으로 받고
+    //for문으로 하나씩 다 뽑고
+
+
     @PostMapping("/save")
-    public ResponseEntity<HashMap> save(@RequestBody ExerciseRecord exerciseRecord){
+    public ResponseEntity<HashMap> save(@RequestBody List<ExerciseRecord> exerciseRecords){
         HashMap result = new HashMap();
         String message = "";
         LocalDate aaa = LocalDate.now();
-
-        try{
-            ExerciseRecord insert = exerciseRecordService.insert(exerciseRecord.builder()
-
-                    .time(exerciseRecord.getTime())
-                    .date(Date.valueOf(aaa))
-                    .useremail(exerciseRecord.getUseremail())
-                    .courseidx(exerciseRecord.getCourseidx())
-                    .accuracy(exerciseRecord.getAccuracy())
-                    .build());
-            System.out.println(insert);
-            if(insert != null){
-                message = "success";
-                result.put("message", message);
-            }else{
-                message = "fail";
-                result.put("message",message);
+        for(int i =0; i<exerciseRecords.size(); i++){
+            ExerciseRecord exerciseRecord = exerciseRecords.get(i);
+            try{
+                ExerciseRecord insert = exerciseRecordService.insert(exerciseRecord.builder()
+                        .time(exerciseRecord.getTime())
+                        .date(Date.valueOf(aaa))
+                        .useremail(exerciseRecord.getUseremail())
+                        .courseidx(exerciseRecord.getCourseidx())
+                        .accuracy(exerciseRecord.getAccuracy())
+                        .build());
+                System.out.println(insert);
+                if(insert != null){
+                    message = "success";
+                }else{
+                    message = "fail";
+                    break;
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                message = "error";
+                break;
             }
-        }catch (Exception e){
-            e.printStackTrace();
-            message = "error";
-            result.put("meesage", message);
         }
+        result.put("message",message);
         return new ResponseEntity<HashMap>(result, HttpStatus.OK);
     }
 
