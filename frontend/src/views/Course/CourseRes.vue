@@ -4,7 +4,7 @@
     <div><h1>오늘의 운동 결과</h1></div>
     <!-- <div id="comment">{{exercise}} 자세 이상! </div> -->
     <div id="comment">
-      <p v-for="course in courseListFilter" :key="course.coursecode">
+      <p v-for="course in courseListFilter" :key="course.course_idx">
         {{course.exercise_name}} 자세 이상!
       </p>
       <!-- 아직 perfect부분 해결이 안됨, 언제 값을 변경해줄 수 있지 -->
@@ -21,6 +21,7 @@
 
 <script>
 import CourseResItem from '@/components/CourseResItem.vue'
+import CourseApi from '@/api/CourseApi'
 
 export default {
   name: 'CourseRes',
@@ -31,13 +32,32 @@ export default {
     return {
       excercise: '스쿼트',
       perfect: true,
-      courseList: [{coursecode:1, exercise_name:'squat', accuracy: 88},
-      {coursecode:2, exercise_name:'lunge', accuracy: 70 }],
-      
+      courseList: [{course_idx:1, exercise_name:'squat', accuracy: 88},
+        {course_idx:2, exercise_name:'lunge', accuracy: 70 }],
+      exercise_record: [{user_email:'ssafy@ssafy.com',course_idx:1, time:180, accuracy:88},
+				{user_email:'ssafy@ssafy.com',course_idx:2, time:200, accuracy:70}],
     }
   },
   methods: {
     toHome(){
+      //email이 비어있으면 바로 홈으로, 아니면 post(저장) 후에 홈으로
+      // let record = {
+
+      // }
+      console.log(this.email)
+      if(!(this.email == null || this.email == '')){
+        CourseApi.SaveRecord(
+          this.exercise_record,
+          res => {
+            if(res.data.message == "success"){
+              this.$router.push({name:'Home'});
+            }else{
+              alert("기록 저장 실패");
+            }
+          }
+        )
+        // this.$store.dispatch("saveResult", this.exercise_record);
+      }
       this.$router.push('/');
     },
   },
@@ -48,6 +68,9 @@ export default {
         return course.accuracy < 80
       })
     },
+    email() {
+      return this.$store.getters.getLoginEmail;
+    }
   }
 }
 </script>
@@ -94,6 +117,7 @@ h1 {
   border: none;
   border-radius: 10px;
   padding: 10px 15px;
+  cursor: pointer;
   font-family: 'SBAggroL';
 }
 </style>
