@@ -7,9 +7,24 @@ const GetPostureList = (callback, errorCallback) => {
   .catch((err) => errorCallback(err));
 };
 
+const PostureDetail = (data, callback, errorCallback) => {
+    
+  http.get('/exercise/detail',
+  {
+      params: {
+          idx : data.id
+      }
+  }
+)
+.then((res) => callback(res))
+.catch((err) => errorCallback(err));
+};
+
 const PostureApi = {
 
   GetPostureList: (callback, errorCallback) => GetPostureList(callback, errorCallback),
+  PostureDetail: (data, callback, errorCallback) => PostureDetail(data, callback, errorCallback),
+
 
 };
 
