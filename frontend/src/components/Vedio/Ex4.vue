@@ -4,7 +4,6 @@
     <div><canvas id="canvas"></canvas></div>
     <div>
       <p class="speak">{{speak}}</p>
-      <!-- <p class="stat">{{stat}}</p> -->
     <div class="result">{{acc}}% 일치</div> 
     </div>
 
@@ -23,7 +22,6 @@
 
 <script >
 import * as tmPose from "@teachablemachine/pose";
-import { mapState } from 'vuex'
 
 // More API functions here:
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
@@ -46,18 +44,6 @@ export default {
       step:0,
     };
   },
-  // props:{
-  //   step: Array,
-  // },
-  create(){
-    console.log(this.stat)
-
-    let data = {
-      stat : this.$store.state.stat,
-    };
-
-
-  },
 
   methods: {
     
@@ -78,21 +64,13 @@ export default {
       await webcam.setup(); // request access to the webcam
       await webcam.play();
       window.requestAnimationFrame(this.loop);
-      
-
       // append/get elements to the DOM
       const canvas = document.getElementById("canvas");
       canvas.width = size;
       canvas.height = size;
       ctx = canvas.getContext("2d");
       labelContainer = document.getElementById("label-container");
-      for (let i = 0; i < maxPredictions; i++) {
-        labelContainer.appendChild(document.createElement("div"));
-      }
-      
     },
-
-
     async loop(timestamp) {
       webcam.update(); // update the webcam frame
       await this.predict();
@@ -103,8 +81,8 @@ export default {
       const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
       // Prediction 2: run input through teachable machine classification model
       const prediction = await model.predict(posenetOutput);
-
       if(this.step==0 && !this.dialog){
+        this.$emit("sendStep",this.step);
         this.speak = "정자세로 서주시기 바랍니다" 
         this.step++;
       }
@@ -113,7 +91,6 @@ export default {
         this.dialog = true; // 서있는 자세를 정확하게 했을 경우
         this.speak = "좋습니다 시작합니다 시작해주세요"
       }
-      console.log(this.step);
       //step1 시작
       if (this.step==1 && this.dialog) {
         //상위newstep으로 1 넘기기
@@ -133,9 +110,6 @@ export default {
         } 
 
         this.acc = prediction[1].probability.toFixed(2) * 100;
-            
-        console.log("stat:"+this.stat);
-        console.log("acc:"+this.acc);
         
         //step1성공하면!
         if(this.step==1 && prediction[1].probability.toFixed(2) == 1.0 && this.dialog){
@@ -170,9 +144,6 @@ export default {
           this.stat = "up_true";
           this.dialog = true;
           this.speak = "step2 성공!! '완료' 버튼을 눌러주세요."
-          console.log("stat:"+this.stat);
-          console.log("acc:"+this.acc);
-
           this.acc = prediction[2].probability.toFixed(2) * 100;
         }
         this.drawPose(pose);

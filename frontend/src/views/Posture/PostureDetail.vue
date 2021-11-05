@@ -31,6 +31,15 @@ export default {
       newstep:1,
       desc_step:1,
       ex_list:[
+        {
+          category:"",
+          desc: "",
+          exercisename: "",
+          idx: 0,
+          part: "",
+          path: "",
+          step: 0,
+        }
       ]
     }
   },
@@ -61,9 +70,12 @@ export default {
   
   methods: {
     updateStep(step){
+      if(step!=0){
       this.newstep=step;
       this.desc_step=step;
       console.log("step 넘어옴 :" +step);
+      }
+
     },    
   },
 
