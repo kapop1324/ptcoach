@@ -1,7 +1,7 @@
 // 운동별 정확도 변경 추이 (한달 내 일자별) (c)
 <template>
   <div>
-    <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
+    <apexchart type="line" width="700" height="350" :options="chartOptions" :series="series"></apexchart>
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
           dropShadow: {
             enabled: true,
             color: '#000',
-            top: 18,
+            top: 15,
             left: 7,
             blur: 10,
             opacity: 0.2
@@ -45,7 +45,7 @@ export default {
         grid: {
           borderColor: '#e7e7e7',
           row: {
-            colors: ['#f1f5ff', 'transparent'], // takes an array which will be repeated on columns
+            colors: ['#f1f5ff', 'transparent'],
             opacity: 0.5
           },
         },
@@ -65,17 +65,7 @@ export default {
           min: 0,
           max: 100
         },
-        // legend: {
-        //   position: 'top',
-        //   horizontalAlign: 'right',
-        //   floating: true,
-        //   offsetY: -25,
-        //   offsetX: -5
-        // }
       },
-
-
-
     }
   },
 }

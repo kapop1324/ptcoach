@@ -13,13 +13,17 @@ export default {
   components:{
     apexchart: VueApexCharts,
   },
+  // props: {
+  //   donutdata: Array,
+  // },
   data: function() {
     return {
       chartOptions: {
         colors: ['#00E396', '#FFB019', '#008FFB'],
         labels: ['상체', '하체', '전신'],
       },
-      series: [30, 12, 33],
+      // series: this.bardata.donutdata,
+      series: [30, 40, 20],
     }
   },
 }
