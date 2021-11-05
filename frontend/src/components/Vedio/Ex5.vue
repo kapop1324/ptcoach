@@ -29,21 +29,18 @@ import { mapState } from 'vuex'
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
 // the link to your model provided by Teachable Machine export panel
-const URL = "https://teachablemachine.withgoogle.com/models/mZu-ppxDG/";
+const URL = "https://teachablemachine.withgoogle.com/models/OGYeLwLMb/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 export default {
   data: () => {
     return {
       stat: "",
-      cnt: 0,
-      success_cnt: 0,
-      is_wrong: false,
-      rate: 10,
-      dialog : false,
       speak :"",
       acc:0,
       step:0,
+      clear : false,
+      send_step : false,
     };
   },
   // props:{
@@ -86,9 +83,6 @@ export default {
       canvas.height = size;
       ctx = canvas.getContext("2d");
       labelContainer = document.getElementById("label-container");
-      for (let i = 0; i < maxPredictions; i++) {
-        labelContainer.appendChild(document.createElement("div"));
-      }
       
     },
 
@@ -104,78 +98,101 @@ export default {
       // Prediction 2: run input through teachable machine classification model
       const prediction = await model.predict(posenetOutput);
 
-      if(this.step==0 && !this.dialog){
+
+      //step0 
+      if(this.step==0){
         this.speak = "정자세로 서주시기 바랍니다" 
         this.step++;
       }
-      if (this.step==1 && prediction[0].probability.toFixed(2) == 1.0 && !this.dialog) {
-        this.stat = "stand";
-        this.dialog = true; // 서있는 자세를 정확하게 했을 경우
-        this.speak = "좋습니다 시작합니다 시작해주세요"
+
+
+      //step1 정자세로 서기
+      if(this.step == 1 ){
+
+        if(this.send_step == false){
+          this.$emit("sendStep",this.step);
+          this.send_step = true;
+        }
+        
+        if(prediction[0].probability.toFixed(2) == 1.0){
+          
+          this.stat = "stand";
+          this.step1_clear = true;
+          this.speak = "step1 클리어!";
+          this.step++;
+          this.send_step = false;
+
+        }else{
+          
+          this.speak = "정자세로 서주세요";
+          this.acc = prediction[0].probability.toFixed(2) * 100;
+
+        }
+
       }
-      console.log(this.step);
-      //step1 시작
-      if (this.step==1 && this.dialog) {
-        //상위newstep으로 1 넘기기
-        this.$emit("sendStep",this.step);
-        if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
-        this.stat = "up_false";
-        this.dialog = true;
-        this.speak ="팔 넓이를 좁혀 주세요/ 팔을 어깨 선과 맞춰 주세요."
-        } else if (prediction[4].probability.toFixed(2) == 1.0 && this.dialog) {
-        this.stat = "down_false";
-        this.dialog = true;
-        this.speak ="팔 넓이를 좁혀 주세요/ 팔을 어깨 선과 맞춰 주세요."
-        } else if (prediction[5].probability.toFixed(2) == 1.0 && this.dialog) {
-        this.stat = "basic_false";
-        this.dialog = true;
-        this.speak ="팔 넓이를 좁혀 주세요/ 팔을 어깨 선과 맞춰 주세요."
-        } 
+
+      //step2 앉기
+      if(this.step == 2){
+
+        if(this.send_step == false){
+          this.$emit("sendStep",this.step);
+          this.send_step = true;
+          this.speak = "앉아주세요";
+        }
+
+        if(prediction[1].probability.toFixed(2) == 1.0){
+
+          this.stat = "stand";
+          this.step2_clear = true;
+          this.speak = "step2 클리어!";
+          this.step++;
+          this.send_step = false;
+
+        }else if(prediction[2].probability.toFixed(2) == 1.0){
+
+          this.speak = "허리를 곧게 펴주세요";
+
+        }else if(prediction[3].probability.toFixed(2) == 1.0){
+
+          this.speak = "무릎은 발 안쪽으로 넣어주세요";
+          
+
+        }
 
         this.acc = prediction[1].probability.toFixed(2) * 100;
-            
-        console.log("stat:"+this.stat);
-        console.log("acc:"+this.acc);
-        
-        //step1성공하면!
-        if(this.step==1 && prediction[1].probability.toFixed(2) == 1.0 && this.dialog){
-            this.step++;
-            this.stat = "basic";
-            this.dialog = true;
-            this.speak = "step1 성공!! step2를 진행해 주세요."
 
-            if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
-            this.stat = "up_false";
-            this.dialog = true;
-            this.speak ="팔 넓이를 좁혀 주세요/ 팔을 어깨 선과 맞춰 주세요."
-            }
-            else if (prediction[4].probability.toFixed(2) == 1.0 && this.dialog) {
-            this.stat = "down_false";
-            this.dialog = true;
-            this.speak ="팔 넓이를 좁혀 주세요/ 팔을 어깨 선과 맞춰 주세요."
-            } else if (prediction[5].probability.toFixed(2) == 1.0 && this.dialog) {
-            this.stat = "basic_false";
-            this.dialog = true;
-            this.speak ="팔 넓이를 좁혀 주세요/ 팔을 어깨 선과 맞춰 주세요."
-            } 
-
-            this.acc = prediction[1].probability.toFixed(2) * 100;
-            console.log("stat:"+this.stat);
-            console.log("acc:"+this.acc);
-        }
       }
-      //step2 시작
-      if(this.step==2 && prediction[2].probability.toFixed(2) == 1.0 && this.dialog){
-          this.$emit("sendStep",this.step);
-          this.stat = "up_true";
-          this.dialog = true;
-          this.speak = "step2 성공!! '완료' 버튼을 눌러주세요."
-          console.log("stat:"+this.stat);
-          console.log("acc:"+this.acc);
 
-          this.acc = prediction[2].probability.toFixed(2) * 100;
+      //step3 정자세로 서기
+      if(this.step == 3){
+
+        if(this.send_step == false){
+
+          this.$emit("sendStep",this.step);
+          this.send_step = true;
+
         }
-        this.drawPose(pose);
+        
+        if(prediction[0].probability.toFixed(2) == 1.0 && this.clear == false){
+          
+          this.stat = "stand";
+          this.clear = true;
+
+        }else if(prediction[0].probability.toFixed(2) != 1.0 && this.clear == false){
+          
+          this.speak = "정자세로 서주세요";
+          this.acc = prediction[0].probability.toFixed(2) * 100;
+
+        }else if(this.clear == true){
+
+          this.speak = "스쿼트 클리어! 완료를 눌러주세요!";
+          this.acc = 100;
+
+        }
+
+      }
+
+      this.drawPose(pose);
     },
     drawPose(pose) {
       if (webcam.canvas) {
