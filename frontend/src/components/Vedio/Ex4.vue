@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <!-- <div>Teachable Machine Pose Model</div> -->
-    <div><canvas id="canvas"></canvas></div>
+    <div class="vedio"><canvas id="canvas"></canvas></div>
     <div>
       <p class="speak">{{speak}}</p>
     <div class="result">{{acc}}% 일치</div> 
@@ -10,9 +10,9 @@
     <div class="start-btn">
       <div class="start" @click="init()"> 시작 </div>
     </div> 
-    <div class="clear-btn">
+    <router-link to="/posture" class="clear-btn">
       <div class="clear"> 완료 </div>
-    </div> 
+    </router-link> 
 
   </div>
 </template>
@@ -166,31 +166,49 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
-.speak {
-    position:absolute;
-    top: 84%;
-    left: 0.2%;  
-    font-size: 24px;
+.vedio {
+  top: 26%;
+  position: absolute;
 }
+.speak {
+  top: 3%;
+  left: 26%;
+  position: absolute;
+  font-size: 25px;
+}
+// .speak {
+//     position:absolute;
+//     top: 84%;
+//     left: 0.2%;  
+//     font-size: 24px;
+// }
 .stat {
     position:absolute;
     top: 92%;
     left: 0.2%;  
     font-size: 24px;
 }
+// .result {
+//     position:absolute;
+//     top: 99%;
+//     left: 40%;
+//     font-size: 30px;
+//     color: $logo-color;
+//     font-weight: bold;
+// }
 .result {
     position:absolute;
-    top: 96%;
-    left: 45%;
+    top: 122%;
+    left: 38%;
     font-size: 30px;
     color: $logo-color;
     font-weight: bold;
 }
 .start-btn {
-  top: 62%;
+  top: 88%;
   height: 40px;
   width: 100px;
-  right: 1%;
+  right: 12%;
   position: absolute;
   font-size: 22px ;
   border-radius: 30px;
@@ -203,10 +221,10 @@ export default {
   padding-top: 8px;
 }
 .clear-btn {
-  top: 75%;
+  top: 100%;
   height: 40px;
   width: 100px;
-  right: 1%;
+  right: 12%;
   position: absolute;
   font-size: 22px ;
   border-radius: 30px;
@@ -214,6 +232,8 @@ export default {
   text-align: center;
   color: white;
   cursor:pointer;
+  text-decoration: none;
+
 }
 .clear{
   padding-top: 8px;

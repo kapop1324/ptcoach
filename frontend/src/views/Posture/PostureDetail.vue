@@ -2,9 +2,9 @@
     <div class="pos-content-main" >
       <div class="title">{{ex_list[0].exercisename}}</div> 
       <div class="pos-vedio">
-      <div v-if="ex_list[0].idx==4">
-        <Ex4 v-on:sendStep="updateStep"></Ex4>
-      </div>
+        <div v-if="ex_list[0].idx==4">
+          <Ex4 v-on:sendStep="updateStep"></Ex4>
+        </div>
       </div>
       <Description v-if="desc_step==newstep" v-bind:path="ex_list[desc_step-1].path" v-bind:desc="ex_list[desc_step-1].desc"></Description>
       <div class="pos-content-step" >
@@ -86,14 +86,11 @@ export default {
 @import "@/styles/common.scss";
 
 .pos-content-main {
-  height: 38vw;
-  width: 165vh;
-  border-radius: 30px;
-  background-color: $white-color;
+  background-color: $bg-color;
 }
 .title {
   top: 16%;
-  left: 14%;
+  left: 21%;
   position: absolute;
   font-size: 38px;
   font-weight: bold;
@@ -101,8 +98,8 @@ export default {
 .pos-vedio {
   width: 72%;
   height: 64%;  
-  top: 24%;
-  left: 13%;
+  top: 10%;
+  left: 20%;
   position: absolute;
   // border: solid black;
   margin: 10px;
