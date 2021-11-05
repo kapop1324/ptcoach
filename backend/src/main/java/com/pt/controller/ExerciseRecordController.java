@@ -3,6 +3,7 @@ package com.pt.controller;
 import com.pt.domain.Exercise;
 import com.pt.domain.ExerciseRecord;
 import com.pt.domain.res.CourseDetailRes;
+import com.pt.domain.res.ExerciseRecordResFin;
 import com.pt.model.service.ExerciseRecordService;
 import io.netty.handler.codec.http.HttpServerKeepAliveHandler;
 import org.hibernate.type.LocalDateTimeType;
@@ -100,38 +101,16 @@ public class ExerciseRecordController {
         String message = "";
 
         try{
-            List<CourseDetailRes> list = exerciseRecordService.course_detail(coursename);
-
+            List<ExerciseRecordResFin> list = exerciseRecordService.course_detail(coursename);
             if(list != null){
                 message = "success";
-                result.put("message", message);
-
-                List<CourseDetailRes> tmp = new ArrayList<>();
-                List<List<CourseDetailRes>> tmp2 = new ArrayList<>();
-                String prev = list.get(0).getExercisename();
-                String now = list.get(0).getExercisename();
-                tmp.add(list.get(0));
-
-                for(int i = 1; i< list.size(); i++){
-                    now = list.get(i).getExercisename();
-                    if(!now.equals(prev)){
-                        tmp2.add(tmp);
-                        tmp = new ArrayList<CourseDetailRes>();
-                        tmp.add(list.get(i));
-                    }else{
-                        tmp.add(list.get(i));
-                    }
-                    prev = now;
-                }
-                tmp2.add(tmp);
-
-                result.put("courseList", tmp2);
-
+                result.put("message",message);
+                result.put("exerciseList",list);
             }else{
                 message = "fail";
-                result.put("message", message);
+                result.put("message",message);
             }
-        }catch (Exception e){
+        }catch(Exception e){
             e.printStackTrace();
             result.put("message", message);
         }
