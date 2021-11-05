@@ -21,7 +21,7 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 
-const URL = "https://teachablemachine.withgoogle.com/models/fAOdhOK2k/";
+const URL = "https://teachablemachine.withgoogle.com/models/mZu-ppxDG/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 export default {
@@ -71,39 +71,43 @@ export default {
       // Prediction 2: run input through teachable machine classification model
       const prediction = await model.predict(posenetOutput);
       if(this.step==0 && !this.dialog){
+        this.$emit("sendStep",this.step);
         this.speak = "정자세로 서주시기 바랍니다" 
-        this.dialog = true; 
         this.step++;
       }
       if (this.step==1 && prediction[0].probability.toFixed(2) == 1.0 && !this.dialog) {
         this.stat = "stand";
         this.dialog = true; // 서있는 자세를 정확하게 했을 경우
-        this.speak = "팔꿈치를 상체와 가깝게 붙여주세요"
+        this.speak = "좋습니다 시작합니다 시작해주세요"
       }
       //step1 시작
       if (this.step==1 && this.dialog) {
         //상위newstep으로 1 넘기기
         this.$emit("sendStep",this.step);
-        if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
-        this.stat = "down_false";
-        this.dialog = true;
-        this.speak ="팔꿈치를 상체와 가깝게 붙이고 팔꿈치가 고정된 상태로 내려주세요."
-        } 
+        if (prediction[4].probability.toFixed(2) == 1.0 && this.dialog) {
+          this.stat = "down_false";
+          this.dialog = true;
+          this.speak ="허리를 펴고, 팔을 상체와 가깝게 붙이고 내려주세요"
+          } else if (prediction[5].probability.toFixed(2) == 1.0 && this.dialog) {
+          this.stat = "basic_false";
+          this.dialog = true;
+          this.speak ="허리를 펴고, 팔을 상체와 가깝게 붙이고 내려주세요"
+          } 
 
         this.acc = prediction[1].probability.toFixed(2) * 100;
         
         //step1성공하면!
         if(this.step==1 && prediction[1].probability.toFixed(2) == 1.0 && this.dialog){
             this.step++;
-            this.stat = "up";
+            this.stat = "basic";
             this.dialog = true;
             this.speak = "step1 성공!! step2를 진행해 주세요."
-
-            if (prediction[2].probability.toFixed(2) == 1.0 && this.dialog) {
-            this.stat = "up_false";
-            this.dialog = true;
-            this.speak ="팔꿈치를 상체와 가깝게 붙이고 팔꿈치가 고정된 상태로 올려주세요."
-            } 
+        
+          if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
+          this.stat = "down_false";
+          this.dialog = true;
+          this.speak ="허리를 펴고, 팔을 상체와 가깝게 붙이고 들어올려주세요."
+          }
 
             this.acc = prediction[1].probability.toFixed(2) * 100;
             console.log("stat:"+this.stat);
