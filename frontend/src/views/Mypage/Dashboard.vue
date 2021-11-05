@@ -1,53 +1,48 @@
 // 대시보드
 <template>
   <div>
-      {{ barData }} <hr>
-      {{ lineData }} <hr>
-      {{ donutData }} <hr>
+    <div class="box-container flex-align">
+      <div class="bg-box time-width">
+          <div class="tiem-title">🕑 누적 운동시간 🏋️‍♀️</div>
+          <div class="tiem-desc big-navy">{{ alltime }}</div>
+          <div class="tiem-title">🕑 최근 한달 운동시간 🏃‍♀️</div>
+          <div class="tiem-desc big-navy">{{ alltime }}</div>
+      </div>
 
-    <!-- 총 운동시간 - 한달이랑 전체 누적 숫자로 (a) -->
-    <div class="bg-box">
-      <div class="box-title">누적 운동시간 <span>{{ alltime }}</span></div>
-      <div class="box-title">최근 한달 운동시간 <span>{{ secToTime(20000) }}</span></div>
+      <div class="bg-box box-width">
+        <div class="box-title">부위별 운동량, 운동시간(초) 통계</div>
+        <Donutcharts :donutdata="donutData" />
+      </div>
+
     </div>
-    <br>
 
     <div class="box-container" v-for="(bardata, idx) in barData" :key="`b-${idx}`">
-      {{ lineData[idx] }}
-      {{ bardata }}
-      <hr>
-      <!-- <div class="bg-box">
-        <div class="box-title"><span>{{ bardata.exercisename }}</span> 운동의 자세 정확도</div>
+      <div class="bg-box">
+        <div class="box-title"><span class="big-navy">{{ bardata.exercisename }}</span> 운동의 자세 정확도</div>
         <Barcharts :bardata="bardata" />
       </div>
       <div class="bg-box">
-        <div class="box-title">최근 한달간 <span>{{ bardata.exercisename }}</span> 운동 정확도 변경 추이</div>
-        <Linecharts />
-      </div> -->
+        <div class="box-title">최근 한달간 <span class="big-navy">{{ bardata.exercisename }}</span> 운동 정확도 변경 추이</div>
+        <Linecharts :linedata="lineData[idx]" />
+      </div>
     </div>
-
-
-    <!-- <div class="bg-box">
-      <div class="box-title">부위별 운동량, 운동시간(초) 통계</div>
-      <Donutcharts />
-    </div> -->
 
 
   </div>
 </template>
 
 <script>
-// import Barcharts from "@/components/Dashboard/Barcharts.vue"
-// import Donutcharts from "@/components/Dashboard/Donutcharts.vue"
-// import Linecharts from "@/components/Dashboard/Linecharts.vue"
+import Barcharts from "@/components/Dashboard/Barcharts.vue"
+import Donutcharts from "@/components/Dashboard/Donutcharts.vue"
+import Linecharts from "@/components/Dashboard/Linecharts.vue"
 import DashboardApi from "../../api/DashboardApi"
 
 export default {
   name: 'Dashboard',
   components: {
-    // Barcharts,
-    // Donutcharts,
-    // Linecharts,
+    Barcharts,
+    Donutcharts,
+    Linecharts,
   },
   data: function() {
     return {
@@ -65,7 +60,6 @@ export default {
     getDashboard() {
       DashboardApi.GetDashboard(
         res => {
-          console.log(res.data)
           const secAlltime = res.data.alltime
           const secMontime = res.data.monthtime
 
@@ -74,7 +68,6 @@ export default {
           this.barData = res.data.accuracylist
           this.lineData = res.data.accuracytransition
           this.donutData = res.data.partdis
-
         },
         error => {
           console.log(error)
@@ -106,24 +99,39 @@ export default {
 .bg-box {
   box-shadow: 0px 1px 15px 1px #99a6ff21;
   background-color: #ffffff;
-  // background-color: #343E59;
-  // color: #CCCCCC;
   border-radius: 20px;
-  // width: 30%;
   padding: 25px 30px 15px 30px;
-  // padding: 25px 50px 5px 30px;
   display: inline-block;
   // min-width: 330px;
   margin: 20px;
+}
+.tiem-title {
+  font-size: 1.2rem;
+}
+.big-navy {
+  color: $logo-color;
+  font-size: 1.4rem;
+}
+.tiem-desc {
+  margin-bottom: 65px;
+  // font-size: 1.5rem;
 }
 .box-title {
   font-size: 1.2rem;
   margin-bottom: 35px;
 }
-.box-title > span {
-  color: $logo-color;
-  font-size: 1.4rem;
+.box-container {
+  min-width: 1200px;
 }
-
+.flex-align {
+  display: flex;
+  align-items: stretch;
+}
+.box-width {
+  width: 550px;
+}
+.time-width {
+  width: 445px;
+}
 
 </style>
