@@ -24,7 +24,7 @@ export default {
   top: 15%;
   height: 40px;
   width: 120px;
-  right: 5%;
+  right: 6%;
   border-radius: 30px;
   background-color: #968989;
   background-color: white;
@@ -37,7 +37,7 @@ export default {
   top: 15%;
   height: 40px;
   width: 120px;
-  right: 5%;
+  right: 6%;
   border-radius: 30px;
   background-color: $light-color;
   font-size: 22px;

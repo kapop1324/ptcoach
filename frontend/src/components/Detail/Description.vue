@@ -21,21 +21,22 @@ export default {
 @import "@/styles/common.scss";
 p { margin: 0px 0px 2px 0px; line-height: 120%;}
 img {
-    top: 24%;
-    width: 420px;
-    height: 400px;  
-    left: 48%;
+    top: 27%;
+    width: 360px;
+    height: 360px;  
+    left: 49%;
     position: absolute;
     margin: 10px;
     border-collapse: black;
 }
 .Desc {
-    top: 70%;
+    top: 79%;
     width: 25%;
     height: 12%;  
-    left: 48%;
+    left: 49%;
     position: absolute;
     color: gray;
     margin: 10px;    
 }
+
 </style>

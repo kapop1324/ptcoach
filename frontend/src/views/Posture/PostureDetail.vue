@@ -91,14 +91,11 @@ export default {
 @import "@/styles/common.scss";
 
 .pos-content-main {
-  height: 38vw;
-  width: 165vh;
-  border-radius: 30px;
-  background-color: $white-color;
+  background-color: $bg-color;
 }
 .title {
   top: 16%;
-  left: 14%;
+  left: 21%;
   position: absolute;
   font-size: 38px;
   font-weight: bold;
@@ -106,8 +103,8 @@ export default {
 .pos-vedio {
   width: 72%;
   height: 64%;  
-  top: 24%;
-  left: 13%;
+  top: 10%;
+  left: 20%;
   position: absolute;
   // border: solid black;
   margin: 10px;
