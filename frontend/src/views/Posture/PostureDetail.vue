@@ -2,12 +2,21 @@
     <div class="pos-content-main" >
       <div class="title">{{ex_list[0].exercisename}}</div> 
       <div class="pos-vedio">
+      <div v-if="ex_list[0].idx==1">
+        <Ex1 v-on:sendStep="updateStep"></Ex1>
+      </div> 
       <div v-if="ex_list[0].idx==4">
         <Ex4 v-on:sendStep="updateStep"></Ex4>
       </div>
       <div v-if="ex_list[0].idx==5">
         <Ex5 v-on:sendStep="updateStep"></Ex5>
-      </div>      
+      </div>
+      <div v-if="ex_list[0].idx==6">
+        <Ex6 v-on:sendStep="updateStep"></Ex6>
+      </div> 
+      <div v-if="ex_list[0].idx==7">
+        <Ex7 v-on:sendStep="updateStep"></Ex7>
+      </div>       
       </div>
       <Description v-if="desc_step==newstep" v-bind:path="ex_list[desc_step-1].path" v-bind:desc="ex_list[desc_step-1].desc"></Description>
       <div class="pos-content-step" >
