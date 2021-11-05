@@ -5,6 +5,12 @@
       <div v-if="ex_list[0].idx==1">
         <Ex1 v-on:sendStep="updateStep"></Ex1>
       </div> 
+      <div v-if="ex_list[0].idx==2">
+        <Ex2 v-on:sendStep="updateStep"></Ex2>
+      </div>             
+      <div v-if="ex_list[0].idx==3">
+        <Ex3 v-on:sendStep="updateStep"></Ex3>
+      </div>       
       <div v-if="ex_list[0].idx==4">
         <Ex4 v-on:sendStep="updateStep"></Ex4>
       </div>
@@ -16,7 +22,7 @@
       </div> 
       <div v-if="ex_list[0].idx==7">
         <Ex7 v-on:sendStep="updateStep"></Ex7>
-      </div>       
+      </div>      
       </div>
       <Description v-if="desc_step==newstep" v-bind:path="ex_list[desc_step-1].path" v-bind:desc="ex_list[desc_step-1].desc"></Description>
       <div class="pos-content-step" >
@@ -29,11 +35,15 @@
 import PostureApi from "../../api/PostureApi"
 import Ex4 from '@/components/Vedio/Ex4.vue'
 import Ex5 from '@/components/Vedio/Ex5.vue'
+import Ex2 from '@/components/Vedio/Ex2.vue'
+import Ex3 from '@/components/Vedio/Ex3.vue'
 import Description from '@/components/Detail/Description.vue'
 import Step from '@/components/Detail/Step.vue'
 export default {
   name: 'PostureDetail',
   components:{
+    Ex2: Ex2,
+    Ex3: Ex3,  
     Ex4: Ex4,
     Ex5: Ex5,
     Description:Description,
