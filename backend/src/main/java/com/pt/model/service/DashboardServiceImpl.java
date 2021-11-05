@@ -37,7 +37,7 @@ public class DashboardServiceImpl implements DashboardService {
 	
 
 	@Override
-	public List<PartRes> partdist(String email) throws Exception {
+	public List<Integer> partdist(String email) throws Exception {
 			
 		return dashboarddaoqdsl.part(email);
 	}

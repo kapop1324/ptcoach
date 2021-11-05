@@ -51,7 +51,7 @@ public class DashboardController {
 			result.put("accuracylist", accuracy);
 			
 			//운동 분포도
-			List<PartRes> partdist = dashboardservice.partdist(email);
+			List<Integer> partdist = dashboardservice.partdist(email);
 			result.put("partdis", partdist);
 			
 			//운동 정확도 변경추이

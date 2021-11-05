@@ -15,7 +15,7 @@ public interface DashboardService {
 	
 	public int month_time(String email) throws Exception;
 	
-	public List<PartRes> partdist(String email) throws Exception;
+	public List<Integer> partdist(String email) throws Exception;
 	
 	public List<AccuracyResFin> accuracy(String email) throws Exception;
 	

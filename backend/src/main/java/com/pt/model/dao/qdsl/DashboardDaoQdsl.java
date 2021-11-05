@@ -81,7 +81,7 @@ public class DashboardDaoQdsl {
 	
 	
 	//부위별 분포도
-	public List<PartRes> part(String email) {
+	public List<Integer> part(String email) {
 		
 		List<Tuple> part = 
 				jpaQueryFactory.select(qExercise.part, qExerciseRecord.time.sum())
@@ -99,10 +99,33 @@ public class DashboardDaoQdsl {
 			stack.add(new PartRes(part1,time));
 		}
 		
-		List<PartRes> res = new ArrayList<PartRes>();
+		List<PartRes> tmp = new ArrayList<PartRes>();
+		List<Integer> res = new ArrayList<Integer>();
+		String order[] = {"상체","하체","전신"};
 		
 		while(!stack.isEmpty()) {
-			res.add(stack.pop());
+			
+			tmp.add(stack.pop());
+			
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			
+			boolean flag = false;
+			
+			for(int j = 0; j < tmp.size(); j++) {
+				
+				if(tmp.get(j).getPart().equals(order[i])) {
+					res.add(tmp.get(j).getTime());
+					flag = true;
+				}
+				
+			}
+			
+			if(flag == false) {
+				res.add(0);
+			}
+			
 		}
 		
 		return res;
@@ -134,7 +157,7 @@ public class DashboardDaoQdsl {
 			whole_res.add(whole_stack.pop());
 		} 
 		
-		List<Tuple> recent_list = jpaQueryFactory.select(qCourse.exercisename,qExerciseRecord.accuracy.avg())
+		List<Tuple> recent_list = jpaQueryFactory.select(qCourse.exercisename,qExerciseRecord.accuracy.avg(),qExerciseRecord.date.max())
 				.from(qExerciseRecord)
 				.innerJoin(qCourse).on(qExerciseRecord.courseidx.eq(qCourse.idx))
 				.where(qExerciseRecord.useremail.eq(email).and(qExerciseRecord.date.eq(jpaQueryFactory.select(qExerciseRecord.date.max()).from(qExerciseRecord).where(qExerciseRecord.useremail.eq(email)))))
@@ -147,7 +170,10 @@ public class DashboardDaoQdsl {
 			String part1 = t.get(0, String.class);
 			double time = t.get(1, double.class);
 			int time1 = (int) time;
-			recent_stack.add(new AccuracyRes(part1,time1));
+			Date date = t.get(2, Date.class);
+			SimpleDateFormat fm = new SimpleDateFormat("MM/dd");
+			String to = fm.format(date);
+			recent_stack.add(new AccuracyRes(part1,time1,to));
 		}
 		
 		List<AccuracyRes> recent_res = new ArrayList<AccuracyRes>();
@@ -161,12 +187,26 @@ public class DashboardDaoQdsl {
 		for(int i = 0; i < whole_res.size(); i++) {
 			for(int j = 0; j < recent_res.size(); j++) {
 				if(whole_res.get(i).getExercisename().equals(recent_res.get(j).getExercisename())) {
-					res.add(new AccuracyResFin(whole_res.get(i).getExercisename(),whole_res.get(i).getAccuracy(), recent_res.get(j).getAccuracy()));
+					res.add(new AccuracyResFin(whole_res.get(i).getExercisename(),whole_res.get(i).getAccuracy(), recent_res.get(j).getAccuracy(),recent_res.get(j).getDate()));
 				}
 			}
 		}
 		
-		return res;
+		List<String> exercise_name = jpaQueryFactory.select(qExercise.name).from(qExercise).fetch();
+		List<AccuracyResFin> resf = new ArrayList<AccuracyResFin>();
+		
+		for(int i = 0; i < exercise_name.size(); i++) {
+			
+			for(int j = 0; j < res.size(); j++) {
+				if(exercise_name.get(i).equals(res.get(j).getExercisename())) {
+					resf.add(res.get(j));
+					break;
+				}
+			}
+			
+		}
+		
+		return resf;
 
 	}
 	
@@ -192,7 +232,7 @@ public class DashboardDaoQdsl {
 			double rate1 = t.get(1, double.class);
 			int rate = (int) rate1;
 			Date date = t.get(2, Date.class);
-			SimpleDateFormat fm = new SimpleDateFormat("MM-dd");
+			SimpleDateFormat fm = new SimpleDateFormat("MM/dd");
 			String to = fm.format(date);
 			accuracy_stack.add(new AccuracyRes(ex,rate,to));
 		}
