@@ -2,6 +2,7 @@ package com.pt.model.service;
 
 import com.pt.domain.ExerciseRecord;
 import com.pt.domain.res.CourseDetailRes;
+import com.pt.domain.res.ExerciseRecordResFin;
 import com.pt.model.dao.ExerciseRecordDao;
 import com.pt.model.dao.qdsl.ExerciseRecordDaoQdsl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class ExerciseRecordServiceImpl implements ExerciseRecordService {
     }
 
     @Override
-    public List<CourseDetailRes> course_detail(String coursename) throws Exception {
+    public List<ExerciseRecordResFin> course_detail(String coursename) throws Exception {
 
-        List<CourseDetailRes> list = exerciseRecordDaoQdsl.course_detail(coursename);
+        List<ExerciseRecordResFin> list = exerciseRecordDaoQdsl.course_detail(coursename);
         return list;
     }
 }

@@ -3,6 +3,8 @@ package com.pt.model.dao.qdsl;
 import com.pt.domain.*;
 import com.pt.domain.res.CourseDetailRes;
 import com.pt.domain.res.CourseRes;
+import com.pt.domain.res.ExerciseRecordRes;
+import com.pt.domain.res.ExerciseRecordResFin;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,42 +40,60 @@ public class ExerciseRecordDaoQdsl {
     //코스운동 운동 설명 페이지
     //코스명을 받으면 -> 운동고유번호, 운동명, 단계, 세트
     // 운동고유번호를 통해 -> exercise_image에서 사진경로,단계,설명 필요
-    public List<CourseDetailRes> course_detail(String coursename){
+    public List<ExerciseRecordResFin> course_detail(String coursename){
+        List<String> course_name_list = jpaQueryFactory.select(qCourse.coursename)
+                .from(qCourse)
+                .groupBy(qCourse.coursename)
+                .orderBy(qCourse.coursename.asc())
+                .fetch();
 
 
-
-
-        Stack<CourseDetailRes> stack = new Stack<>();
+        Stack<ExerciseRecordRes> stack = new Stack<>();
 
         //where부분에 ne 부분에 exercise_idx를 찾는 select문이 들어가야함
         //qCourse부분에 exercise_idx가 없기 때문에 받는것도 필요할듯
         //하나의큰리스트 course전체를 담는리ㅣ스트
         //course하나를 담는 리스트
         //list안에 리스트를 담아서
-        List<Tuple> course_list = jpaQueryFactory.select(qCourse,qExercise,qExerciseImage)
+        List<Tuple> tuple = jpaQueryFactory.select(qCourse, qExerciseImage)
                 .from(qCourse).innerJoin(qExercise).on(qCourse.exercisename.eq(qExercise.name))
                 .innerJoin(qExerciseImage).on(qExercise.idx.eq(qExerciseImage.exerciseidx))
-                .where(qExerciseImage.step.ne(jpaQueryFactory.select(qCourse.exerciseidx).from(qCourse).where(qCourse.coursename.eq(coursename)))
-                        .and(qCourse.coursename.eq(coursename)))
-                .orderBy(qCourse.step.desc(),qExerciseImage.step.desc())
+                .where(qExerciseImage.exerciseidx.eq(qCourse.exerciseidx))
+                .orderBy(qCourse.step.desc(), qExerciseImage.step.desc())
                 .fetch();
 
-        List<CourseDetailRes> res = new ArrayList<>();
 
-        for(Tuple t : course_list){
+        List<ExerciseRecordRes> image_list = new ArrayList<>();
 
-            Course c = t.get(0,Course.class);
-            Exercise ex = t.get(1,Exercise.class);
-            ExerciseImage exi = t.get(2,ExerciseImage.class);
-            stack.add(new CourseDetailRes(c,ex,exi));
+        for(Tuple t : tuple){
+            Course c = t.get(0, Course.class);
+            ExerciseImage exi = t.get(1,ExerciseImage.class);
+
+
+            stack.add(new ExerciseRecordRes(c.getCoursename(),exi.getPath(), exi.getStep(),exi.getDesc(),c.getExerciseidx(), c.getExercisename()));
         }
         while(!stack.isEmpty()){
-            res.add(stack.pop());
+            image_list.add(stack.pop());
+        }
+        List<ExerciseRecordRes> tmp = new ArrayList<>();
+        List<ExerciseRecordResFin> res = new ArrayList<>();
+
+        for(int i =0; i<course_name_list.size(); i++){
+            tmp = new ArrayList<ExerciseRecordRes>();
+            for(int j=0; j<image_list.size(); j++){
+                if(course_name_list.get(i).equals(image_list.get(j).getCoursename())){
+                    tmp.add(new ExerciseRecordRes(image_list.get(j).getCoursename(),
+                            image_list.get(j).getPath(),
+                            image_list.get(j).getImage_step(),
+                            image_list.get(j).getDesc(),
+                            image_list.get(j).getExercise_idx(),
+                            image_list.get(j).getExercise_name()
+                            ));
+                }
+            }
+            res.add(new ExerciseRecordResFin(i+1,tmp));
+
         }
         return res;
-
-
     }
-
-
 }
