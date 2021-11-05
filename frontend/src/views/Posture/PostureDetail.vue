@@ -7,7 +7,7 @@
       </div>
       <div v-if="ex_list[0].idx==5">
         <Ex5 v-on:sendStep="updateStep"></Ex5>
-      </div>
+      </div>      
       </div>
       <Description v-if="desc_step==newstep" v-bind:path="ex_list[desc_step-1].path" v-bind:desc="ex_list[desc_step-1].desc"></Description>
       <div class="pos-content-step" >

@@ -1,12 +1,10 @@
 <template>
   <div class="about">
-    <!-- <div>Teachable Machine Pose Model</div> -->
     <div class="vedio"><canvas id="canvas"></canvas></div>
     <div>
       <p class="speak">{{speak}}</p>
     <div class="result">{{acc}}% 일치</div> 
     </div>
-
     <div class="start-btn">
       <div class="start" @click="init()"> 시작 </div>
     </div> 
@@ -23,10 +21,6 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 
-// More API functions here:
-// https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
-
-// the link to your model provided by Teachable Machine export panel
 const URL = "https://teachablemachine.withgoogle.com/models/mZu-ppxDG/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
@@ -50,14 +44,9 @@ export default {
     async init() {
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
-
-      // load the model and metadata
-      // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-      // Note: the pose library adds a tmPose object to your window (window.tmPose)
       model = await tmPose.load(modelURL, metadataURL);
       maxPredictions = model.getTotalClasses();
 
-      // Convenience function to setup a webcam
       const size = 400;
       const flip = true; // whether to flip the webcam
       webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
@@ -176,26 +165,13 @@ export default {
   position: absolute;
   font-size: 25px;
 }
-// .speak {
-//     position:absolute;
-//     top: 84%;
-//     left: 0.2%;  
-//     font-size: 24px;
-// }
 .stat {
     position:absolute;
     top: 92%;
     left: 0.2%;  
     font-size: 24px;
 }
-// .result {
-//     position:absolute;
-//     top: 99%;
-//     left: 40%;
-//     font-size: 30px;
-//     color: $logo-color;
-//     font-weight: bold;
-// }
+
 .result {
     position:absolute;
     top: 122%;
