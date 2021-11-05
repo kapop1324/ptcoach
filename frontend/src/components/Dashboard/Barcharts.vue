@@ -22,7 +22,6 @@ export default {
         chart: { id: "basic-bar"},
         xaxis: { categories: ["최근 한달 평균", "가장 최근",] },
         yaxis: { title: { text: "운동 정확도 (%)" }},
-        // colors: ['#b293ff'],
       },
       series: [{ name: "운동 정확도(%)", data: [this.bardata.wholeaccuracy, this.bardata.recentaccuracy] }],
     }

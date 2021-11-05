@@ -8,7 +8,7 @@
           <img :src="exInfo.path" :alt="`${exInfo.exercisename} 썸네일이미지`">
         </div>
         <span class="pos-tag">{{ exInfo.part }}</span>
-        <span class="pos-tag">{{ exInfo.exercisename }}</span>
+        <span class="pos-tag">{{ exInfo.category }}</span>
       </div>
     </router-link>
   </div>

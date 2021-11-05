@@ -1,7 +1,7 @@
 //  상체,하체,전신 비중 (d)
 <template>
   <div>
-    <apexchart width="350" type="donut" :options="chartOptions" :series="series"></apexchart>
+    <apexchart width="350" type="donut" :options="chartOptions" :series="this.donutdata"></apexchart>
   </div>
 </template>
 
@@ -13,17 +13,17 @@ export default {
   components:{
     apexchart: VueApexCharts,
   },
-  // props: {
-  //   donutdata: Array,
-  // },
+  props: {
+    donutdata: Array,
+  },
   data: function() {
     return {
       chartOptions: {
-        colors: ['#00E396', '#FFB019', '#008FFB'],
+        colors: ['#FFB019', '#00E396', '#008FFB'],
         labels: ['상체', '하체', '전신'],
       },
-      // series: this.bardata.donutdata,
-      series: [30, 40, 20],
+      // series: this.donutdata,
+      // // series: [30, 40, 20],
     }
   },
 }

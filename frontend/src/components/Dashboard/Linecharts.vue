@@ -13,12 +13,15 @@ export default {
   components:{
     apexchart: VueApexCharts,
   },
+  props: {
+    linedata: Object,
+  },
   data: function() {
     return {
       series: [
         {
-          name: "스쿼트(운동이름)",
-          data: [28, 29, 33, 36, 32, 32, 33, 89, 100, 98, 68, 70, 88]
+          name: this.linedata.exercisename,
+          data: this.linedata.accuracy,
         },
       ],
       chartOptions: {
@@ -53,7 +56,7 @@ export default {
           size: 1
         },
         xaxis: {
-          categories: ['8/19', '8/20', '8/25', '8/28', '9/1', '9/3', '9/4', '9/5', '9/8', '9/13', '9/14', '9/17', '9/18'],
+          categories: this.linedata.date,
           title: {
             text: '날짜'
           }
