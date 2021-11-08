@@ -9,7 +9,7 @@
       <div class="passForm">
         <input class="pw" v-model="password" placeholder="비밀번호" type="text">
       </div>
-      <button type="submit" class="btn" onclick="login">
+      <button type="submit" class="btn" @click="login">
         LOG IN
       </button>
       <div class="bottomText">
