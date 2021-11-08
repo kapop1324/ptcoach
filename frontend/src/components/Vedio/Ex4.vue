@@ -36,6 +36,7 @@ export default {
       speak :"",
       acc:0,
       step:0,
+      timecnt: false,
     };
   },
 
@@ -76,9 +77,15 @@ export default {
         this.step++;
       }
       if (this.step==1 && prediction[0].probability.toFixed(2) == 1.0 && !this.dialog) {
-        this.stat = "stand";
-        this.dialog = true; // 서있는 자세를 정확하게 했을 경우
-        this.speak = "좋습니다 시작합니다 시작해주세요"
+        this.speak = "3초간 유지해 주시기 바랍니다"
+        this.acc = prediction[0].probability.toFixed(2) * 100;
+        setTimeout(() => {
+          this.stat = "stand";
+          this.dialog = true; // 서있는 자세를 정확하게 했을 경우
+          this.speak = "좋습니다 시작합니다 시작해주세요"
+          this.acc = prediction[1].probability.toFixed(2) * 100;
+        }, 3000);
+        
       }
       //step1 시작
       if (this.step==1 && this.dialog) {
@@ -102,10 +109,18 @@ export default {
         
         //step1성공하면!
         if(this.step==1 && prediction[1].probability.toFixed(2) == 1.0 && this.dialog){
-            this.step++;
+          this.step++;
+          this.speak = "3초가 자세를 유지해 주세요"
+          this.acc = prediction[1].probability.toFixed(2) * 100;
+
+          setTimeout(() => {
+             
             this.stat = "basic";
             this.dialog = true;
             this.speak = "step1 성공!! step2를 진행해 주세요."
+            this.acc = prediction[2].probability.toFixed(2) * 100;
+          }, 3000);
+
 
             if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
             this.stat = "up_false";
@@ -122,18 +137,28 @@ export default {
             this.speak ="팔 넓이를 좁혀 주세요/ 팔을 어깨 선과 맞춰 주세요."
             } 
 
-            this.acc = prediction[1].probability.toFixed(2) * 100;
             console.log("stat:"+this.stat);
             console.log("acc:"+this.acc);
         }
       }
       //step2 시작
       if(this.step==2 && prediction[2].probability.toFixed(2) == 1.0 && this.dialog){
+        if(!this.timecnt){
           this.$emit("sendStep",this.step);
+          this.speak = "3초간 자세를 유지해 주세요"
+          this.acc = prediction[2].probability.toFixed(2) * 100;
+        }
+          
+          setTimeout(() => {
           this.stat = "up_true";
+          this.timecnt = true;
           this.dialog = true;
           this.speak = "step2 성공!! '완료' 버튼을 눌러주세요."
           this.acc = prediction[2].probability.toFixed(2) * 100;
+          }, 3000);
+          
+          this.acc = prediction[2].probability.toFixed(2) * 100;
+          
         }
         this.drawPose(pose);
     },
