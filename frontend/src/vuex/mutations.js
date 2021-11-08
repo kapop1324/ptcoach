@@ -7,5 +7,8 @@ export default {
     },
     GETCOURSELIST: function(state, res){
         state.courseList = res
-    }
+    },
+    FETCH_EXERCISE_LIST: function (state, res) {
+        state.exerciseList = res
+    },
 }

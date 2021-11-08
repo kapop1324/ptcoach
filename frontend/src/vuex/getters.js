@@ -2,5 +2,10 @@ export default {
     getLoginEmail(state) {
         return state.userEmail
     },
-    
+    getCourseList(state) {
+        return state.courseList
+    },
+    getExerciseList(state) {
+        return state.exerciseList
+    },
 }
