@@ -38,7 +38,6 @@ public class ExerciseRecord {
 	private int time;
 	
 	@Column(name = "date")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 	
 	@Column(name = "accuracy")

@@ -79,13 +79,15 @@ public class UserDaoQdsl{
     			.where(qExerciseRecord.useremail.eq(email))
     			.groupBy(qExerciseRecord.date)
     			.fetch();
-    	
+
     	List<String> res = new ArrayList<String>();
-    	Date tt = new Date();
+
     	for(int i = 0; i < day.size(); i++) {
     		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-    		tt = day.get(i);
-			String to = fm.format(day.get(i));
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(day.get(i));
+    		cal.add(Calendar.DATE, -1);
+			String to = fm.format(cal.getTime());
 			res.add(to);
     	}
     	
@@ -101,8 +103,7 @@ public class UserDaoQdsl{
 		cal.setTime(to);
 		cal.add(Calendar.DATE, -1);
 		Date from = cal.getTime();
-		System.out.println(from+" "+to);
-	  
+
     	List<String> course_list = jpaQueryFactory.select(qCourse.coursename)
     			.from(qExerciseRecord)
     			.innerJoin(qCourse).on(qExerciseRecord.courseidx.eq(qCourse.idx))
@@ -113,7 +114,7 @@ public class UserDaoQdsl{
     	List<Tuple> tuple = jpaQueryFactory.select(qCourse.coursename, qCourse.exercisename, qExerciseRecord.time.sum(), qExerciseRecord.accuracy.avg(), qCourse.set.sum())
     			.from(qExerciseRecord)
     			.innerJoin(qCourse).on(qExerciseRecord.courseidx.eq(qCourse.idx))
-    			.where(qExerciseRecord.useremail.eq(email).and(qExerciseRecord.date.lt(to)))
+    			.where(qExerciseRecord.useremail.eq(email).and(qExerciseRecord.date.loe(to)).and(qExerciseRecord.date.gt(from)))
     			.groupBy(qCourse.coursename, qCourse.exercisename)
     			.fetch();
     	
