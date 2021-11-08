@@ -20,26 +20,26 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
 .step-box {
-  top: 15%;
-  height: 40px;
+  top: 16%;
+  height: 24px;
   width: 120px;
   right: 6%;
   border-radius: 30px;
   background-color: #968989;
   background-color: white;
-  font-size: 22px;
+  font-size: 16px;
   text-align: center;
   margin: 20px;
-  padding-top: 10px;
+  padding-top: 4px;
 }
 .new-step-box {
-  top: 15%;
-  height: 40px;
+  top: 16%;
+  height: 24px;
   width: 120px;
   right: 6%;
   border-radius: 30px;
   background-color: $light-color;
-  font-size: 22px;
+  font-size: 16px;
   text-align: center;
   margin: 20px;
   padding-top: 10px;
