@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -95,11 +96,17 @@ public class UserDaoQdsl{
 	  	
 	  SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date to = transFormat.parse(date);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(to);
+		cal.add(Calendar.DATE, -1);
+		Date from = cal.getTime();
+		System.out.println(from+" "+to);
 	  
     	List<String> course_list = jpaQueryFactory.select(qCourse.coursename)
     			.from(qExerciseRecord)
     			.innerJoin(qCourse).on(qExerciseRecord.courseidx.eq(qCourse.idx))
-    			.where(qExerciseRecord.useremail.eq(email).and(qExerciseRecord.date.lt(to)))
+    			.where(qExerciseRecord.useremail.eq(email).and(qExerciseRecord.date.loe(to)).and(qExerciseRecord.date.gt(from)))
     			.groupBy(qCourse.coursename)
     			.fetch();
    
