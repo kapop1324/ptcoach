@@ -23,8 +23,12 @@
 import * as tmPose from "@teachablemachine/pose";
 import { mapState } from 'vuex'
 
-
 //사이드스텝
+
+// More API functions here:
+// https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
+
+// the link to your model provided by Teachable Machine export panel
 const URL = "https://teachablemachine.withgoogle.com/models/ePqP3PVQL/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
@@ -110,7 +114,7 @@ export default {
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
-
+          
           this.speak = "step1 클리어!";
           this.step++;
           this.send_step = false;
@@ -124,31 +128,24 @@ export default {
 
       }
 
-      //step2 앉기
+      //step2 오른쪽으로 다리 이동
       if(this.step == 2){
 
         if(this.send_step == false){
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          this.speak = "앉아주세요";
+          this.speak = "오른쪽으로 다리를 벌려 주세요";
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
 
-          this.stat = "stand";
-          this.step2_clear = true;
           this.speak = "step2 클리어!";
           this.step++;
           this.send_step = false;
 
-        }else if(prediction[2].probability.toFixed(2) == 1.0){
+        }else if(prediction[5].probability.toFixed(2) == 1.0){
 
-          this.speak = "허리를 곧게 펴주세요";
-
-        }else if(prediction[3].probability.toFixed(2) == 1.0){
-
-          this.speak = "무릎은 발 안쪽으로 넣어주세요";
-          
+          this.speak = "다리를 너무 넓게 폈습니다.";
 
         }
 
@@ -156,8 +153,154 @@ export default {
 
       }
 
-      //step3 정자세로 서기
-      if(this.step == 3){
+      //step3 오른쪽에 정자세로 서기
+      if(this.step == 3 ){
+
+        if(this.send_step == false){
+          this.$emit("sendStep",this.step);
+          this.send_step = true;
+        }
+        
+        if(prediction[2].probability.toFixed(2) == 1.0){
+          
+          this.speak = "step3 클리어!";
+          this.step++;
+          this.send_step = false;
+
+        }else{
+          
+          this.speak = "정자세로 서주세요";
+          this.acc = prediction[2].probability.toFixed(2) * 100;
+
+        }
+
+      }
+
+      //step4 오른쪽에서 다시 중앙으로 이동
+      if(this.step == 4){
+
+        if(this.send_step == false){
+          this.$emit("sendStep",this.step);
+          this.send_step = true;
+          this.speak = "다시 중앙으로 이동해 주세요";
+        }
+
+        if(prediction[1].probability.toFixed(2) == 1.0){
+
+          this.speak = "step4 클리어!";
+          this.step++;
+          this.send_step = false;
+
+        }else if(prediction[5].probability.toFixed(2) == 1.0){
+
+          this.speak = "다리를 너무 넓게 폈습니다.";
+
+        }
+
+        this.acc = prediction[1].probability.toFixed(2) * 100;
+
+      }
+
+      //step5 중앙
+      if(this.step == 5 ){
+
+        if(this.send_step == false){
+          this.$emit("sendStep",this.step);
+          this.send_step = true;
+        }
+        
+        if(prediction[0].probability.toFixed(2) == 1.0){
+          
+          this.speak = "step5 클리어!";
+          this.step++;
+          this.send_step = false;
+
+        }else{
+          
+          this.speak = "정자세로 서주세요";
+          this.acc = prediction[0].probability.toFixed(2) * 100;
+
+        }
+
+      }
+
+      //step6 왼쪽으로 다리 이동
+      if(this.step == 6){
+
+        if(this.send_step == false){
+          this.$emit("sendStep",this.step);
+          this.send_step = true;
+          this.speak = "왼쪽으로 다리를 벌려 주세요";
+        }
+
+        if(prediction[3].probability.toFixed(2) == 1.0){
+
+          this.speak = "step6 클리어!";
+          this.step++;
+          this.send_step = false;
+
+        }else if(prediction[6].probability.toFixed(2) == 1.0){
+
+          this.speak = "다리를 너무 넓게 폈습니다.";
+
+        }
+
+        this.acc = prediction[3].probability.toFixed(2) * 100;
+
+      }
+
+      //step7 왼쪽으로 전신이동
+      if(this.step == 7){
+
+        if(this.send_step == false){
+          this.$emit("sendStep",this.step);
+          this.send_step = true;
+        }
+        
+        if(prediction[4].probability.toFixed(2) == 1.0){
+          
+          this.speak = "step7 클리어!";
+          this.step++;
+          this.send_step = false;
+
+        }else{
+          
+          this.speak = "정자세로 서주세요";
+          this.acc = prediction[4].probability.toFixed(2) * 100;
+
+        }
+
+      }
+
+      //step8 중앙으로 다시 다리 이동
+      if(this.step == 8){
+
+        if(this.send_step == false){
+          this.$emit("sendStep",this.step);
+          this.send_step = true;
+          this.speak = "왼쪽으로 다리를 벌려 주세요";
+        }
+
+        if(prediction[3].probability.toFixed(2) == 1.0){
+
+          this.speak = "step8 클리어!";
+          this.step++;
+          this.send_step = false;
+
+        }else if(prediction[6].probability.toFixed(2) == 1.0){
+
+          this.speak = "다리를 너무 넓게 폈습니다.";
+
+        }
+
+        this.acc = prediction[3].probability.toFixed(2) * 100;
+
+      }
+  
+  
+
+      //step9 가운데 정자세로 서기
+      if(this.step == 9){
 
         if(this.send_step == false){
 
@@ -167,8 +310,7 @@ export default {
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0 && this.clear == false){
-          
-          this.stat = "stand";
+
           this.clear = true;
 
         }else if(prediction[0].probability.toFixed(2) != 1.0 && this.clear == false){
@@ -178,7 +320,7 @@ export default {
 
         }else if(this.clear == true){
 
-          this.speak = "스쿼트 클리어! 완료를 눌러주세요!";
+          this.speak = "사이드스텝 클리어! 완료를 눌러주세요!";
           this.acc = 100;
 
         }
