@@ -5,50 +5,48 @@
 <template>
     <div class="course-content-main">
       <div class="course-vedio">
-      <!-- <Vedio/> -->
       </div>
-      <img src="@/assets/squat_sample_remove.png" alt="스쿼트 샘플이미지">
       <div class="clock">
-      <Clock ref="clock"/>
+        <Clock ref="clock"/>
       </div>
-      <div class="comment"> 멀리서 측면으로 서주세요</div>
-      <!-- <div class="course-title">
-        <div>{{course}}코스1</div>
-      </div> -->
-      <!-- 운동별로 정해진 반복 세트(set)와 횟수(count) 들어옴 -->
+      <CourDesc v-if="desc_step==newstep" v-bind:path="cr_list[desc_step-1].path" v-bind:desc="cr_list[desc_step-1].desc"></CourDesc>
       <div class="set-count">
-        <div class="cont">{{set}}0세트  {{count}}0회</div>
+        <div class="cont">0세트 0회</div>
         <!-- <div class="cont">{{set}}0세트  {{count}}0회</div> -->
         <div id="chart">
         <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="chart.series"></apexchart>
         </div>    
       </div>   
-
       <div class="course-content-step">        
-        <Exe v-for="(item,i) in items" v-bind:num="i" v-bind:key="i"></Exe>
+        <CourStep v-for="(item,i) in cr_list" v-bind:newstep="newstep" v-bind:num="cr_list[i].step" v-bind:key="i"></CourStep>
       </div>
       <!-- 시작 버튼 누르면 시계 시작 -->
       <div class="clear-btn">
         <div class="clear" v-on:click="start">{{msg}}</div>
       </div>  
+
     </div>
 </template>
 
 <script>
-import Exe from '@/components/Detail/Exe.vue'
 import Clock from '../../components/Detail/Clock.vue'
 import VueApexCharts from 'vue-apexcharts'
+import CourDesc from '@/components/Detail/CourDesc.vue'
+import CourStep from '@/components/Detail/CourStep.vue'
 export default {
   name: 'Detail',
   components:{
-    Exe: Exe,
     Clock,
     apexchart:VueApexCharts,
+    CourDesc:CourDesc,
+    CourStep: CourStep,
   },
   data(){
     return{
-      items:['1','2','3'],
-      msg:"시작",
+      id: 0,
+      msg:"",
+      newstep:1,
+      desc_step:1,
       chart: {
         series: [70],
         chartOptions: {
@@ -65,10 +63,20 @@ export default {
         },
         labels: ['count'],
         },      
-    }
+    },
+    cr_list:[
+        {
+          course_name:"코스1",
+          exercise_name:"팔벌려높이뛰기",
+          exercise_idx:1,
+          set:2,
+          step:1,
+          path:"",
+        }   
+      ]
   }
     
-  },
+  },  
   methods: {
     start(){
       if(this.msg=="시작"){
@@ -94,12 +102,6 @@ export default {
   width: 165vh;
   border-radius: 30px;
   background-color: $light-color;
-}
-.comment {
-  top: 18%;
-  left: 40%;
-  position: absolute;  
-  font-size: 24px;
 }
 .course-vedio {
   width: 34%;
