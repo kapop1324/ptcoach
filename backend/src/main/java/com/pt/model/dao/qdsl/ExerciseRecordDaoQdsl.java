@@ -66,7 +66,7 @@ public class ExerciseRecordDaoQdsl {
         List<Tuple> tuple = jpaQueryFactory.select(qCourse, qExerciseImage)
                 .from(qCourse).innerJoin(qExercise).on(qCourse.exercisename.eq(qExercise.name))
                 .innerJoin(qExerciseImage).on(qExercise.idx.eq(qExerciseImage.exerciseidx))
-                .where(qExerciseImage.exerciseidx.eq(qCourse.exerciseidx))
+                .where(qExerciseImage.exerciseidx.eq(qCourse.exerciseidx), qCourse.coursename.eq(coursename))
                 .orderBy(qCourse.step.desc(), qExerciseImage.step.desc())
                 .fetch();
 
