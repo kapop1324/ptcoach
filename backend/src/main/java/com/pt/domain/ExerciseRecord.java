@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +38,7 @@ public class ExerciseRecord {
 	private int time;
 	
 	@Column(name = "date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 	
 	@Column(name = "accuracy")

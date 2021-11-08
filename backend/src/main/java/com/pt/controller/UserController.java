@@ -13,8 +13,12 @@ import com.pt.domain.User;
 import com.pt.domain.exception.DomainException;
 import com.pt.domain.exception.EmptyListException;
 import com.pt.domain.exception.NotFoundException;
+import com.pt.domain.res.DailyResFin;
 import com.pt.model.service.UserService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -200,6 +204,66 @@ public class UserController {
     	
     	return new ResponseEntity<HashMap>(result,HttpStatus.OK);
     }
+    
+    //마이페이지 일별 운동기록
+    @GetMapping("/daily")
+    public ResponseEntity<HashMap> dailyResult(@RequestParam String email){
+    	
+    	HashMap result = new HashMap();
+    	String message = "";
+    	
+    	try {
+    		
+    		List<String> day = userService.day(email);
+    		
+    		if(day == null) {
+    			message = "fail";
+    		}else {
+    			message = "success";
+    			result.put("myRecord", day);
+    		}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = "error";
+		}
+    	
+    	result.put("message", message);
+    	
+    	return new ResponseEntity<HashMap>(result,HttpStatus.OK);
+    }
+    
+  //마이페이지 일별 운동기록
+    @GetMapping("/dailydetail")
+    public ResponseEntity<HashMap> dailydetailResult(@RequestParam String email, String date) {
+    	
+    	HashMap result = new HashMap();
+    	String message = "";
+
+    	try {
+
+        	SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		Date to = transFormat.parse(date);
+    		
+    		List<DailyResFin> dailyRecord = userService.daydetail(email, date);
+    		
+    		if(dailyRecord == null) {
+    			message = "fail";
+    		}else {
+    			message = "success";
+    			result.put("dailyRecord", dailyRecord);
+    		}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = "error";
+		}
+    	
+    	result.put("message", message);
+    	
+    	return new ResponseEntity<HashMap>(result,HttpStatus.OK);
+    }
+
 
 
 }

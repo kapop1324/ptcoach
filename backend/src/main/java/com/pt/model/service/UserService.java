@@ -3,7 +3,9 @@ package com.pt.model.service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pt.domain.User;
+import com.pt.domain.res.DailyResFin;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +19,10 @@ public interface UserService {
     
     @Transactional
     public long leave(String email) throws Exception;
+    
+    public List<String> day(String email) throws Exception;
 
-
+    public List<DailyResFin> daydetail(String email, String date) throws Exception;
 
 
 }
