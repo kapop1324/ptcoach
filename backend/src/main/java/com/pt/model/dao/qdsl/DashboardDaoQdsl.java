@@ -171,8 +171,13 @@ public class DashboardDaoQdsl {
 			double time = t.get(1, double.class);
 			int time1 = (int) time;
 			Date date = t.get(2, Date.class);
+			System.out.println(date);
 			SimpleDateFormat fm = new SimpleDateFormat("MM/dd");
-			String to = fm.format(date);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.add(Calendar.DATE, -1);
+			Date from = cal.getTime();
+			String to = fm.format(from);
 			recent_stack.add(new AccuracyRes(part1,time1,to));
 		}
 		
@@ -233,7 +238,11 @@ public class DashboardDaoQdsl {
 			int rate = (int) rate1;
 			Date date = t.get(2, Date.class);
 			SimpleDateFormat fm = new SimpleDateFormat("MM/dd");
-			String to = fm.format(date);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.add(Calendar.DATE, -1);
+			Date from = cal.getTime();
+			String to = fm.format(from);
 			accuracy_stack.add(new AccuracyRes(ex,rate,to));
 		}
 		
