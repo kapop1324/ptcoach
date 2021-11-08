@@ -10,7 +10,7 @@ Vue.use(Vuex)
 let state = {
     userEmail: '',
     courseList: [],
-   
+    exerciseList: [],
 }
 
 export default new Vuex.Store({
