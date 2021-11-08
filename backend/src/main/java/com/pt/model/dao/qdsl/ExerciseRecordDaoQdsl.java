@@ -41,8 +41,16 @@ public class ExerciseRecordDaoQdsl {
     //코스명을 받으면 -> 운동고유번호, 운동명, 단계, 세트
     // 운동고유번호를 통해 -> exercise_image에서 사진경로,단계,설명 필요
     public List<ExerciseRecordResFin> course_detail(String coursename){
+        List<Integer> course_idx_list = jpaQueryFactory.select(qCourse.exerciseidx)
+                .from(qCourse)
+                .where(qCourse.coursename.eq(coursename))
+                .groupBy(qCourse.exerciseidx)
+                .orderBy(qCourse.exerciseidx.asc())
+                .fetch();
+
         List<String> course_name_list = jpaQueryFactory.select(qCourse.coursename)
                 .from(qCourse)
+                .where(qCourse.coursename.eq(coursename))
                 .groupBy(qCourse.coursename)
                 .orderBy(qCourse.coursename.asc())
                 .fetch();
@@ -78,17 +86,21 @@ public class ExerciseRecordDaoQdsl {
         List<ExerciseRecordRes> tmp = new ArrayList<>();
         List<ExerciseRecordResFin> res = new ArrayList<>();
 
-        for(int i =0; i<course_name_list.size(); i++){
+
+        //todo
+        // course_name_list 를 도는게 아님 왜냐면 coursename에 해당하는 것만 원하기 때문에 그렇게 바꿔야하고
+        // exercise_idx끼리 묶기*
+        for(int i =0; i<course_idx_list.size(); i++){
             tmp = new ArrayList<ExerciseRecordRes>();
             for(int j=0; j<image_list.size(); j++){
-                if(course_name_list.get(i).equals(image_list.get(j).getCoursename())){
+                if(course_idx_list.get(i).equals(image_list.get(j).getExercise_idx())){
                     tmp.add(new ExerciseRecordRes(image_list.get(j).getCoursename(),
                             image_list.get(j).getPath(),
                             image_list.get(j).getImage_step(),
                             image_list.get(j).getDesc(),
                             image_list.get(j).getExercise_idx(),
                             image_list.get(j).getExercise_name()
-                            ));
+                    ));
                 }
             }
             res.add(new ExerciseRecordResFin(i+1,tmp));
