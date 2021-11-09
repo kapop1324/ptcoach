@@ -24,6 +24,5 @@ img {
     left: 48%;
     position: absolute;
     margin: 10px;
-    //border-collapse: black;
 }
 </style>

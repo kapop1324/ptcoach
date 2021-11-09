@@ -1,61 +1,76 @@
-// 코스 운동 페이지
-// 각 운동별 횟수: ?회
-// '시작'버튼 누르면 시계start, '완료' 누르면 시계end
-// 운동 넘어갈때 마다 store에 시간 저장하고 초기화 
-//코스1 6241
+//코스1 1246
+//런지1 덤벨컬2 숄더프레스4 팔벌려6
 <template>
     <div class="course-content-main">
       <div class="course-vedio">
         <!-- exList의 idx에 해당하는 컴포넌트 실행 -->
-        <div v-for="(item,i) in exList.length" v-bind:key="i">
-            <CourEx2 v-if="exList[i].idx==1" 
-              v-on:Count="upCount" v-on:Set="upSet" v-on:Graph="showGraph"></CourEx2>
-            <CourEx3 v-if="exList[i].idx==6" ></CourEx3>  
-          <!-- <div v-if="exList[i].idx==6">
-            <CourEx6 v-on:sendStep="updateStep"></CourEx6>
-          </div>
-          <div v-if="exList[i].idx==2">
-            <CourEx2 v-on:sendStep="updateStep"></CourEx2>
-          </div> -->
-          </div>
+        <!-- <div v-for="(item,i) in exList.length" v-bind:key="i"> -->
+            {{exList[index].exercise_image[0].exercise_idx}}
+            <CourEx1 v-if="exList[index].exercise_image[0].exercise_idx==1" 
+              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx1>
+
+            <CourEx2 v-if="exList[index].exercise_image[0].exercise_idx==2" 
+              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx2>  
+
+            <CourEx3 v-if="exList[index].exercise_image[0].exercise_idx==3" 
+              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx3>
+
+            <CourEx4 v-if="exList[index].exercise_image[0].exercise_idx==4" 
+              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx4>
+
+            <CourEx5 v-if="exList[index].exercise_image[0].exercise_idx==5" 
+              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx5>
+
+            <CourEx6 v-if="exList[index].exercise_image[0].exercise_idx==6" 
+              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx6>
+
+            <CourEx7 v-if="exList[index].exercise_image[0].exercise_idx==7" 
+              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx7>  
+        <!-- </div> -->
+
       </div>
           <div class="course-content-step">        
-            <CourStep v-for="(item,i) in exList.length" v-bind:newstep="newstep" v-bind:num="exList[i].idx" v-bind:key="i"></CourStep>
+            <CourStep v-for="(item,i) in exList.length" v-bind:newstep="index+1" v-bind:num="exList[i].idx" v-bind:key="i"></CourStep>
           </div>
       <!-- <div class="clock">
         <Clock ref="clock"/>
       </div> -->
       <CourDesc v-if="desc_step==newstep"></CourDesc>
       
-      <div class="set-count">
+      <!-- <div class="set-count">
         <div class="cont">{{set}}세트 {{count}}회</div>
         <div id="chart">
         <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="chart.series"></apexchart>
-        </div>    
-      </div>   
-
-
-      <!-- <div class="clear-btn">
-        <div class="clear" v-on:click="start">{{msg}}</div>
-      </div>   -->
+        </div>   
+      </div>    -->
 
     </div>
 </template>
 
 <script>
 //import Clock from '../../components/Detail/Clock.vue'
-import VueApexCharts from 'vue-apexcharts'
+// import VueApexCharts from 'vue-apexcharts'
 import CourDesc from '@/components/Detail/CourDesc.vue'
 import CourStep from '@/components/Detail/CourStep.vue'
 import CourEx2 from '@/components/CourVedio/CourEx2.vue'
+import CourEx6 from '@/components/CourVedio/CourEx6.vue'
+import CourEx4 from '@/components/CourVedio/CourEx4.vue'
+import CourEx1 from '@/components/CourVedio/CourEx1.vue'
 import CourEx3 from '@/components/CourVedio/CourEx3.vue'
+import CourEx5 from '@/components/CourVedio/CourEx5.vue'
+import CourEx7 from '@/components/CourVedio/CourEx7.vue'
 export default {
   name: 'Detail',
   components:{
     CourEx2:CourEx2,
+    CourEx1:CourEx1,
+    CourEx6:CourEx6,
+    CourEx4:CourEx4,   
     CourEx3:CourEx3,
+    CourEx5:CourEx5,        
+    CourEx7:CourEx7, 
     //Clock,
-    apexchart:VueApexCharts,
+    //apexchart:VueApexCharts,
     CourDesc:CourDesc,
     CourStep: CourStep,
 
@@ -66,37 +81,22 @@ export default {
       msg:"시작",
       newstep:1,
       desc_step:1,
-      set:0,
-      count:0,
-      chart: {
-        series: [0],
-        chartOptions: {
-        chart: {
-          height: 150,
-          type: 'radialBar',
-        },
-        plotOptions: {
-          radialBar: {
-              hollow: {
-              size: '70%',
+      exerciseList: [
+        {
+          idx:'', 
+          exercise_image:[
+            {
+              coursename: "",
+              path: "",
+              image_step: 0,
+              desc: "",
+              exercise_idx: 0,
+              exercise_name: "",
             }
-          },
-        },
-        labels: ['count'],
-        },      
-      },
-      // ex_list:[
-      // {
-      //   idx: 0,
-      //   exercise_image:{
-      //     "coursename": "",
-      //     "path": "",
-      //     "image_step": 0,
-      //     "desc": "",
-      //     "exercise_idx": 0,
-      //     "exercise_name": ""
-      //   },
-      // }]
+          ],
+        }
+      ],      
+      index:0,
   }
     
   },  
@@ -124,6 +124,9 @@ export default {
     showGraph(acc){
       console.log("그래프 값"+acc);
       this.chart.series = acc;
+    },
+    addIndex(){
+      this.index++;
     },    
   },
   created() {
@@ -185,7 +188,6 @@ img {
 }
 #chart {
   top: 100%;
-
   position: absolute;
 }
 .clear-btn{
