@@ -55,7 +55,14 @@ export default {
   methods: {
     
     async init() {
-      await wait(5000);
+
+      for(var i = 5; i > 0; i--){
+        this.speak = i+"초간 기다려주시기 바랍니다"
+        await wait(1000);
+      }
+      
+      this.speak = "카메라를 불러오고 있습니다."
+
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
 
@@ -86,6 +93,7 @@ export default {
 
     async loop(timestamp) {
       webcam.update(); // update the webcam frame
+
       await this.predict();
       window.requestAnimationFrame(this.loop);
     },
@@ -135,14 +143,23 @@ export default {
           this.speak = "앉아주세요";
         }
 
-        if(prediction[1].probability.toFixed(2) == 1.0){
-          this.speak = "3초간 유지해주세요";
+        if(prediction[1].probability.toFixed(2) == 1.0){      
+          
+          for(var i = 3; i > 0; i--){
+            this.speak = i+"초간 자세를 유지하세요"
+            this.acc = prediction[1].probability.toFixed(2) * 100;
+            await wait(1000);
+          }
           this.stat = "stand";
-          this.step2_clear = true;
-          this.step++;
-          this.send_step = false;
-          await wait(3000);
-          this.speak = "step2 클리어!";
+              this.send_step = false;
+              this.step++;
+
+          // setTimeout(() => {
+          //     this.stat = "stand";
+          //     this.send_step = false;
+          //     this.step++;
+              
+          // }, 3000);
 
         }else if(prediction[2].probability.toFixed(2) == 1.0){
 
@@ -152,7 +169,6 @@ export default {
 
           this.speak = "무릎은 발 안쪽으로 넣어주세요";
           
-
         }
 
         this.acc = prediction[1].probability.toFixed(2) * 100;
@@ -202,6 +218,10 @@ export default {
         }
       }
     },
+    timecount(){
+      this.speak = this.t+"초간 유지하세요."
+      this.t--;
+    }
   }
   
 };
