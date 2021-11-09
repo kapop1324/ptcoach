@@ -135,7 +135,7 @@ export default {
   margin: 10px;
 }
 .pos-content-step {
-  top: 24%;
+  top: 22%;
   right: 14%;
   position: absolute;
 }

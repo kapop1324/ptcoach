@@ -5,11 +5,11 @@
       <p class="speak">{{speak}}</p>
     <div class="result">{{acc}}% 일치</div> 
     </div>
-    <div class="start-btn">
-      <div class="start" @click="init()"> 시작 </div>
+    <div class="start-btn2">
+      <div class="start2" @click="init()"> 시작 </div>
     </div> 
-    <router-link to="/posture" class="clear-btn">
-      <div class="clear"> 완료 </div>
+    <router-link to="/posture" class="clear-btn2">
+      <div class="clear2"> 완료 </div>
     </router-link> 
 
   </div>
@@ -334,8 +334,8 @@ export default {
     color: $logo-color;
     font-weight: bold;
 }
-.start-btn {
-  top: 88%;
+.start-btn2 {
+  top: 112%;
   height: 40px;
   width: 100px;
   right: 12%;
@@ -347,11 +347,11 @@ export default {
   color: white;
   cursor:pointer;
 }
-.start{
+.start2{
   padding-top: 8px;
 }
-.clear-btn {
-  top: 100%;
+.clear-btn2 {
+  top: 124%;
   height: 40px;
   width: 100px;
   right: 12%;
@@ -365,7 +365,7 @@ export default {
   text-decoration: none;
 
 }
-.clear{
+.clear2{
   padding-top: 8px;
 }
 </style>
