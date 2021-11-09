@@ -37,6 +37,7 @@ export default {
       step:0,
       clear : false,
       send_step : false,
+      clear_sound : false,
     };
   },
   // props:{
@@ -55,11 +56,15 @@ export default {
   methods: {
     
     async init() {
-
+      var audio = new Audio(require('@/assets/audio/5second.mp3'));
+      audio.play();
       for(var i = 5; i > 0; i--){
         this.speak = i+"초간 기다려주시기 바랍니다"
         await wait(1000);
       }
+      audio = new Audio(require('@/assets/audio/squatc0.mp3'));
+      audio.play();
+      await wait(1000);
       
       this.speak = "카메라를 불러오고 있습니다."
 
@@ -95,6 +100,7 @@ export default {
       webcam.update(); // update the webcam frame
 
       await this.predict();
+    
       window.requestAnimationFrame(this.loop);
     },
 
@@ -114,7 +120,11 @@ export default {
       //step1 정자세로 서기
       if(this.step == 1 ){
 
+
         if(this.send_step == false){
+          var audio = new Audio(require('@/assets/audio/squatc1.mp3'));
+          audio.play();
+          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
         }
@@ -122,6 +132,7 @@ export default {
         if(prediction[0].probability.toFixed(2) == 1.0){
 
           this.speak = "step1 클리어!";
+          await wait(1000)
           this.step++;
           this.send_step = false;
 
@@ -141,10 +152,14 @@ export default {
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "앉아주세요";
+          var audio = new Audio(require('@/assets/audio/squatc2.mp3'));
+          audio.play();
+          await wait(1000)
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){      
-          
+          var audio = new Audio(require('@/assets/audio/squatc5.mp3'));
+          audio.play();
           for(var i = 3; i > 0; i--){
             this.speak = i+"초간 자세를 유지하세요"
             this.acc = prediction[1].probability.toFixed(2) * 100;
@@ -179,9 +194,12 @@ export default {
       if(this.step == 3){
 
         if(this.send_step == false){
-
+          
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/squatc3.mp3'));
+          audio.play();
+          await wait(1000)
 
         }
         
@@ -196,9 +214,18 @@ export default {
           this.acc = prediction[0].probability.toFixed(2) * 100;
 
         }else if(this.clear == true){
-
+          
           this.speak = "스쿼트 클리어! 완료를 눌러주세요!";
           this.acc = 100;
+          if(this.clear_sound == false){
+            await wait(100);
+            var audio = new Audio(require('@/assets/audio/squatc4.mp3'));
+            audio.play();
+            this.clear_sound = true;
+          }
+          this.send_step = true;
+          
+          
 
         }
 
