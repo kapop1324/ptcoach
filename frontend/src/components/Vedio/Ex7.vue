@@ -22,7 +22,7 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import { mapState } from 'vuex'
-
+import wait from "waait"
 //사이드스텝
 
 // More API functions here:
@@ -58,6 +58,12 @@ export default {
   methods: {
     
     async init() {
+
+      for(var i = 5; i > 0; i--){
+        this.speak = i+"초간 기다려주시기 바랍니다"
+        await wait(1000);
+      }
+
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
 
@@ -116,6 +122,7 @@ export default {
         if(prediction[0].probability.toFixed(2) == 1.0){
           
           this.speak = "step1 클리어!";
+          await wait(1000)
           this.step++;
           this.send_step = false;
 
@@ -164,6 +171,7 @@ export default {
         if(prediction[2].probability.toFixed(2) == 1.0){
           
           this.speak = "step3 클리어!";
+          await wait(1000);
           this.step++;
           this.send_step = false;
 
@@ -176,33 +184,9 @@ export default {
 
       }
 
-      //step4 오른쪽에서 다시 중앙으로 이동
-      if(this.step == 4){
-
-        if(this.send_step == false){
-          this.$emit("sendStep",this.step);
-          this.send_step = true;
-          this.speak = "다시 중앙으로 이동해 주세요";
-        }
-
-        if(prediction[1].probability.toFixed(2) == 1.0){
-
-          this.speak = "step4 클리어!";
-          this.step++;
-          this.send_step = false;
-
-        }else if(prediction[5].probability.toFixed(2) == 1.0){
-
-          this.speak = "다리를 너무 넓게 폈습니다.";
-
-        }
-
-        this.acc = prediction[1].probability.toFixed(2) * 100;
-
-      }
 
       //step5 중앙
-      if(this.step == 5 ){
+      if(this.step == 4 ){
 
         if(this.send_step == false){
           this.$emit("sendStep",this.step);
@@ -211,7 +195,8 @@ export default {
         
         if(prediction[0].probability.toFixed(2) == 1.0){
           
-          this.speak = "step5 클리어!";
+          this.speak = "step4 클리어!";
+          await wait(1000)
           this.step++;
           this.send_step = false;
 
@@ -225,7 +210,7 @@ export default {
       }
 
       //step6 왼쪽으로 다리 이동
-      if(this.step == 6){
+      if(this.step == 5){
 
         if(this.send_step == false){
           this.$emit("sendStep",this.step);
@@ -235,7 +220,7 @@ export default {
 
         if(prediction[3].probability.toFixed(2) == 1.0){
 
-          this.speak = "step6 클리어!";
+          this.speak = "step5 클리어!";
           this.step++;
           this.send_step = false;
 
@@ -250,7 +235,7 @@ export default {
       }
 
       //step7 왼쪽으로 전신이동
-      if(this.step == 7){
+      if(this.step == 6){
 
         if(this.send_step == false){
           this.$emit("sendStep",this.step);
@@ -259,7 +244,8 @@ export default {
         
         if(prediction[4].probability.toFixed(2) == 1.0){
           
-          this.speak = "step7 클리어!";
+          this.speak = "step6 클리어!";
+          await wait(1000)
           this.step++;
           this.send_step = false;
 
@@ -272,35 +258,10 @@ export default {
 
       }
 
-      //step8 중앙으로 다시 다리 이동
-      if(this.step == 8){
 
-        if(this.send_step == false){
-          this.$emit("sendStep",this.step);
-          this.send_step = true;
-          this.speak = "왼쪽으로 다리를 벌려 주세요";
-        }
-
-        if(prediction[3].probability.toFixed(2) == 1.0){
-
-          this.speak = "step8 클리어!";
-          this.step++;
-          this.send_step = false;
-
-        }else if(prediction[6].probability.toFixed(2) == 1.0){
-
-          this.speak = "다리를 너무 넓게 폈습니다.";
-
-        }
-
-        this.acc = prediction[3].probability.toFixed(2) * 100;
-
-      }
-  
-  
 
       //step9 가운데 정자세로 서기
-      if(this.step == 9){
+      if(this.step == 7){
 
         if(this.send_step == false){
 
@@ -328,6 +289,7 @@ export default {
       }
 
       this.drawPose(pose);
+      await wait(100)
     },
     drawPose(pose) {
       if (webcam.canvas) {

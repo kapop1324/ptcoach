@@ -22,7 +22,7 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import { mapState } from 'vuex'
-
+import wait from "waait"
 //팔벌려높이뛰기
 
 const URL = "https://teachablemachine.withgoogle.com/models/uGU38MliG/";
