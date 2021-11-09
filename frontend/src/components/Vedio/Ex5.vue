@@ -22,10 +22,11 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import { mapState } from 'vuex'
+import wait from "waait"
 
 
 //스쿼트
-const URL = "https://teachablemachine.withgoogle.com/models/ePqP3PVQL/";
+const URL = "https://teachablemachine.withgoogle.com/models/OGYeLwLMb/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 export default {
@@ -54,6 +55,7 @@ export default {
   methods: {
     
     async init() {
+      await wait(5000);
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
 
@@ -134,12 +136,13 @@ export default {
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
-
+          this.speak = "3초간 유지해주세요";
           this.stat = "stand";
           this.step2_clear = true;
-          this.speak = "step2 클리어!";
           this.step++;
           this.send_step = false;
+          await wait(3000);
+          this.speak = "step2 클리어!";
 
         }else if(prediction[2].probability.toFixed(2) == 1.0){
 
@@ -186,6 +189,7 @@ export default {
       }
 
       this.drawPose(pose);
+      await wait(100);
     },
     drawPose(pose) {
       if (webcam.canvas) {
