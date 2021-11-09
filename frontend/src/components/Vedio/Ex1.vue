@@ -22,6 +22,7 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import { mapState } from 'vuex'
+import wait from "waait"
 
 //런지
 
@@ -182,6 +183,7 @@ export default {
       }
 
       this.drawPose(pose);
+      await wait(100);
     },
     drawPose(pose) {
       if (webcam.canvas) {
