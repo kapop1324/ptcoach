@@ -59,6 +59,14 @@ export default {
   methods: {
     
     async init() {
+
+      for(var i = 5; i > 0; i--){
+        this.speak = i+"초간 기다려주시기 바랍니다"
+        await wait(1000);
+      }
+      
+      this.speak = "카메라를 불러오고 있습니다."
+
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
 
@@ -139,8 +147,13 @@ export default {
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
+          
+          for(var i = 3; i > 0; i--){
+            this.speak = i+"초간 기다려주시기 바랍니다"
+            this.acc = prediction[1].probability.toFixed(2) * 100;
+            await wait(1000);
+          }
 
-          this.speak = "step2 클리어!";
           this.step++;
           this.send_step = false;
 
