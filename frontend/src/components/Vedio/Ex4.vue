@@ -41,7 +41,6 @@ export default {
   },
 
   methods: {
-    
     async init() {
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
