@@ -3,53 +3,22 @@
 <template>
     <div class="course-content-main">
       <div class="course-vedio">
-        <!-- exList의 idx에 해당하는 컴포넌트 실행 -->
-        <!-- <div v-for="(item,i) in exList.length" v-bind:key="i"> -->
-            {{exList[index].exercise_image[0].exercise_idx}}
-            <CourEx1 v-if="exList[index].exercise_image[0].exercise_idx==1" 
-              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx1>
-
-            <CourEx2 v-if="exList[index].exercise_image[0].exercise_idx==2" 
-              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx2>  
-
-            <CourEx3 v-if="exList[index].exercise_image[0].exercise_idx==3" 
-              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx3>
-
-            <CourEx4 v-if="exList[index].exercise_image[0].exercise_idx==4" 
-              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx4>
-
-            <CourEx5 v-if="exList[index].exercise_image[0].exercise_idx==5" 
-              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx5>
-
-            <CourEx6 v-if="exList[index].exercise_image[0].exercise_idx==6" 
-              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx6>
-
-            <CourEx7 v-if="exList[index].exercise_image[0].exercise_idx==7" 
-              v-on:Count="upCount" v-on:Set="upSet" v-on:Index="addIndex"></CourEx7>  
-        <!-- </div> -->
-
+            <CourEx1 v-if="exList[index].exercise_image[0].exercise_idx==1" v-on:Index="addIndex"></CourEx1>
+            <CourEx2 v-if="exList[index].exercise_image[0].exercise_idx==2" v-on:Index="addIndex"></CourEx2>  
+            <CourEx3 v-if="exList[index].exercise_image[0].exercise_idx==3" v-on:Index="addIndex"></CourEx3>
+            <CourEx4 v-if="exList[index].exercise_image[0].exercise_idx==4" v-on:Index="addIndex"></CourEx4>
+            <CourEx5 v-if="exList[index].exercise_image[0].exercise_idx==5" v-on:Index="addIndex"></CourEx5>
+            <CourEx6 v-if="exList[index].exercise_image[0].exercise_idx==6" v-on:Index="addIndex"></CourEx6>
+            <CourEx7 v-if="exList[index].exercise_image[0].exercise_idx==7" v-on:Index="addIndex"></CourEx7>  
       </div>
           <div class="course-content-step">        
             <CourStep v-for="(item,i) in exList.length" v-bind:newstep="index+1" v-bind:num="exList[i].idx" v-bind:key="i"></CourStep>
           </div>
-      <!-- <div class="clock">
-        <Clock ref="clock"/>
-      </div> -->
       <CourDesc v-if="desc_step==newstep"></CourDesc>
-      
-      <!-- <div class="set-count">
-        <div class="cont">{{set}}세트 {{count}}회</div>
-        <div id="chart">
-        <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="chart.series"></apexchart>
-        </div>   
-      </div>    -->
-
     </div>
 </template>
 
 <script>
-//import Clock from '../../components/Detail/Clock.vue'
-// import VueApexCharts from 'vue-apexcharts'
 import CourDesc from '@/components/Detail/CourDesc.vue'
 import CourStep from '@/components/Detail/CourStep.vue'
 import CourEx2 from '@/components/CourVedio/CourEx2.vue'
@@ -127,6 +96,9 @@ export default {
     },
     addIndex(){
       this.index++;
+      if(this.index==4){
+        this.$router.push(`/course/res/${this.$route.params.id}`);
+      }
     },    
   },
   created() {
@@ -205,8 +177,8 @@ img {
   padding-top: 8px;
 }
 .course-content-step {
-  top: 42%;
-  right: 18%;
+  top: 52%;
+  right: 20%;
   position: absolute;
 }
 </style>

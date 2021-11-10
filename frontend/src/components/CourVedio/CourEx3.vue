@@ -22,6 +22,7 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import VueApexCharts from 'vue-apexcharts'
+import wait from "waait"
 const URL = "https://teachablemachine.withgoogle.com/models/mZu-ppxDG/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
@@ -58,14 +59,17 @@ export default {
         },        
     };
     },
-    create(){
-        console.log(this.stat);
-        let data = {
-        stat : this.$store.state.stat,
-        };
+    created(){
+        this.init()
     },
     methods: {
         async init() {
+        for(var i = 3; i > 0; i--){
+        this.speak = i+"초 후 시작 ⏳"
+        await wait(1000);
+        }
+
+        this.speak = "카메라를 불러오고 있습니다."            
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
         model = await tmPose.load(modelURL, metadataURL);
@@ -163,7 +167,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
 .set-count {
-    top: 16%;
+    top: 26%;
     right: 19%;
     width: 150px;
     position: absolute;  
@@ -175,12 +179,12 @@ export default {
     position: absolute;
 }
 .vedio {
-    top: 26%;
+    top: 28%;
     position: absolute;
 }
 .speak {
     top: 3%;
-    left: 26%;
+    left: 24%;
     position: absolute;
     font-size: 25px;
 }
@@ -198,38 +202,5 @@ export default {
     font-size: 30px;
     color: $logo-color;
     font-weight: bold;
-}
-.start-btn {
-    top: 96%;
-    height: 40px;
-    width: 100px;
-    right: 18%;
-    position: absolute;
-    font-size: 22px ;
-    border-radius: 30px;
-    background-color: $logo-color;
-    text-align: center;
-    color: white;
-    cursor:pointer;
-}
-.start{
-    padding-top: 8px;
-}
-.clear-btn {
-    top: 110%;
-    height: 40px;
-    width: 100px;
-    right: 18%;
-    position: absolute;
-    font-size: 22px ;
-    border-radius: 30px;
-    background-color: $logo-color;
-    text-align: center;
-    color: white;
-    cursor:pointer;
-    text-decoration: none;
-}
-.clear{
-    padding-top: 8px;
 }
 </style>
