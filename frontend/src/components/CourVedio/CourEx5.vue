@@ -4,10 +4,7 @@
     <div>
         <p class="speak">{{speak}}</p>
     </div>
-    <div class="start-btn">
-        <div class="start" @click="init()"> 시작 </div>
-    </div> 
-
+    <p class="timer">{{Timer}}</p>
     <div class="set-count">
         <div class="cont">{{this.set}}세트 {{this.success_cnt}}회</div>
         <div id="chart">
@@ -22,6 +19,8 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import VueApexCharts from 'vue-apexcharts'
+import wait from "waait"
+
 const URL = "https://teachablemachine.withgoogle.com/models/mZu-ppxDG/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
@@ -38,6 +37,8 @@ export default {
         speak :"",
         set:0,
         count:0,
+        time:0,
+        accuracy:0,
         apexchart:VueApexCharts,
         chart: {
             series: [],
@@ -55,22 +56,26 @@ export default {
             },
             labels: ['count'],
             },      
-        },        
+        },
+        stopWatch: 0,
+        timer: undefined  
     };
     },
-    create(){
-        console.log(this.stat);
-        let data = {
-        stat : this.$store.state.stat,
-        };
+    created(){
+        this.init();
     },
     methods: {
-        async init() {
+        async init() {   
+        for(var i = 3; i > 0; i--){
+            this.speak = i+"초 후 시작 ⏳"
+            await wait(1000);
+        }
+        this.speak = "카메라가 켜지고 있습니다."
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
         model = await tmPose.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
-        const size = 400;
+        const size = 430;
         const flip = true; // whether to flip the webcam
         webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
@@ -97,7 +102,9 @@ export default {
         if (prediction[0].probability.toFixed(2) == 1.0 && !this.dialog) {
             this.stat = "stand";
             this.dialog = true; // 서있는 자세를 정확하게 했을 경우
-            this.speak = "좋습니다 시작합니다 시작해주세요"
+            this.speak = "좋습니다 시작해주세요"
+            this.speak = "타이머 ON ⏰"
+            this.start()  
         }else if (prediction[1].probability.toFixed(2) == 1.0 && this.dialog ) {
             if (this.stat == "up_true" && this.is_wrong == false) {
                 this.cnt++;
@@ -106,7 +113,7 @@ export default {
                 this.speak ="자세 좋습니다"
                 //console.log(this.cnt);
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
-                console.log(this.rate);
+                //console.log(this.rate);
             } else if (this.stat != "up_true" && this.is_wrong == true && this.dialog) {
                 this.cnt++;
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
@@ -134,13 +141,21 @@ export default {
         else if( this.cnt == 10){
                 await this.webcam.stop();
         }
-            //1세트 다 끝나면
+        //1세트 다 끝나면
         if( this.cnt == 3){
             this.set++;
             this.cnt=0;
-            this.$emit("Set",this.set);
-            this.$emit("Count",this.cnt);
+            // this.$emit("Set",this.set);
+            // this.$emit("Count",this.cnt);
             if( this.set == 1){
+                this.stop();
+                console.log("시간:"+this.stopWatch/1000);
+                let record = {
+                    exercise_idx:5,
+                    time: this.stopWatch/1000,
+                    accuracy: this.rate,
+                };   
+                this.$store.state.record = record;
                 this.$emit("Index");
             } 
         }
@@ -149,7 +164,6 @@ export default {
         drawPose(pose) {
         if (webcam.canvas) {
             ctx.drawImage(webcam.canvas, 0, 0);
-            // draw the keypoints and skeleton
             if (pose) {
             const minPartConfidence = 0.5;
             tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
@@ -157,13 +171,29 @@ export default {
             }
         }
         },
+        start() {
+            this.timer = setInterval(() => {
+                this.stopWatch += 1000;
+            }, 1000);
+        },
+        stop() {
+            clearInterval(this.timer);
+        },
+    },
+    computed: {
+        Timer() {
+            const date = new Date(null);
+            date.setSeconds(this.stopWatch / 1000);
+            const utc = date.toUTCString();
+            return utc.substr(20, 5);
+        }
     },
 };
 </script>
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
 .set-count {
-    top: 16%;
+    top: 33%;
     right: 19%;
     width: 150px;
     position: absolute;  
@@ -175,12 +205,12 @@ export default {
     position: absolute;
 }
 .vedio {
-    top: 26%;
+    top: 28%;
     position: absolute;
 }
 .speak {
     top: 3%;
-    left: 26%;
+    left: 24%;
     position: absolute;
     font-size: 25px;
 }
@@ -199,37 +229,12 @@ export default {
     color: $logo-color;
     font-weight: bold;
 }
-.start-btn {
-    top: 96%;
-    height: 40px;
-    width: 100px;
-    right: 18%;
+.timer {
+    top:20%;
     position: absolute;
-    font-size: 22px ;
-    border-radius: 30px;
-    background-color: $logo-color;
-    text-align: center;
-    color: white;
-    cursor:pointer;
-}
-.start{
-    padding-top: 8px;
-}
-.clear-btn {
-    top: 110%;
-    height: 40px;
-    width: 100px;
-    right: 18%;
-    position: absolute;
-    font-size: 22px ;
-    border-radius: 30px;
-    background-color: $logo-color;
-    text-align: center;
-    color: white;
-    cursor:pointer;
-    text-decoration: none;
-}
-.clear{
-    padding-top: 8px;
+    font-size: 54px;
+    width: 180px;
+    height: 90px;
+    right:38%;
 }
 </style>
