@@ -111,9 +111,7 @@ export default {
         //step2 basic 자세
         if(this.step == 2){
           
-          console.log(this.dialog)
           if(this.dialog == false){
-            console.log("들어옴?")
           this.$emit("sendStep",this.step);
           this.dialog = true;
           this.speak = "허리를 펴고, 팔을 상체와 가깝게 붙이고 내려주세요"
