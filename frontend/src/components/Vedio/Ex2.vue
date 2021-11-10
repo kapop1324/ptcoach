@@ -36,6 +36,7 @@ export default {
       speak :"",
       acc:0,
       step:0,
+      clear: false,
     };
   },
 
@@ -66,58 +67,98 @@ export default {
       window.requestAnimationFrame(this.loop);
     },
 
+    //덤벨컬
+
     async predict() {
       const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
       // Prediction 2: run input through teachable machine classification model
       const prediction = await model.predict(posenetOutput);
-      if(this.step==0 && !this.dialog){
+
+      // step0
+      if(this.step==0){
         this.speak = "정자세로 서주시기 바랍니다" 
-        this.dialog = true; 
         this.step++;
       }
-      if (this.step==1 && prediction[0].probability.toFixed(2) == 1.0 && !this.dialog) {
-        this.stat = "stand";
-        this.dialog = true; // 서있는 자세를 정확하게 했을 경우
-        this.speak = "팔꿈치를 상체와 가깝게 붙여주세요"
+
+      // step1 정자세로 서기 
+      if(this.step == 1){
+
+        if(this.dialog == false){
+          this.$emit("sendStep",this.step);
+          this.dialog = true;
+        }
+
+        if(prediction[0].probability.toFixed(2) == 1.0){
+            this.speak = "정자세 좋습니다 3초간 유지해주세요";
+            this.step++;
+            this.acc = prediction[0].probability.toFixed(2) * 100;
+
+          setTimeout(() => {
+            this.dialog = false;
+            this.speak = "정자세 성공"
+            console.log(this.step);
+          }, 3000);
+          
+        
+        }else{
+          this.speak = "정자세로 서주세요";
+          this.acc = prediction[0].probability.toFixed(2) * 100;
+        }
+        
       }
-      //step1 시작
-      if (this.step==1 && this.dialog) {
-        //상위newstep으로 1 넘기기
-        this.$emit("sendStep",this.step);
-        if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
-        this.stat = "down_false";
-        this.dialog = true;
-        this.speak ="팔꿈치를 상체와 가깝게 붙이고 팔꿈치가 고정된 상태로 내려주세요."
-        } 
+
+      //step2 올리기 자세
+      if(this.step == 2){
+
+        if(this.dialog == false){
+          this.$emit("sendStep",this.step);
+          this.dialog = true;
+          this.speak = "팔을 들어 올려주세요"
+          this.stat = "up"
+        }
+
+        if(prediction[1].probability.toFixed(1) == 1.0 && this.stat == "up"){
+          this.speak = "지금 상태를 3초간 유지해 주세요"
+          this.step++;
+          setTimeout(() => {
+            this.speak = "step2 클리어";
+            this.dialog = false;
+            this.acc = prediction[1].probability.toFixed(2) * 100;
+          }, 3000);
+            
+
+        }else if(prediction[2].probability.toFixed(2) == 1.0){
+          this.speak = "팔꿈치를 상체와 가깝게 붙이고 팔꿈치가 고정된 상태로 올려주세요";
+        }
 
         this.acc = prediction[1].probability.toFixed(2) * 100;
-        
-        //step1성공하면!
-        if(this.step==1 && prediction[1].probability.toFixed(2) == 1.0 && this.dialog){
-            this.step++;
-            this.stat = "up";
-            this.dialog = true;
-            this.speak = "step1 성공!! step2를 진행해 주세요."
+      }
 
-            if (prediction[2].probability.toFixed(2) == 1.0 && this.dialog) {
-            this.stat = "up_false";
-            this.dialog = true;
-            this.speak ="팔꿈치를 상체와 가깝게 붙이고 팔꿈치가 고정된 상태로 올려주세요."
-            } 
+      //step3 정자세 서기 
+      if(this.step == 3){
 
-            this.acc = prediction[1].probability.toFixed(2) * 100;
-            console.log("stat:"+this.stat);
-            console.log("acc:"+this.acc);
+        if(this.dialog == false){
+          this.$emit("sendStep",this.step);
+          this.dialog = true;
+        }
+
+        if(prediction[0].probability.toFixed(2) == 1.0 && this.clear == false ){
+          this.speak = "지금 상태를 3초간 유지해 주세요"
+          this.clear = true;
+          this.acc = prediction[0].probability.toFixed(2) * 100;
+
+        }else if(prediction[3].probability.toFixed(2) == 1.0 && this.clear == false){
+          this.speak = "정자세로 서주세요"
+         
+        }else if(this.clear == true){
+          setTimeout(() => {
+            this.speak = "덤벨 컬 클리어! 완료를 눌러주세요!";
+            this.acc = 100;
+          }, 3000);
+          
         }
       }
-      //step2 시작
-      if(this.step==2 && prediction[2].probability.toFixed(2) == 1.0 && this.dialog){
-          this.$emit("sendStep",this.step);
-          this.stat = "up_true";
-          this.dialog = true;
-          this.speak = "step2 성공!!"
-          this.acc = prediction[2].probability.toFixed(2) * 100;
-        }
+
         this.drawPose(pose);
     },
     drawPose(pose) {
