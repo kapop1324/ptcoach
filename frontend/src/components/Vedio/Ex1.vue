@@ -42,6 +42,7 @@ export default {
       clear : false,
       send_step : false,
       clear_sound : false,
+      step_clear : false,
     };
   },
   // props:{
@@ -112,6 +113,13 @@ export default {
 
       //step0 
       if(this.step==0){
+
+        this.speak = "카메라를 불러오고 있습니다."
+        for(var i = 3; i > 0; i--){
+          
+          await wait(1000);
+        }
+
         this.speak = "정자세로 서주시기 바랍니다" 
         this.step++;
       }
@@ -121,9 +129,10 @@ export default {
       if(this.step == 1 ){
 
         if(this.send_step == false){
-          await wait(1000)
+      
           var audio = new Audio(require('@/assets/audio/lunge/lungec1.mp3'));
           audio.play();
+
           this.$emit("sendStep",this.step);
           this.send_step = true;
         }
@@ -132,7 +141,11 @@ export default {
 
           this.speak = "step1 클리어!";
           this.step++;
-          this.send_step = false;
+
+            setTimeout(() => {
+            this.send_step = false;
+            this.step_clear = true;
+          }, 3000);
 
         }else{
           
@@ -144,28 +157,28 @@ export default {
       }
 
       //step2 앉기
-      if(this.step == 2){
+      if(this.step == 2 && this.step_clear == true){
 
         if(this.send_step == false){
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "앉아주세요";
-          await wait(1000)
           var audio = new Audio(require('@/assets/audio/lunge/lungec2.mp3'));
           audio.play();
+          await wait(1000)
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
           var audio = new Audio(require('@/assets/audio/lunge/lungec3.mp3'));
           audio.play();
-          for(var i = 3; i > 0; i--){
-            this.speak = i+"초간 기다려주시기 바랍니다"
-            this.acc = prediction[1].probability.toFixed(2) * 100;
-            await wait(1000);
-          }
-
+          this.speak = "2초간 자세를 유지하세요"
           this.step++;
-          this.send_step = false;
+          setTimeout(() => {
+
+              this.send_step = false;
+              this.step_clear = false;
+              this.acc = prediction[1].probability.toFixed(2) * 100;
+            }, 2000);
 
         }else if(prediction[2].probability.toFixed(2) == 1.0){
           await wait(1000);
@@ -180,7 +193,7 @@ export default {
       }
 
       //step3 정자세로 서기
-      if(this.step == 3){
+      if(this.step == 3 && this.step_clear == false){
 
         if(this.send_step == false){
           await wait(1000)
@@ -216,7 +229,7 @@ export default {
       }
 
       this.drawPose(pose);
-      await wait(100);
+  
     },
     drawPose(pose) {
       if (webcam.canvas) {
