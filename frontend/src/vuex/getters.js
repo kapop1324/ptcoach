@@ -8,4 +8,7 @@ export default {
     getExerciseList(state) {
         return state.exerciseList
     },
+    getRecord(state) {
+        return state.record
+    },
 }

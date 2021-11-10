@@ -22,6 +22,7 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import { mapState } from 'vuex'
+import wait from "waait"
 
 //런지
 
@@ -29,7 +30,7 @@ import { mapState } from 'vuex'
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
 // the link to your model provided by Teachable Machine export panel
-const URL = "https://teachablemachine.withgoogle.com/models/0K-kDjfYw/";
+const URL = " https://teachablemachine.withgoogle.com/models/0K-kDjfYw/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 export default {
@@ -40,6 +41,7 @@ export default {
       step:0,
       clear : false,
       send_step : false,
+      clear_sound : false,
     };
   },
   // props:{
@@ -58,6 +60,16 @@ export default {
   methods: {
     
     async init() {
+      var audio = new Audio(require('@/assets/audio/correction/5second.mp3'));
+      audio.play();
+      for(var i = 5; i > 0; i--){
+        this.speak = i+"초간 기다려주시기 바랍니다"
+        await wait(1000);
+      }
+      audio = new Audio(require('@/assets/audio/lunge/lungec0.mp3'));
+      audio.play();
+      this.speak = "카메라를 불러오고 있습니다."
+
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
 
@@ -109,6 +121,9 @@ export default {
       if(this.step == 1 ){
 
         if(this.send_step == false){
+          await wait(1000)
+          var audio = new Audio(require('@/assets/audio/lunge/lungec1.mp3'));
+          audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
         }
@@ -135,17 +150,28 @@ export default {
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "앉아주세요";
+          await wait(1000)
+          var audio = new Audio(require('@/assets/audio/lunge/lungec2.mp3'));
+          audio.play();
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
+          var audio = new Audio(require('@/assets/audio/lunge/lungec3.mp3'));
+          audio.play();
+          for(var i = 3; i > 0; i--){
+            this.speak = i+"초간 기다려주시기 바랍니다"
+            this.acc = prediction[1].probability.toFixed(2) * 100;
+            await wait(1000);
+          }
 
-          this.speak = "step2 클리어!";
           this.step++;
           this.send_step = false;
 
         }else if(prediction[2].probability.toFixed(2) == 1.0){
-
+          await wait(1000);
           this.speak = "허리를 곧게 펴주세요";
+          var audio = new Audio(require('@/assets/audio/lunge/lungec4.mp3'));
+          audio.play();
 
         }
 
@@ -157,7 +183,9 @@ export default {
       if(this.step == 3){
 
         if(this.send_step == false){
-
+          await wait(1000)
+          var audio = new Audio(require('@/assets/audio/lunge/lungec6.mp3'));
+          audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
 
@@ -176,12 +204,19 @@ export default {
 
           this.speak = "런지 클리어! 완료를 눌러주세요!";
           this.acc = 100;
+          if(this.clear_sound == false){
+            await wait(100);
+            var audio = new Audio(require('@/assets/audio/lunge/lungec5.mp3'));
+            audio.play();
+            this.clear_sound = true;
+          }         
 
         }
 
       }
 
       this.drawPose(pose);
+      await wait(100);
     },
     drawPose(pose) {
       if (webcam.canvas) {

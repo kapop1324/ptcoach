@@ -33,19 +33,25 @@
 
 <script>
 import PostureApi from "../../api/PostureApi"
-import Ex4 from '@/components/Vedio/Ex4.vue'
-import Ex5 from '@/components/Vedio/Ex5.vue'
+import Ex1 from '@/components/Vedio/Ex1.vue'
 import Ex2 from '@/components/Vedio/Ex2.vue'
 import Ex3 from '@/components/Vedio/Ex3.vue'
+import Ex4 from '@/components/Vedio/Ex4.vue'
+import Ex5 from '@/components/Vedio/Ex5.vue'
+import Ex6 from '@/components/Vedio/Ex6.vue'
+import Ex7 from '@/components/Vedio/Ex7.vue'
 import Description from '@/components/Detail/Description.vue'
 import Step from '@/components/Detail/Step.vue'
 export default {
   name: 'PostureDetail',
   components:{
-    Ex2: Ex2,
-    Ex3: Ex3,  
+    Ex1: Ex1,
+    Ex2: Ex2,  
+    Ex3: Ex3,
     Ex4: Ex4,
-    Ex5: Ex5,
+    Ex5: Ex5,  
+    Ex6: Ex6,
+    Ex7: Ex7,
     Description:Description,
     Step: Step,
   },
@@ -129,7 +135,7 @@ export default {
   margin: 10px;
 }
 .pos-content-step {
-  top: 24%;
+  top: 22%;
   right: 14%;
   position: absolute;
 }

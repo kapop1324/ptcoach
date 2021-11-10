@@ -5,11 +5,11 @@
       <p class="speak">{{speak}}</p>
     <div class="result">{{acc}}% 일치</div> 
     </div>
-    <div class="start-btn">
-      <div class="start" @click="init()"> 시작 </div>
+    <div class="start-btn3">
+      <div class="start3" @click="init()"> 시작 </div>
     </div> 
-    <router-link to="/posture" class="clear-btn">
-      <div class="clear"> 완료 </div>
+    <router-link to="/posture" class="clear-btn3">
+      <div class="clear3"> 완료 </div>
     </router-link> 
 
   </div>
@@ -22,7 +22,7 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import { mapState } from 'vuex'
-
+import wait from "waait"
 //팔벌려높이뛰기
 
 const URL = "https://teachablemachine.withgoogle.com/models/uGU38MliG/";
@@ -36,6 +36,7 @@ export default {
       step:0,
       clear : false,
       send_step : false,
+      clear_sound : false,
     };
   },
   // props:{
@@ -54,6 +55,20 @@ export default {
   methods: {
     
     async init() {
+
+      var audio = new Audio(require('@/assets/audio/correction/5second.mp3'));
+      audio.play();
+      for(var i = 5; i > 0; i--){
+        this.speak = i+"초간 기다려주시기 바랍니다"
+        await wait(1000);
+      }
+
+      audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc0.mp3'));
+      audio.play();
+      await wait(1000);
+      
+      this.speak = "카메라를 불러오고 있습니다."
+
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
 
@@ -105,6 +120,11 @@ export default {
       if(this.step == 1 ){
 
         if(this.send_step == false){
+
+          await wait(1000)
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc1.mp3'));
+          audio.play();
+
           this.$emit("sendStep",this.step);
           this.send_step = true;
         }
@@ -128,20 +148,31 @@ export default {
       if(this.step == 2){
 
         if(this.send_step == false){
+          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "다리를 벌리고 손을 아래로 뻗어주세요";
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc2.mp3'));
+          audio.play();
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc3.mp3'));
+          audio.play();
+          for(var i = 2; i > 0; i--){
+            this.speak = i+"초간 자세를 유지하세요"
+            this.acc = prediction[1].probability.toFixed(2) * 100;
+            await wait(1000);
+          }
 
-          this.speak = "step2 클리어!";
           this.step++;
           this.send_step = false;
 
         }else if(prediction[3].probability.toFixed(2) == 1.0){
-
+          await wait(1000);
           this.speak = "다리가 너무 벌어졌습니다.";
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc4.mp3'));
+          audio.play();
           
 
         }
@@ -154,8 +185,11 @@ export default {
       if(this.step == 3 ){
 
         if(this.send_step == false){
+          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
+          audio.play();
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -177,20 +211,30 @@ export default {
       if(this.step == 4){
 
         if(this.send_step == false){
+          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          this.speak = "다리를 벌리고 손을 위로 올려주세요";
+          this.speak = "다리를 벌리고 손을 위로 뻗어주세요";
+          this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
 
-          this.speak = "step4 클리어!";
+          for(var i = 2; i > 0; i--){
+            this.speak = i+"초간 자세를 유지하세요"
+            this.acc = prediction[1].probability.toFixed(2) * 100;
+            await wait(1000);
+          }
+
           this.step++;
           this.send_step = false;
 
         }else if(prediction[4].probability.toFixed(2) == 1.0){
-
+          await wait(1000);
           this.speak = "다리가 너무 벌어졌습니다.";
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc4.mp3'));
+          audio.play();
           
 
         }
@@ -204,9 +248,11 @@ export default {
       if(this.step == 5){
 
         if(this.send_step == false){
-
+          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
 
         }
         
@@ -224,11 +270,19 @@ export default {
           this.speak = "팔벌려 높이뛰기 클리어! 완료를 눌러주세요!";
           this.acc = 100;
 
+          if(this.clear_sound == false){
+            await wait(100);
+            var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc7.mp3'));
+            audio.play();
+            this.clear_sound = true;
+          } 
+
         }
 
       }
 
       this.drawPose(pose);
+      await wait(100);
     },
     drawPose(pose) {
       if (webcam.canvas) {
@@ -273,8 +327,8 @@ export default {
     color: $logo-color;
     font-weight: bold;
 }
-.start-btn {
-  top: 88%;
+.start-btn3 {
+  top: 92%;
   height: 40px;
   width: 100px;
   right: 12%;
@@ -286,11 +340,11 @@ export default {
   color: white;
   cursor:pointer;
 }
-.start{
+.start3{
   padding-top: 8px;
 }
-.clear-btn {
-  top: 100%;
+.clear-btn3 {
+  top: 105%;
   height: 40px;
   width: 100px;
   right: 12%;
@@ -304,7 +358,7 @@ export default {
   text-decoration: none;
 
 }
-.clear{
+.clear3{
   padding-top: 8px;
 }
 </style>

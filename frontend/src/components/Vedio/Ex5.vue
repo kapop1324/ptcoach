@@ -22,10 +22,11 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import { mapState } from 'vuex'
+import wait from "waait"
 
 
 //스쿼트
-const URL = "https://teachablemachine.withgoogle.com/models/ePqP3PVQL/";
+const URL = "https://teachablemachine.withgoogle.com/models/OGYeLwLMb/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 export default {
@@ -36,6 +37,7 @@ export default {
       step:0,
       clear : false,
       send_step : false,
+      clear_sound : false,
     };
   },
   // props:{
@@ -54,6 +56,18 @@ export default {
   methods: {
     
     async init() {
+      var audio = new Audio(require('@/assets/audio/correction/5second.mp3'));
+      audio.play();
+      for(var i = 5; i > 0; i--){
+        this.speak = i+"초간 기다려주시기 바랍니다"
+        await wait(1000);
+      }
+      audio = new Audio(require('@/assets/audio/squat/squatc0.mp3'));
+      audio.play();
+      await wait(1000);
+      
+      this.speak = "카메라를 불러오고 있습니다."
+
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
 
@@ -84,7 +98,9 @@ export default {
 
     async loop(timestamp) {
       webcam.update(); // update the webcam frame
+
       await this.predict();
+    
       window.requestAnimationFrame(this.loop);
     },
 
@@ -104,7 +120,12 @@ export default {
       //step1 정자세로 서기
       if(this.step == 1 ){
 
+
         if(this.send_step == false){
+          await wait(1000)
+          var audio = new Audio(require('@/assets/audio/squat/squatc1.mp3'));
+          audio.play();
+          
           this.$emit("sendStep",this.step);
           this.send_step = true;
         }
@@ -112,6 +133,7 @@ export default {
         if(prediction[0].probability.toFixed(2) == 1.0){
 
           this.speak = "step1 클리어!";
+          await wait(1000)
           this.step++;
           this.send_step = false;
 
@@ -128,28 +150,40 @@ export default {
       if(this.step == 2){
 
         if(this.send_step == false){
+          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "앉아주세요";
+          var audio = new Audio(require('@/assets/audio/squat/squatc2.mp3'));
+          audio.play();
+          
         }
 
-        if(prediction[1].probability.toFixed(2) == 1.0){
-
+        if(prediction[1].probability.toFixed(2) == 1.0){      
+          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
+          audio.play();
+          for(var i = 3; i > 0; i--){
+            this.speak = i+"초간 자세를 유지하세요"
+            this.acc = prediction[1].probability.toFixed(2) * 100;
+            await wait(1000);
+          }
           this.stat = "stand";
-          this.step2_clear = true;
-          this.speak = "step2 클리어!";
-          this.step++;
-          this.send_step = false;
+              this.send_step = false;
+              this.step++;
 
         }else if(prediction[2].probability.toFixed(2) == 1.0){
-
+          await wait(1000);
           this.speak = "허리를 곧게 펴주세요";
-
-        }else if(prediction[3].probability.toFixed(2) == 1.0){
-
-          this.speak = "무릎은 발 안쪽으로 넣어주세요";
+          var audio = new Audio(require('@/assets/audio/squat/squatc6.mp3'));
+          audio.play();
           
 
+        }else if(prediction[3].probability.toFixed(2) == 1.0){
+          await wait(1000);
+          this.speak = "무릎은 발 안쪽으로 넣어주세요";
+          var audio = new Audio(require('@/assets/audio/squat/squatc7.mp3'));
+          audio.play();
+          
         }
 
         this.acc = prediction[1].probability.toFixed(2) * 100;
@@ -160,9 +194,12 @@ export default {
       if(this.step == 3){
 
         if(this.send_step == false){
-
+          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/squat/squatc8.mp3'));
+          audio.play();
+          
 
         }
         
@@ -177,15 +214,23 @@ export default {
           this.acc = prediction[0].probability.toFixed(2) * 100;
 
         }else if(this.clear == true){
-
+          
           this.speak = "스쿼트 클리어! 완료를 눌러주세요!";
           this.acc = 100;
+          if(this.clear_sound == false){
+            await wait(100);
+            var audio = new Audio(require('@/assets/audio/squat/squatc4.mp3'));
+            audio.play();
+            this.clear_sound = true;
+          }          
+          
 
         }
 
       }
 
       this.drawPose(pose);
+      await wait(100);
     },
     drawPose(pose) {
       if (webcam.canvas) {
@@ -198,6 +243,10 @@ export default {
         }
       }
     },
+    timecount(){
+      this.speak = this.t+"초간 유지하세요."
+      this.t--;
+    }
   }
   
 };
