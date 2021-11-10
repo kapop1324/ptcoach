@@ -11,10 +11,11 @@
             <CourEx6 v-if="exList[index].exercise_image[0].exercise_idx==6" v-on:Index="addIndex"></CourEx6>
             <CourEx7 v-if="exList[index].exercise_image[0].exercise_idx==7" v-on:Index="addIndex"></CourEx7>  
       </div>
-          <div class="course-content-step">        
-            <CourStep v-for="(item,i) in exList.length" v-bind:newstep="index+1" v-bind:num="exList[i].idx" v-bind:key="i"></CourStep>
-          </div>
-      <CourDesc v-if="desc_step==newstep"></CourDesc>
+      <div class="course-content-step">        
+        <CourStep v-for="(item,i) in exList" v-bind:newstep="index+1" v-bind:num="exList[i].idx" 
+                          v-bind:name="exList[i].exercise_image[0].exercise_name" v-bind:key="i"></CourStep>
+      </div>
+        <CourDesc v-bind:newstep="index"></CourDesc>
     </div>
 </template>
 
@@ -49,7 +50,7 @@ export default {
       id: 0,
       msg:"시작",
       newstep:1,
-      desc_step:1,
+      //desc_step:1,
       exerciseList: [
         {
           idx:'', 
