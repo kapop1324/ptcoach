@@ -51,6 +51,19 @@ public class UserDaoQdsl{
 		
 	}
 
+	public long update(User user){
+
+		return jpaQueryFactory.update(qUser)
+				.set(qUser.name, user.getName())
+				.set(qUser.password, user.getPassword())
+				.set(qUser.height, user.getHeight())
+				.set(qUser.weight, user.getWeight())
+				.set(qUser.gender, user.getGender())
+				.where(qUser.email.eq(user.getEmail()))
+				.execute();
+
+	}
+
     
     public User userinfo(String email) {
     	
