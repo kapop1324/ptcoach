@@ -9,6 +9,7 @@ Vue.use(Vuex)
 
 let state = {
     userEmail: '',
+    isLogin: false,
     courseList: [],
     exerciseList: [],
     record: [{
