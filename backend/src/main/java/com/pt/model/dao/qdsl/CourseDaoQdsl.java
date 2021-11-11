@@ -44,7 +44,7 @@ public class CourseDaoQdsl {
 		List<Tuple> tuple = jpaQueryFactory.select(qCourse,qExercise,qExerciseImage)
 				.from(qCourse).innerJoin(qExercise).on(qCourse.exercisename.eq(qExercise.name))
 				.innerJoin(qExerciseImage).on(qExercise.idx.eq(qExerciseImage.exerciseidx))
-				.where(qExerciseImage.step.eq(0)).orderBy(qCourse.coursename.asc())
+				.where(qExerciseImage.step.eq(0)).orderBy(qCourse.coursename.asc(), qCourse.step.desc())
 				.fetch();
 		
 		List<CourseRes> course_list = new ArrayList<CourseRes>();
