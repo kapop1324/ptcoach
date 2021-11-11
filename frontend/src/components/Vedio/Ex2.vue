@@ -20,6 +20,7 @@
 
 <script >
 import * as tmPose from "@teachablemachine/pose";
+import wait from 'waait';
 
 const URL = "https://teachablemachine.withgoogle.com/models/fAOdhOK2k/";
 let model, webcam, ctx, labelContainer, maxPredictions;
@@ -37,12 +38,25 @@ export default {
       acc:0,
       step:0,
       clear: false,
+      stepb:false, //이전스탭의 acc상태 보여주기
+      clear_sound : false, // 마지막 성공했을때 음성 틀어주기
     };
   },
 
   methods: {
-    
     async init() {
+      var audio = new Audio(require('@/assets/2audio/1.mp3'));
+      audio.play();
+
+      for(var i = 5; i>0; i--){
+        this.speak = i+"초간 기다려주시기 바랍니다."
+        await wait(1000);
+      }
+      audio = new Audio(require('@/assets/2audio/2.mp3'));
+      audio.play();
+      await wait(1000);
+
+      this.speak = "카메라를 불러오고 있습니다."
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
       model = await tmPose.load(modelURL, metadataURL);
@@ -88,18 +102,18 @@ export default {
           this.dialog = true;
         }
 
+        this.acc = prediction[0].probability.toFixed(2) * 100;
+
         if(prediction[0].probability.toFixed(2) == 1.0){
             this.speak = "정자세 좋습니다 3초간 유지해주세요";
             this.step++;
             this.acc = prediction[0].probability.toFixed(2) * 100;
+            this.stat = "basic"
 
           setTimeout(() => {
             this.dialog = false;
-            this.speak = "정자세 성공"
-            console.log(this.step);
+            this.stepb = true;
           }, 3000);
-          
-        
         }else{
           this.speak = "정자세로 서주세요";
           this.acc = prediction[0].probability.toFixed(2) * 100;
@@ -107,54 +121,69 @@ export default {
         
       }
 
-      //step2 올리기 자세
-      if(this.step == 2){
+      //step3 올리기 자세
+      if(this.step == 2  && this.stepb == true){
 
         if(this.dialog == false){
           this.$emit("sendStep",this.step);
           this.dialog = true;
-          this.speak = "팔을 들어 올려주세요"
+          this.speak = "step1 클리어"
+          var audio = new Audio(require('@/assets/2audio/4.mp3'));
+          audio.play();
+          await wait(1000)
           this.stat = "up"
         }
+
+        this.acc = prediction[1].probability.toFixed(2) * 100;
 
         if(prediction[1].probability.toFixed(1) == 1.0 && this.stat == "up"){
           this.speak = "지금 상태를 3초간 유지해 주세요"
           this.step++;
           setTimeout(() => {
-            this.speak = "step2 클리어";
+            
             this.dialog = false;
-            this.acc = prediction[1].probability.toFixed(2) * 100;
+            this.stepb = false;
           }, 3000);
             
 
         }else if(prediction[2].probability.toFixed(2) == 1.0){
           this.speak = "팔꿈치를 상체와 가깝게 붙이고 팔꿈치가 고정된 상태로 올려주세요";
         }
-
-        this.acc = prediction[1].probability.toFixed(2) * 100;
       }
 
-      //step3 정자세 서기 
-      if(this.step == 3){
+      //step4 basic 서기 
+      if(this.step == 3 && this.stepb == false){
 
         if(this.dialog == false){
-          this.$emit("sendStep",this.step);
-          this.dialog = true;
-        }
+            this.$emit("sendStep",this.step);
+            this.dialog = true;
+            var audio = new Audio(require('@/assets/2audio/3.mp3'));
+          audio.play();
+          await wait(1000)
+            this.speak = "step3 클리어!"
+            this.stat = "basic"
+          }
+          this.acc = prediction[0].probability.toFixed(2) * 100;
 
         if(prediction[0].probability.toFixed(2) == 1.0 && this.clear == false ){
           this.speak = "지금 상태를 3초간 유지해 주세요"
-          this.clear = true;
-          this.acc = prediction[0].probability.toFixed(2) * 100;
+          
+          setTimeout(() => {
+              this.speak = "덤벨 컬 클리어! 완료를 눌러주세요";
+              this.clear = true;
+            }, 3000);
 
         }else if(prediction[3].probability.toFixed(2) == 1.0 && this.clear == false){
-          this.speak = "정자세로 서주세요"
+          this.speak = "팔꿈치를 상체와 가깝게 붙이고 팔꿈치가 고정된 상태로 내려주세요"
          
         }else if(this.clear == true){
-          setTimeout(() => {
-            this.speak = "덤벨 컬 클리어! 완료를 눌러주세요!";
-            this.acc = 100;
-          }, 3000);
+          this.acc = 100;
+          if(this.clear_sound == false){
+              await wait(1000)
+              var audio = new Audio(require('@/assets/2audio/6.mp3'));
+              audio.play();
+              this.clear_sound = true;
+            }
           
         }
       }
