@@ -2,6 +2,9 @@ export default {
   login: function({commit}, res){
     commit('LOGIN', res)
   },
+  logout: function({commit}){
+    commit('LOGOUT')
+  },
   getCourseList: function({commit}, res){
     commit('GETCOURSELIST', res)
   },
