@@ -5,11 +5,11 @@
       <p class="speak">{{speak}}</p>
     <div class="result">{{acc}}% 일치</div> 
     </div>
-    <div class="start-btn">
-      <div class="start" @click="init()"> 시작 </div>
+    <div class="start-btn2">
+      <div class="start2" @click="init()"> 시작 </div>
     </div> 
-    <router-link to="/posture" class="clear-btn">
-      <div class="clear"> 완료 </div>
+    <router-link to="/posture" class="clear-btn2">
+      <div class="clear2"> 완료 </div>
     </router-link> 
 
   </div>
@@ -22,7 +22,7 @@
 <script >
 import * as tmPose from "@teachablemachine/pose";
 import { mapState } from 'vuex'
-
+import wait from "waait"
 //사이드스텝
 
 // More API functions here:
@@ -40,6 +40,8 @@ export default {
       step:0,
       clear : false,
       send_step : false,
+      clear_sound : false,
+      step_clear : false,
     };
   },
   // props:{
@@ -58,6 +60,18 @@ export default {
   methods: {
     
     async init() {
+      var audio = new Audio(require('@/assets/audio/correction/5second.mp3'));
+      audio.play();
+      for(var i = 5; i > 0; i--){
+        this.speak = i+"초간 기다려주시기 바랍니다"
+        await wait(1000);
+      }
+
+      audio = new Audio(require('@/assets/audio/sidestep/sidestepc0.mp3'));
+      audio.play();
+      
+      this.speak = "카메라를 불러오고 있습니다."
+
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
 
@@ -100,6 +114,13 @@ export default {
 
       //step0 
       if(this.step==0){
+
+        this.speak = "카메라를 불러오고 있습니다."
+        for(var i = 3; i > 0; i--){
+          
+          await wait(1000);
+        }
+
         this.speak = "정자세로 서주시기 바랍니다" 
         this.step++;
       }
@@ -109,15 +130,22 @@ export default {
       if(this.step == 1 ){
 
         if(this.send_step == false){
+          audio = new Audio(require('@/assets/audio/sidestep/sidestepc1.mp3'));
+          audio.play();
+        
           this.$emit("sendStep",this.step);
           this.send_step = true;
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
           
-          this.speak = "step1 클리어!";
+          this.speak = "정자세를 유지해주세요";
           this.step++;
-          this.send_step = false;
+
+          setTimeout(() => {
+            this.send_step = false;
+            this.step_clear = true;
+          }, 3000);
 
         }else{
           
@@ -129,23 +157,36 @@ export default {
       }
 
       //step2 오른쪽으로 다리 이동
-      if(this.step == 2){
+      if(this.step == 2 && this.step_clear == true){
 
         if(this.send_step == false){
+          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "오른쪽으로 다리를 벌려 주세요";
+          var audio = new Audio(require('@/assets/audio/sidestep/sidestepc2.mp3'));
+          audio.play();
+          await wait(1000);
+
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
 
-          this.speak = "step2 클리어!";
+          this.speak = "3초간 자세를 유지하세요"
           this.step++;
-          this.send_step = false;
+          setTimeout(() => {
+
+
+              this.send_step = false;
+              this.step_clear = false;
+              this.acc = prediction[1].probability.toFixed(2) * 100;
+            }, 3000);
 
         }else if(prediction[5].probability.toFixed(2) == 1.0){
-
+          await wait(1000);
           this.speak = "다리를 너무 넓게 폈습니다.";
+          var audio = new Audio(require('@/assets/audio/sidestep/sidestepc3.mp3'));
+          audio.play();
 
         }
 
@@ -154,18 +195,27 @@ export default {
       }
 
       //step3 오른쪽에 정자세로 서기
-      if(this.step == 3 ){
+      if(this.step == 3 && this.step_clear == false){
 
         if(this.send_step == false){
+      
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/sidestep/sidestepc4.mp3'));
+          audio.play();
         }
         
         if(prediction[2].probability.toFixed(2) == 1.0){
           
-          this.speak = "step3 클리어!";
+          this.speak = "3초간 자세를 유지하세요"
           this.step++;
-          this.send_step = false;
+          setTimeout(() => {
+
+
+              this.send_step = false;
+              this.step_clear = true;
+              this.acc = prediction[1].probability.toFixed(2) * 100;
+            }, 3000);
 
         }else{
           
@@ -176,44 +226,29 @@ export default {
 
       }
 
-      //step4 오른쪽에서 다시 중앙으로 이동
-      if(this.step == 4){
-
-        if(this.send_step == false){
-          this.$emit("sendStep",this.step);
-          this.send_step = true;
-          this.speak = "다시 중앙으로 이동해 주세요";
-        }
-
-        if(prediction[1].probability.toFixed(2) == 1.0){
-
-          this.speak = "step4 클리어!";
-          this.step++;
-          this.send_step = false;
-
-        }else if(prediction[5].probability.toFixed(2) == 1.0){
-
-          this.speak = "다리를 너무 넓게 폈습니다.";
-
-        }
-
-        this.acc = prediction[1].probability.toFixed(2) * 100;
-
-      }
 
       //step5 중앙
-      if(this.step == 5 ){
+      if(this.step == 4 && this.step_clear == true){
 
         if(this.send_step == false){
+          
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/sidestep/sidestepc5.mp3'));
+          audio.play();
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
           
-          this.speak = "step5 클리어!";
+          this.speak = "3초간 자세를 유지하세요"
           this.step++;
-          this.send_step = false;
+          setTimeout(() => {
+
+              this.send_step = false;
+              this.step_clear = false;
+              this.acc = prediction[1].probability.toFixed(2) * 100;
+
+            }, 3000);
 
         }else{
           
@@ -225,24 +260,33 @@ export default {
       }
 
       //step6 왼쪽으로 다리 이동
-      if(this.step == 6){
+      if(this.step == 5 && this.step_clear == false){
 
         if(this.send_step == false){
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "왼쪽으로 다리를 벌려 주세요";
+          var audio = new Audio(require('@/assets/audio/sidestep/sidestepc6.mp3'));
+          audio.play();
         }
 
         if(prediction[3].probability.toFixed(2) == 1.0){
 
-          this.speak = "step6 클리어!";
+          this.speak = "3초간 자세를 유지하세요"
           this.step++;
-          this.send_step = false;
+          setTimeout(() => {
+
+
+              this.send_step = false;
+              this.step_clear = true;
+              this.acc = prediction[1].probability.toFixed(2) * 100;
+            }, 3000);
 
         }else if(prediction[6].probability.toFixed(2) == 1.0){
-
+          await wait(1000);
           this.speak = "다리를 너무 넓게 폈습니다.";
-
+          var audio = new Audio(require('@/assets/audio/sidestep/sidestepc3.mp3'));
+          audio.play();
         }
 
         this.acc = prediction[3].probability.toFixed(2) * 100;
@@ -250,18 +294,27 @@ export default {
       }
 
       //step7 왼쪽으로 전신이동
-      if(this.step == 7){
-
+      if(this.step == 6 && this.step_clear == true){
+      
         if(this.send_step == false){
+          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/sidestep/sidestepc7.mp3'));
+          audio.play();
         }
         
         if(prediction[4].probability.toFixed(2) == 1.0){
           
-          this.speak = "step7 클리어!";
+          this.speak = "3초간 자세를 유지하세요"
           this.step++;
-          this.send_step = false;
+          setTimeout(() => {
+
+
+              this.send_step = false;
+              this.step_clear = false;
+              this.acc = prediction[1].probability.toFixed(2) * 100;
+            }, 3000);
 
         }else{
           
@@ -272,41 +325,16 @@ export default {
 
       }
 
-      //step8 중앙으로 다시 다리 이동
-      if(this.step == 8){
 
-        if(this.send_step == false){
-          this.$emit("sendStep",this.step);
-          this.send_step = true;
-          this.speak = "왼쪽으로 다리를 벌려 주세요";
-        }
-
-        if(prediction[3].probability.toFixed(2) == 1.0){
-
-          this.speak = "step8 클리어!";
-          this.step++;
-          this.send_step = false;
-
-        }else if(prediction[6].probability.toFixed(2) == 1.0){
-
-          this.speak = "다리를 너무 넓게 폈습니다.";
-
-        }
-
-        this.acc = prediction[3].probability.toFixed(2) * 100;
-
-      }
-  
-  
 
       //step9 가운데 정자세로 서기
-      if(this.step == 9){
+      if(this.step == 7 && this.step_clear == false){
 
         if(this.send_step == false){
-
           this.$emit("sendStep",this.step);
           this.send_step = true;
-
+          var audio = new Audio(require('@/assets/audio/sidestep/sidestepc5.mp3'));
+          audio.play();
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0 && this.clear == false){
@@ -323,11 +351,19 @@ export default {
           this.speak = "사이드스텝 클리어! 완료를 눌러주세요!";
           this.acc = 100;
 
+          if(this.clear_sound == false){
+            await wait(100);
+            var audio = new Audio(require('@/assets/audio/sidestep/sidestepc8.mp3'));
+            audio.play();
+            this.clear_sound = true;
+          }       
+
         }
 
       }
 
       this.drawPose(pose);
+      
     },
     drawPose(pose) {
       if (webcam.canvas) {
@@ -372,8 +408,8 @@ export default {
     color: $logo-color;
     font-weight: bold;
 }
-.start-btn {
-  top: 88%;
+.start-btn2 {
+  top: 112%;
   height: 40px;
   width: 100px;
   right: 12%;
@@ -385,11 +421,11 @@ export default {
   color: white;
   cursor:pointer;
 }
-.start{
+.start2{
   padding-top: 8px;
 }
-.clear-btn {
-  top: 100%;
+.clear-btn2 {
+  top: 124%;
   height: 40px;
   width: 100px;
   right: 12%;
@@ -403,7 +439,7 @@ export default {
   text-decoration: none;
 
 }
-.clear{
+.clear2{
   padding-top: 8px;
 }
 </style>

@@ -11,6 +11,11 @@ let state = {
     userEmail: '',
     courseList: [],
     exerciseList: [],
+    record: [{
+        exercise_idx:0,
+        time: 0,
+        accuracy: 0,
+    }],
 }
 
 export default new Vuex.Store({

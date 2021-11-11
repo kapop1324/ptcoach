@@ -1,42 +1,42 @@
 <template>
     <div id="DescriptionRoot">
-        <img :src="path">
-        <div class="Desc">
-            <p>{{desc}}</p>
-        </div>          
+    <!-- //exList[0].exercise_image[0].path
+    //exList[0].exercise_image[1].path
+    //exList[0].exercise_image[2].path
+    //exList[0].exercise_image[3].path         -->
+    <carousel class="carousel" :items="1">
+        <div v-for="(exercise,i) in exList[newstep].exercise_image" v-bind:key="i">
+            <img :src="exercise.path" >
+        </div>
+    </carousel>        
+
     </div>
 </template>
 
 <script>
+import carousel from 'vue-owl-carousel'
 export default {
     name: "Description",
     props: {
-        path:String,
-        desc:String,
+        newstep:Number,
     },
+    components: { carousel },    
+    computed: {
+        exList() {
+            return this.$store.getters.getExerciseList;
+            },
+        },
 }
 </script>
 
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
-p { margin: 0px 0px 2px 0px; line-height: 120%;}
-img {
-    top: 27%;
-    width: 360px;
-    height: 360px;  
-    left: 49%;
+.carousel {
     position: absolute;
-    margin: 10px;
-    border-collapse: black;
-}
-.Desc {
-    top: 79%;
-    width: 25%;
-    height: 12%;  
-    left: 49%;
-    position: absolute;
-    color: gray;
-    margin: 10px;    
+    top:50%;
+    width: 230px;
+    height:60px;
+    right:34%;
 }
 
 </style>
