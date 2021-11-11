@@ -4,7 +4,7 @@
     //exList[0].exercise_image[1].path
     //exList[0].exercise_image[2].path
     //exList[0].exercise_image[3].path         -->
-    <carousel class="carousel" :items="1">
+    <carousel class="carousel" :items="1" :autoplay=true :nav=false>
         <div v-for="(exercise,i) in exList[newstep].exercise_image" v-bind:key="i">
             <img :src="exercise.path" >
         </div>
@@ -33,7 +33,7 @@ export default {
 @import "@/styles/common.scss";
 .carousel {
     position: absolute;
-    top:50%;
+    top:44%;
     width: 230px;
     height:60px;
     right:34%;
