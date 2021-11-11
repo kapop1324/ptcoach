@@ -4,11 +4,11 @@
       <div class="title"><h1>{{exerciseList[step].exercise_image[0].exercise_name}}</h1></div>        
       <div class="imageDiv"><img :src="exerciseList[step].exercise_image[0].path" alt="샘플이미지"/></div>
       <!-- <div>{{this.$route.params}}</div> -->
-      <div class="Desc">
+      <!-- <div class="Desc">
         <p v-for="(exercise,i) in exerciseFilter[0].exercise_image" :key="i">
           {{exercise.desc}}
         </p>
-      </div>
+      </div> -->
       <!-- step 개수에 따라서 component 만들기 -->
       <div class="course-content-step">
         <Seq @change-step= 'changeStep' v-for="(exercise,i) in exerciseList" :num="i+1" :selected="step+1" :key="i"></Seq>
