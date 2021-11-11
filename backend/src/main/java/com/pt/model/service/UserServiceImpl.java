@@ -1,5 +1,6 @@
 package com.pt.model.service;
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,12 @@ public class UserServiceImpl implements UserService {
 	
 		return userDao.save(user);
 	}
-    
+
+	@Override
+	public long update(User user) throws Exception {
+		return userRepositorySupport.update(user);
+	}
+
 	@Override
 	public User finduserEmail(String email) throws Exception {
 		

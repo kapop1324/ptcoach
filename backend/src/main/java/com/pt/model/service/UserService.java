@@ -14,6 +14,9 @@ public interface UserService {
 	public User login(User user) throws Exception;
 	
 	public User join(User user) throws Exception;
+
+    @Transactional
+    public long update(User user) throws Exception;
     
     public User finduserEmail(String email) throws Exception;
     
