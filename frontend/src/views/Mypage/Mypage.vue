@@ -9,7 +9,6 @@
     <div class='right'>
       <calendar id='calendar'></calendar>
     </div>
-
   </div>
 </template>
 
@@ -23,7 +22,12 @@ export default {
     UserInfo,
     Calendar,
   },
-  
+  // data() {
+
+  // },
+  // computed(){
+    
+  // },
 }
 </script>
 
@@ -32,8 +36,10 @@ export default {
 
 .mypage-contents{
   display: flex;
-  min-width: 1200px;
-  min-height: 800px;
+  width: 100%;
+  justify-content: space-between;
+  // min-width: 1200px;
+  // min-height: 800px;
 }
 
 .left{
@@ -42,17 +48,9 @@ export default {
 }
 
 .right{
-  width: 60%;
+  width: 50%;
   height: 50%;
   padding: 10px;
 }
 
-#calendar {
-  width: 600px;
-  height: 600px;
-}
-
-// .vc-weeks {
-//   min-width: 400px;
-// }
 </style>
