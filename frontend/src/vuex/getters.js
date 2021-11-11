@@ -11,4 +11,7 @@ export default {
     getRecord(state) {
         return state.record
     },
+    getIsLogin(state) {
+        return state.isLogin
+    },
 }

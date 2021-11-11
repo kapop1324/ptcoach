@@ -13,8 +13,14 @@
         <router-link to="/dashboard">대시 보드</router-link>
       </div>    
     </div>
-    <div class="login-btn">   
+    <div v-if="!isLogin" class="login-btn">   
       <router-link to="/user/login">로그인</router-link>
+    </div>
+    <div v-if="isLogin" class="logout-btn" @click="logout">   
+      로그아웃
+    </div>
+    <div v-if="isLogin" class="mypage-btn">   
+      <router-link to="/mypage"><img src="@/assets/userinfo.png" style="height:32px" alt=""></router-link>
     </div>
   </div>
 </template>
@@ -22,7 +28,16 @@
 <script>
 export default {
   name: 'Nav',
-
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters.getIsLogin;
+    },
+  },
 }
 </script>
 
@@ -72,6 +87,7 @@ export default {
   border-bottom-color: #dde0ff;
   // font-weight: bold;
 }
+
 #NavRoot .login-btn a {
   border-radius: 30px;
   border: .7px solid #F7F8FC;
@@ -84,5 +100,27 @@ export default {
   font-size: 0.85rem;
   color: $black-color;
   color: #fff;
+}
+
+#NavRoot .logout-btn{
+  border-radius: 30px;
+  border: .7px solid #F7F8FC;
+  padding: 6px 12px;
+  display: inline-block; 
+  position: absolute;
+  text-decoration: none;
+  top: 22px;
+  right: 8vw;
+  font-size: 0.85rem;
+  color: $black-color;
+  color: #fff;
+  cursor: pointer;
+}
+
+#NavRoot .mypage-btn{
+  display: inline-block;
+  position: absolute;
+  top: 22px;
+  right: 14vw;
 }
 </style>
