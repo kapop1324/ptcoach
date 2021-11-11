@@ -56,6 +56,33 @@ const Leave = (data, callback, errorCallback) => {
     .catch((err) => errorCallback(err));
 };
 
+const MyRecord = (data, callback, errorCallback) => {
+    
+    http.get('/user/daily',
+        {
+            params: {
+                email : data
+            }
+        }
+    )
+    .then((res) => callback(res))
+    .catch((err) => errorCallback(err));
+};
+
+const DailyRecord = (data, callback, errorCallback) => {
+    
+    http.get('/user/dailydetail',
+        {
+            params: {
+                email: data.email,
+                date: data.date,
+            }
+        }
+    )
+    .then((res) => callback(res))
+    .catch((err) => errorCallback(err));
+};
+
 const UserApi = {
 
     Login: (data, callback, errorCallback) => Login(data, callback, errorCallback),
@@ -63,6 +90,8 @@ const UserApi = {
     UserInfo: (data, callback, errorCallback) => UserInfo(data, callback, errorCallback),
     IdCheck: (data, callback, errorCallback) => IdCheck(data, callback, errorCallback),
     Leave: (data, callback, errorCallback) => Leave(data, callback, errorCallback),
+    MyRecord: (data, callback, errorCallback) => MyRecord(data, callback, errorCallback),
+    DailyRecord: (data, callback, errorCallback) => DailyRecord(data, callback, errorCallback),
 
 };
 
