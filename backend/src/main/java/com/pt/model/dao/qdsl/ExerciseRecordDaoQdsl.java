@@ -41,18 +41,12 @@ public class ExerciseRecordDaoQdsl {
     //코스명을 받으면 -> 운동고유번호, 운동명, 단계, 세트
     // 운동고유번호를 통해 -> exercise_image에서 사진경로,단계,설명 필요
     public List<ExerciseRecordResFin> course_detail(String coursename){
-        List<Integer> course_idx_list = jpaQueryFactory.select(qCourse.exerciseidx)
-                .from(qCourse)
-                .where(qCourse.coursename.eq(coursename))
-                .groupBy(qCourse.exerciseidx)
-                .orderBy(qCourse.exerciseidx.asc())
-                .fetch();
+      
 
-        List<String> course_name_list = jpaQueryFactory.select(qCourse.coursename)
+        List<String> course_name_list = jpaQueryFactory.select(qCourse.exercisename)
                 .from(qCourse)
                 .where(qCourse.coursename.eq(coursename))
-                .groupBy(qCourse.coursename)
-                .orderBy(qCourse.coursename.asc())
+                .orderBy(qCourse.step.asc())
                 .fetch();
 
 
@@ -64,9 +58,10 @@ public class ExerciseRecordDaoQdsl {
         //course하나를 담는 리스트
         //list안에 리스트를 담아서
         List<Tuple> tuple = jpaQueryFactory.select(qCourse, qExerciseImage)
-                .from(qCourse).innerJoin(qExercise).on(qCourse.exercisename.eq(qExercise.name))
+                .from(qCourse)
+                .innerJoin(qExercise).on(qCourse.exercisename.eq(qExercise.name))
                 .innerJoin(qExerciseImage).on(qExercise.idx.eq(qExerciseImage.exerciseidx))
-                .where(qExerciseImage.exerciseidx.eq(qCourse.exerciseidx), qCourse.coursename.eq(coursename))
+                .where(qCourse.coursename.eq(coursename).and(qExerciseImage.step.ne(0)))
                 .orderBy(qCourse.step.desc(), qExerciseImage.step.desc())
                 .fetch();
 
@@ -76,24 +71,23 @@ public class ExerciseRecordDaoQdsl {
         for(Tuple t : tuple){
             Course c = t.get(0, Course.class);
             ExerciseImage exi = t.get(1,ExerciseImage.class);
-
-
             stack.add(new ExerciseRecordRes(c.getCoursename(),exi.getPath(), exi.getStep(),exi.getDesc(),c.getExerciseidx(), c.getExercisename()));
         }
         while(!stack.isEmpty()){
             image_list.add(stack.pop());
         }
+    
         List<ExerciseRecordRes> tmp = new ArrayList<>();
         List<ExerciseRecordResFin> res = new ArrayList<>();
-
+        
 
         //todo
         // course_name_list 를 도는게 아님 왜냐면 coursename에 해당하는 것만 원하기 때문에 그렇게 바꿔야하고
         // exercise_idx끼리 묶기*
-        for(int i =0; i<course_idx_list.size(); i++){
+        for(int i =0; i<course_name_list.size(); i++){
             tmp = new ArrayList<ExerciseRecordRes>();
             for(int j=0; j<image_list.size(); j++){
-                if(course_idx_list.get(i).equals(image_list.get(j).getExercise_idx())){
+                if(course_name_list.get(i).equals(image_list.get(j).getExercise_name())){
                     tmp.add(new ExerciseRecordRes(image_list.get(j).getCoursename(),
                             image_list.get(j).getPath(),
                             image_list.get(j).getImage_step(),
