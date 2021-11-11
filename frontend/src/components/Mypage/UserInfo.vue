@@ -17,7 +17,7 @@
                 <label>비밀번호</label>
             </div>
             <div class='right'>
-                {{password}}
+                <input v-model="password" placeholder="password" type="text">
             </div>
         </div>
         <div class='midForm'>
@@ -25,7 +25,7 @@
                 <label>이름</label>
             </div>
             <div class='right'>
-                {{name}}
+                <input v-model="name" placeholder="이름을 입력하세요" type="text">
             </div>
         </div>
         <div class='midForm'>
@@ -33,7 +33,7 @@
                 <label>나이</label>
             </div>
             <div class='right'>
-                {{age}}
+                <input v-model="age" placeholder="나이를 입력하세요" type="number" min="1">
             </div>
         </div>
         <div class='midForm'>
@@ -41,7 +41,11 @@
                 <label>성별</label>
             </div>
             <div class='right'>
-                {{gender}}
+                <select v-model="gender">
+                    <option value="" disabled>성별을 선택하세요.</option>
+                    <option value="남자">남자</option>
+                    <option value="여자">여자</option>
+                </select>
             </div>
         </div>
         <div div class='midForm'>
@@ -49,7 +53,7 @@
                 <label>키</label>
             </div>
             <div class='right'>
-                {{height}}
+                <input v-model="height" placeholder="키를 입력하세요" type="number" min="1">
             </div>
         </div>
         <div class='midForm'>
@@ -57,18 +61,17 @@
                 <label>몸무게</label>
             </div>
             <div class='right'>
-                {{weight}}
+                <input v-model="weight" placeholder="몸무게를 입력하세요" type="number" min="1">
             </div>
         </div>
         <div>
-            <!-- <button type="button" @click="modify">수정</button> -->
-            <button type="button" @click="leave">탈퇴</button>
+            <button type="button" class='btn' @click="modify">수정</button>
+            <button type="button" class='btn' @click="leave">탈퇴</button>
         </div>
     </div>
 </template>
 
 <script>
-
 import UserApi from "../../api/UserApi"
 import { mapState } from 'vuex'
 export default {
@@ -134,6 +137,34 @@ export default {
                     console.log(error);
                 }
             );
+        },
+        modify() {
+            let data = {
+                age: this.age,
+                email: this.email,
+                gender: this.gender,
+                height: this.height,
+                name: this.name,
+                password: this.password,
+                time: "",
+                weight: this.weight,
+            };
+            UserApi.Modify(
+                data,
+                res => {
+                if(res.data.message == "success"){
+                    alert("정상적으로 수정되었습니다.");
+                }else if(res.data.message == "fail"){
+                    alert("탈퇴 실패");
+                }else{
+                    alert("탈퇴 실패");
+                }
+                },
+                error => {
+                    alert("에러발생");
+                    console.log(error);
+                }
+            )
         },       
     },
     computed: {
@@ -177,5 +208,20 @@ export default {
 .right {
   width: 100%;
   border-bottom: 2px solid #adadad;
+}
+
+.right input{
+  border:none;
+  outline:none;
+}
+
+.btn {
+  background: $light-color;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin:2px 4px;
+  cursor: pointer;
+  font-family: 'SBAggroL';
 }
 </style>

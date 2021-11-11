@@ -43,6 +43,14 @@ const IdCheck = (data, callback, errorCallback) => {
     .catch((err) => errorCallback(err));
 };
 
+const Modify = (data, callback, errorCallback) => {
+    
+    http.put('/user/modify',data
+    )
+    .then((res) => callback(res))
+    .catch((err) => errorCallback(err));
+};
+
 const Leave = (data, callback, errorCallback) => {
     
     http.delete('/user/leave',
@@ -89,6 +97,7 @@ const UserApi = {
     Join: (data, callback, errorCallback) => Join(data, callback, errorCallback),
     UserInfo: (data, callback, errorCallback) => UserInfo(data, callback, errorCallback),
     IdCheck: (data, callback, errorCallback) => IdCheck(data, callback, errorCallback),
+    Modify: (data, callback, errorCallback) => Modify(data, callback, errorCallback),
     Leave: (data, callback, errorCallback) => Leave(data, callback, errorCallback),
     MyRecord: (data, callback, errorCallback) => MyRecord(data, callback, errorCallback),
     DailyRecord: (data, callback, errorCallback) => DailyRecord(data, callback, errorCallback),
