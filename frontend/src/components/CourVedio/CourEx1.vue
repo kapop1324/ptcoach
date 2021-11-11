@@ -6,7 +6,7 @@
     </div>
     <p class="timer">{{Timer}}</p>
     <div class="set-count">
-        <div class="cont">{{this.set}}세트 {{this.cnt}}회</div>
+        <div class="cont">{{this.set}}세트 {{this.total_count}}회</div>
         <div id="chart">
             <apexchart type="radialBar" height="150" :options="chart.chartOptions" v-bind:series="this.chart.series"></apexchart>
         </div>   
@@ -105,21 +105,49 @@ export default {
             this.dialog = true; // 서있는 자세를 정확하게 했을 경우
             this.speak = "좋습니다 시작해주세요 타이머 ON ⏰"
             this.start()  
-        }else if (prediction[1].probability.toFixed(2) == 1.0 && this.dialog ) {
-            if (this.stat == "up_true" && this.is_wrong == false) {
-                this.cnt++;
-                this.addChart();
-                this.success_cnt++;
-                this.speak ="자세 좋습니다"
-                this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
-            } else if (this.stat != "up_true" && this.is_wrong == true && this.dialog) {
-                this.cnt++;
-                this.addChart();
-                this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
-            }
+        }
+        
+        if(prediction[0].probability.toFixed(2) == 1.0 && this.dialog){
+
+                
+
+                if(this.status == "down" && this.is_wrong == false){
+
+                    this.total_count++;
+                    this.success_count++;
+                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;     
+                    this.addChart();
+                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
+                    audio.play();           
+
+                }
+
+                else if(this.status == "down" && this.is_wrong == true){
+
+                    this.total_count++;
+                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;  
+                    this.addChart();
+                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
+                audio.play();
+
+                }
+
+                else if(this.status != "down" && this.is_wrong == true){
+
+                    this.total_count++;
+                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;  
+                    this.addChart();
+                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
+                audio.play();
+
+                }
+
                 this.is_wrong = false;
-                this.stat = "basic";
-        } else if (prediction[2].probability.toFixed(2) == 1.0) {
+                this.status = "stand";
+                
+
+            }
+            else if (prediction[2].probability.toFixed(2) == 1.0) {
             this.is_wrong = false;
             this.stat = "up_true";
         } else if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
