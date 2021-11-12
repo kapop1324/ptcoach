@@ -4,7 +4,7 @@
     <div class="logo"><router-link to="/"><img src="@/assets/logo2.png" style="height:47px" alt=""></router-link></div>
     <div class="menus">
       <div class="menu-item">
-        <router-link to="/course">코스 운동</router-link>
+        <router-link to="/course" @click="reload">코스 운동</router-link>
       </div>          
       <div class="menu-item">          
         <router-link to="/posture">자세 교정</router-link>
@@ -32,6 +32,9 @@ export default {
     logout() {
       this.$store.dispatch("logout");
     },
+    reload() {
+      location.reload();
+    },    
   },
   computed: {
     isLogin() {
