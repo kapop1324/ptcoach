@@ -129,12 +129,12 @@ export default {
       if(this.step == 1 ){
 
         if(this.send_step == false){
-
+            await wait(1000)
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc1.mp3'));
           audio.play();
-
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          await wait(1000)
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -145,6 +145,7 @@ export default {
           setTimeout(() => {
             this.send_step = false;
             this.step_clear = true;
+            this.acc = prediction[1].probability.toFixed(2) * 100;
           }, 3000);
 
         }else{
@@ -166,6 +167,7 @@ export default {
           this.speak = "📢 다리를 벌리고 손을 아래로 뻗어주세요.";
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc2.mp3'));
           audio.play();
+          await wait(1000)
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
@@ -200,10 +202,12 @@ export default {
       if(this.step == 3 && this.step_clear == false){
 
         if(this.send_step == false){
+          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
           audio.play();
+          await wait(1000);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -239,6 +243,7 @@ export default {
           this.speak = "📢 다리를 벌리고 손을 위로 뻗어주세요.";
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
+          await wait(1000);
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
@@ -248,7 +253,6 @@ export default {
           this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
-
 
               this.send_step = false;
               this.step_clear = false;
@@ -277,8 +281,9 @@ export default {
           await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          this.send_step = true;
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
+          audio.play();
+          await wait(1000);
 
         }
         
@@ -288,29 +293,21 @@ export default {
 
         }else if(prediction[0].probability.toFixed(2) != 1.0 && this.clear == false){
           
-          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
-          audio.play();
-          this.speak = "📢 3초간 자세를 유지하세요."
-          this.step++;
-          setTimeout(() => {
-
-
-              this.send_step = false;
-              this.step_clear = true;
-              this.acc = prediction[1].probability.toFixed(2) * 100;
-            }, 3000);
-          
-
+          this.speak = "정자세로 서주세요"
+      
+    
         }else if(this.clear == true){
 
           this.speak = "팔벌려 높이뛰기 클리어!⭐️ 완료를 눌러주세요!";
           this.acc = 100;
 
           if(this.clear_sound == false){
-            await wait(100);
+
             var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc7.mp3'));
             audio.play();
             this.clear_sound = true;
+            this.step_clear = true;
+            
           } 
 
         }

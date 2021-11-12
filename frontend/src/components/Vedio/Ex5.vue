@@ -66,6 +66,7 @@ export default {
       }
       audio = new Audio(require('@/assets/audio/squat/squatc0.mp3'));
       audio.play();
+      await wait(1000);
       
       this.speak = "카메라를 불러오고 있습니다."
 
@@ -133,24 +134,28 @@ export default {
 
 
         if(this.send_step == false){
-          
+          await wait(1000)
           var audio = new Audio(require('@/assets/audio/squat/squatc1.mp3'));
           audio.play();
-          
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          await wait(1000)
   
         }
+
+        this.acc = prediction[0].probability.toFixed(2) * 100;
         
         if(prediction[0].probability.toFixed(2) == 1.0){
 
-          this.speak = "📢 정자세로 서주시기 바랍니다.";
+          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
+          audio.play();
+          this.speak = "3초간 자세를 유지하세요"
           this.step++;
 
-          
           setTimeout(() => {
             this.send_step = false;
             this.step_clear = true;
+            this.acc = prediction[1].probability.toFixed(2) * 100;
           }, 3000);
 
         }else{
@@ -166,15 +171,18 @@ export default {
       if(this.step == 2 && this.step_clear == true){
 
         if(this.send_step == false){
+          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "📢 앉아주세요.";
           var audio = new Audio(require('@/assets/audio/squat/squatc2.mp3'));
           audio.play();
-          await wait(1000);
+          await wait(1000)
           
           
         }
+
+        this.acc = prediction[1].probability.toFixed(2) * 100;
 
         if(prediction[1].probability.toFixed(2) == 1.0){      
           var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
@@ -183,10 +191,10 @@ export default {
           this.step++;
           setTimeout(() => {
 
-
               this.send_step = false;
               this.step_clear = false;
               this.acc = prediction[1].probability.toFixed(2) * 100;
+              
             }, 3000);
 
 
@@ -214,33 +222,25 @@ export default {
       if(this.step == 3 && this.step_clear == false){
 
         if(this.send_step == false){
-        
+          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/squat/squatc8.mp3'));
           audio.play();          
-
+          await wait(1000)
         }
         this.acc = prediction[2].probability.toFixed(2) * 100;
         
         if(prediction[0].probability.toFixed(2) == 1.0 && this.clear == false){
           
           this.clear = true;
+          this.acc = prediction[1].probability.toFixed(2) * 100;
 
         }else if(prediction[0].probability.toFixed(2) != 1.0 && this.clear == false){
+        
+          this.speak = "정자세로 서주세요"
+          this.acc = prediction[0].probability.toFixed(2) * 100;
           
-          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
-          audio.play();
-          this.speak = "📢 3초간 자세를 유지하세요."
-          this.step++;
-          setTimeout(() => {
-
-
-              this.send_step = false;
-              this.step_clear = false;
-              this.acc = prediction[1].probability.toFixed(2) * 100;
-            }, 3000);
-
         }else if(this.clear == true){
           
           this.speak = "스쿼트 클리어!⭐️완료를 눌러주세요!";
@@ -250,6 +250,7 @@ export default {
             var audio = new Audio(require('@/assets/audio/squat/squatc4.mp3'));
             audio.play();
             this.clear_sound = true;
+            this.step_clear = true;
           }          
           
 
@@ -271,7 +272,7 @@ export default {
         }
       }
     },
- 
+
   }
   
 };

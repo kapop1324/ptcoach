@@ -131,11 +131,12 @@ export default {
       if(this.step == 1 ){
 
         if(this.send_step == false){
+          await wait(1000);
           audio = new Audio(require('@/assets/audio/sidestep/sidestepc1.mp3'));
           audio.play();
-        
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          await wait(1000);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -146,6 +147,7 @@ export default {
           setTimeout(() => {
             this.send_step = false;
             this.step_clear = true;
+            this.acc = prediction[0].probability.toFixed(2) * 100;
           }, 3000);
 
         }else{
@@ -199,11 +201,12 @@ export default {
       if(this.step == 3 && this.step_clear == false){
 
         if(this.send_step == false){
-      
+          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc4.mp3'));
           audio.play();
+          await wait(1000);
         }
         
         if(prediction[2].probability.toFixed(2) == 1.0){
@@ -211,7 +214,6 @@ export default {
           this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
-
 
               this.send_step = false;
               this.step_clear = true;
@@ -232,11 +234,12 @@ export default {
       if(this.step == 4 && this.step_clear == true){
 
         if(this.send_step == false){
-          
+          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc5.mp3'));
           audio.play();
+          await wait(1000);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -264,11 +267,13 @@ export default {
       if(this.step == 5 && this.step_clear == false){
 
         if(this.send_step == false){
+          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "📢 왼쪽으로 다리를 벌려 주세요.";
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc6.mp3'));
           audio.play();
+          await wait(1000);
         }
 
         if(prediction[3].probability.toFixed(2) == 1.0){
@@ -303,6 +308,7 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc7.mp3'));
           audio.play();
+          await wait(1000);
         }
         
         if(prediction[4].probability.toFixed(2) == 1.0){
@@ -332,15 +338,18 @@ export default {
       if(this.step == 7 && this.step_clear == false){
 
         if(this.send_step == false){
+          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc5.mp3'));
           audio.play();
+          await wait(1000);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0 && this.clear == false){
 
           this.clear = true;
+          this.acc = prediction[1].probability.toFixed(2) * 100;
 
         }else if(prediction[0].probability.toFixed(2) != 1.0 && this.clear == false){
           
@@ -357,6 +366,7 @@ export default {
             var audio = new Audio(require('@/assets/audio/sidestep/sidestepc8.mp3'));
             audio.play();
             this.clear_sound = true;
+            this.step_clear = true;
           }       
 
         }
