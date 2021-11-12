@@ -3,8 +3,9 @@
     <div class="vedio"><canvas id="canvas"></canvas></div>
     <div>
       <p class="speak">{{speak}}</p>
-    <div class="result">{{acc}}% 일치</div> 
-    </div>
+      <div class="title">Accuracy:</div> 
+      <p class="bar" v-bind:style="{width:acc/2+'%'}">{{parseInt(acc)}}%</p>
+    </div> 
     <div class="start-btn3">
       <div class="start3" @click="init()"> 시작 </div>
     </div> 
@@ -32,7 +33,7 @@ export default {
   data: () => {
     return {
       speak :"",
-      acc:0,
+      acc:100,
       step:0,
       clear : false,
       send_step : false,
@@ -60,7 +61,7 @@ export default {
       var audio = new Audio(require('@/assets/audio/correction/5second.mp3'));
       audio.play();
       for(var i = 5; i > 0; i--){
-        this.speak = i+"초간 기다려주시기 바랍니다"
+        this.speak = i+"초 후 시작 ⏳"
         await wait(1000);
       }
 
@@ -68,7 +69,7 @@ export default {
       audio.play();
     
       
-      this.speak = "카메라를 불러오고 있습니다."
+      this.speak = "카메라가 켜지고 있습니다."
 
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
@@ -119,7 +120,7 @@ export default {
           await wait(1000);
         }
 
-        this.speak = "정자세로 서주시기 바랍니다" 
+        this.speak = "📢 정자세로 서주시기 바랍니다." 
         this.step++;
       }
 
@@ -138,7 +139,7 @@ export default {
         
         if(prediction[0].probability.toFixed(2) == 1.0){
 
-          this.speak = "정자세를 유지해주세요";
+          this.speak = "📢 정자세를 유지해주세요.";
           this.step++;
 
           setTimeout(() => {
@@ -148,7 +149,7 @@ export default {
 
         }else{
           
-          this.speak = "정자세로 서주세요";
+          this.speak = "📢 정자세로 서주시기 바랍니다.";
           this.acc = prediction[0].probability.toFixed(2) * 100;
 
         }
@@ -162,7 +163,7 @@ export default {
           await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          this.speak = "다리를 벌리고 손을 아래로 뻗어주세요";
+          this.speak = "📢 다리를 벌리고 손을 아래로 뻗어주세요.";
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc2.mp3'));
           audio.play();
         }
@@ -171,7 +172,7 @@ export default {
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc3.mp3'));
           audio.play();
 
-          this.speak = "3초간 자세를 유지하세요"
+          this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
 
@@ -183,7 +184,7 @@ export default {
 
         }else if(prediction[3].probability.toFixed(2) == 1.0){
           
-          this.speak = "다리가 너무 벌어졌습니다.";
+          this.speak = "📢 다리가 너무 벌어졌습니다.";
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc4.mp3'));
           audio.play();
           await wait(1000);
@@ -209,7 +210,7 @@ export default {
 
           var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
           audio.play();
-          this.speak = "3초간 자세를 유지하세요"
+          this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
 
@@ -221,7 +222,7 @@ export default {
 
         }else{
           
-          this.speak = "정자세로 서주세요";
+          this.speak = "📢 정자세로 서주시기 바랍니다.";
           this.acc = prediction[0].probability.toFixed(2) * 100;
 
         }
@@ -235,7 +236,7 @@ export default {
           await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          this.speak = "다리를 벌리고 손을 위로 뻗어주세요";
+          this.speak = "📢 다리를 벌리고 손을 위로 뻗어주세요.";
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
         }
@@ -244,7 +245,7 @@ export default {
 
           var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
           audio.play();
-          this.speak = "3초간 자세를 유지하세요"
+          this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
 
@@ -256,7 +257,7 @@ export default {
 
         }else if(prediction[4].probability.toFixed(2) == 1.0){
           
-          this.speak = "다리가 너무 벌어졌습니다.";
+          this.speak = "📢 다리가 너무 벌어졌습니다.";
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc4.mp3'));
           audio.play();
           await wait(1000);
@@ -289,7 +290,7 @@ export default {
           
           var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
           audio.play();
-          this.speak = "3초간 자세를 유지하세요"
+          this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
 
@@ -302,7 +303,7 @@ export default {
 
         }else if(this.clear == true){
 
-          this.speak = "팔벌려 높이뛰기 클리어! 완료를 눌러주세요!";
+          this.speak = "팔벌려 높이뛰기 클리어!⭐️ 완료를 눌러주세요!";
           this.acc = 100;
 
           if(this.clear_sound == false){
@@ -337,30 +338,44 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
+.title {
+    position:absolute;
+    top: 128%;
+    left: 12%;
+    font-size: 14px;
+    color: $logo-color;
+    font-weight: bold;
+}
+.bar {
+  position:absolute;
+  top: 122%;
+  left: 22%;
+  background: $logo-color;
+  width: 10%;
+  display: block;
+  margin: 20px 0;
+  line-height:1.8em;
+  border-radius:10px;
+  text-align : center;
+  color: white;
+  font-size: 12px;
+  padding: 3px;
+}
+.speak {
+    top: 3%;
+    left: 28%;
+    position: absolute;
+    font-size: 24px;
+}
 .vedio {
   top: 26%;
   position: absolute;
-}
-.speak {
-  top: 3%;
-  left: 26%;
-  position: absolute;
-  font-size: 25px;
 }
 .stat {
     position:absolute;
     top: 92%;
     left: 0.2%;  
     font-size: 24px;
-}
-
-.result {
-    position:absolute;
-    top: 122%;
-    left: 38%;
-    font-size: 30px;
-    color: $logo-color;
-    font-weight: bold;
 }
 .start-btn3 {
   top: 92%;

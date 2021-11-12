@@ -4,9 +4,9 @@
     <div class="vedio"><canvas id="canvas"></canvas></div>
     <div>
       <p class="speak">{{speak}}</p>
-      
-    <div class="result">{{acc}}% 일치</div> 
-    </div>
+      <div class="title">Accuracy:</div> 
+      <div class="bar" v-bind:style="{width:acc/2+'%'}">{{parseInt(acc)}}%</div>
+    </div> 
     <div class="start-btn">
       <div class="start" @click="init()"> 시작 </div>
     </div> 
@@ -37,7 +37,7 @@ export default {
       rate: 10,
       dialog : false,
       speak :"",
-      acc:0,
+      acc:100,
       step:0,
       clear: false,
       stepb:false, //이전스탭의 acc상태 보여주기
@@ -52,7 +52,7 @@ export default {
       audio.play();
 
       for(var i = 5; i>0; i--){
-        this.speak = i+"초간 기다려주시기 바랍니다."
+        this.speak = i+"초 후 시작 ⏳ "
         await wait(1000);
       }
       audio = new Audio(require('@/assets/3audio/2.mp3'));
@@ -93,7 +93,7 @@ export default {
       //step 0
       if(this.step == 0){
         
-        this.speak = "정자세로 서주시기 바랍니다"
+        this.speak = "📢 정자세로 서주시기 바랍니다."
         this.step++;
       }
 
@@ -107,7 +107,7 @@ export default {
         this.acc = prediction[0].probability.toFixed(2) * 100;
 
         if(prediction[0].probability.toFixed(2) == 1.0){
-          this.speak = "정자세 좋습니다 3초간 유지해주세요";
+          this.speak = "📢 정자세 좋습니다 3초간 유지해주세요.";
           this.step++;
           this.acc = prediction[0].probability.toFixed(2) * 100;
           this.stat = "stand"
@@ -118,7 +118,7 @@ export default {
             this.stepb = true;
           }, 3000);
         }else{
-          this.speak = "정자세로 서주세요";
+          this.speak = "📢 정자세로 서주시기 바랍니다.";
           this.acc = prediction[0].probability.toFixed(2) * 100;
         }
         
@@ -131,7 +131,7 @@ export default {
           if(this.dialog == false){
           this.$emit("sendStep",this.step);
           this.dialog = true;
-          this.speak = "step1클리어!"
+          this.speak = "step1 클리어!⭐️"
           var audio = new Audio(require('@/assets/3audio/3.mp3'));
           audio.play();
           await wait(1000)
@@ -141,7 +141,7 @@ export default {
         this.acc = prediction[1].probability.toFixed(2) * 100;
 
         if(prediction[1].probability.toFixed(2) == 1.0 && this.stat == "basic"){
-            this.speak = "지금 상태를 3초간 유지해 주세요"
+            this.speak = "📢 지금 상태를 3초간 유지해 주세요."
             this.step++;
             
             setTimeout(() => {
@@ -151,9 +151,9 @@ export default {
             }, 3000);
           }else if(prediction[4].probability.toFixed(2) == 1.0){
            
-            this.speak = "고개를 들고 허리를 펴주세요"
+            this.speak = "📢 고개를 들고 허리를 펴주세요."
           }else if(prediction[5].probability.toFixed(2) == 1.0){
-            this.speak = "팔을 상체와 가깝게 붙이고 내려주세요"
+            this.speak = "📢 팔을 상체와 가깝게 붙이고 내려주세요."
           }
           
         }
@@ -164,7 +164,7 @@ export default {
           if(this.dialog == false){
           this.$emit("sendStep",this.step);
           this.dialog = true;
-          this.speak = "step2클리어!"
+          this.speak = "step2 클리어!⭐️"
           var audio = new Audio(require('@/assets/3audio/4.mp3'));
           audio.play();
           await wait(1000)
@@ -174,7 +174,7 @@ export default {
         this.acc = prediction[2].probability.toFixed(2) * 100;
 
         if(prediction[2].probability.toFixed(1) == 1.0 && this.stat == "up"){
-          this.speak = "지금 상태를 3초간 유지해 주세요"
+          this.speak = "📢 지금 상태를 3초간 유지해 주세요."
           this.step++;
 
           setTimeout(() => {
@@ -183,7 +183,7 @@ export default {
           }, 3000);
 
         }else if(prediction[3].probability.toFixed(2) == 1.0){
-          this.speak = "허리를 펴고, 팔을 상체와 가깝게 붙이고 들어올려주세요"
+          this.speak = "📢 허리를 펴고, 팔을 상체와 가깝게 붙이고 들어올려주세요."
         }
 
         }
@@ -196,22 +196,22 @@ export default {
             var audio = new Audio(require('@/assets/3audio/3.mp3'));
             audio.play();
             await wait(1000)
-            this.speak = "step3 클리어!"
+            this.speak = "step3 클리어!⭐️"
             this.stat = "basic"
           }
 
           this.acc = prediction[1].probability.toFixed(2) * 100;
 
           if(prediction[1].probability.toFixed(2) == 1.0 && this.clear == false){
-            this.speak = "지금 상태를 3초간 유지해 주세요"
+            this.speak = "📢 지금 상태를 3초간 유지해 주세요."
             setTimeout(() => {
-              this.speak = "덤벨 로우 클리어! 완료를 눌러주세요";
+              this.speak = "덤벨 로우 클리어!⭐️ 완료를 눌러주세요";
               this.clear = true;
             }, 3000);
           }else if(prediction[4].probability.toFixed(2) == 1.0){
-            this.speak = "고개를 들고 허리를 펴주세요"
+            this.speak = "📢 고개를 들고 허리를 펴주세요."
           }else if(prediction[5].probability.toFixed(2) == 1.0){
-            this.speak = "팔을 상체와 가깝게 붙이고 내려주세요"
+            this.speak = "📢 팔을 상체와 가깝게 붙이고 내려주세요."
           }else if(this.clear == true){
             this.acc = 100;
             if(this.clear_sound == false){
@@ -245,30 +245,44 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
+.title {
+    position:absolute;
+    top: 128%;
+    left: 12%;
+    font-size: 14px;
+    color: $logo-color;
+    font-weight: bold;
+}
+.bar {
+  position:absolute;
+  top: 122%;
+  left: 22%;
+  background: $logo-color;
+  width: 10%;
+  display: block;
+  margin: 20px 0;
+  line-height:1.8em;
+  border-radius:10px;
+  text-align : center;
+  color: white;
+  font-size: 12px;
+  padding: 3px;
+}
+.speak {
+    top: 3%;
+    left: 28%;
+    position: absolute;
+    font-size: 24px;
+}
 .vedio {
   top: 26%;
   position: absolute;
-}
-.speak {
-  top: 3%;
-  left: 26%;
-  position: absolute;
-  font-size: 25px;
 }
 .stat {
     position:absolute;
     top: 92%;
     left: 0.2%;  
     font-size: 24px;
-}
-
-.result {
-    position:absolute;
-    top: 122%;
-    left: 38%;
-    font-size: 30px;
-    color: $logo-color;
-    font-weight: bold;
 }
 .start-btn {
   top: 88%;
