@@ -156,9 +156,7 @@ export default {
         // 만약 10개를 달성하면 일단 정지 
         // front store에 저장하여 가지고 있도록 구성하고 
         // 다음 코스 운동으로 넘어가기
-        else if( this.cnt == 10){
-                await this.webcam.stop();
-        }
+        
             //1세트 다 끝나면
         if( this.cnt == 5){
             this.set++;
