@@ -149,7 +149,7 @@ export default {
 
           var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
           audio.play();
-          this.speak = "3초간 자세를 유지하세요"
+          this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
 
           setTimeout(() => {
@@ -238,7 +238,7 @@ export default {
 
         }else if(prediction[0].probability.toFixed(2) != 1.0 && this.clear == false){
         
-          this.speak = "정자세로 서주세요"
+          this.speak = "📢 정자세로 서주시기 바랍니다."
           this.acc = prediction[0].probability.toFixed(2) * 100;
           
         }else if(this.clear == true){

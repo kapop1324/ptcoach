@@ -141,7 +141,7 @@ export default {
         if(prediction[0].probability.toFixed(2) == 1.0){
           var audio = new Audio(require('@/assets/audio/lunge/lungec3.mp3'));
           audio.play();
-          this.speak = "3초간 자세를 유지하세요";
+          this.speak = "📢 3초간 자세를 유지하세요.";
           this.step++;
 
             setTimeout(() => {
@@ -175,7 +175,7 @@ export default {
         if(prediction[1].probability.toFixed(2) == 1.0){
           var audio = new Audio(require('@/assets/audio/lunge/lungec3.mp3'));
           audio.play();
-          this.speak = "3초간 자세를 유지하세요"
+          this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
               
@@ -186,7 +186,7 @@ export default {
 
         }else if(prediction[2].probability.toFixed(2) == 1.0){
         
-          this.speak = "허리를 곧게 펴주세요";
+          this.speak = "📢 허리를 곧게 펴주세요.";
           var audio = new Audio(require('@/assets/audio/lunge/lungec4.mp3'));
           audio.play();
 
