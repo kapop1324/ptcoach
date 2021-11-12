@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+// colors
+$white-color: #f6f6f6;
+$black-color: #1b1b1b;
+$dark-color: #626262;
+$bg-color: #F7F8FC;  // 백그라운드 컬러
+$logo-color: #081F6C;  // 로고 파란색
+$light-color: #d3e1ff;  // 태그 연한 하늘색
+
+
+// container
+.content-box {
+	width: 80vw;
+	height: 100%;
+	margin: 0 auto;
+	padding-top: 100px;
+  min-width: 375px;
+}

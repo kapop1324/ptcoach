@@ -33,9 +33,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         // 디랙토리 추가
-        registry.addResourceHandler("/images/**")
-//                .addResourceLocations("file:////home/ubuntu/app/S05P21C202/backend/images/");
-                .addResourceLocations("file:////home/ubuntu/images/");
+        registry.addResourceHandler("/image/**")
+//              
+                .addResourceLocations("file:////home/ubuntu/image/");
 
         registry.addResourceHandler("/resources/**")
                 .addResourceLocations("/WEB-INF/resources/");

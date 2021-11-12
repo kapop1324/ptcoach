@@ -1,32 +1,77 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+
+    <Nav />
+    <div class="content-box">
+      <router-view/>
     </div>
-    <router-view/>
+    <Footer/>
+
   </div>
 </template>
 
-<style>
+<script>
+import Nav from "@/components/Common/Nav.vue"
+import Footer from "@/components/Common/Footer.vue"
+
+export default {
+  name: "App",
+  components:{
+    Nav,
+    Footer,
+  },
+}
+
+</script>
+
+<style lang="scss">
+@import "./styles/common.scss";
+
+@font-face {
+  font-family: 'SBAggroL';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GmarketSansLight';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'GmarketSansMedium';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: $black-color;
+  min-width: 375px;
+  background-color: #F7F8FC;
+  min-height: 100vh;
 }
 
-#nav {
-  padding: 30px;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+} 
+::-webkit-scrollbar-thumb {
+  background-color: #ced1df;
+  border: 1px solid transparent;
+  border-radius: 10px;
+} 
+::-webkit-scrollbar-track { 
+  background-color: #f4f6f6;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+::selection {
+  background: #d8deffe0;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
