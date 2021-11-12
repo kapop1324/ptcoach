@@ -258,4 +258,12 @@ export default {
     color: $logo-color;
     font-weight: bold;
 }
+.timer {
+    top:20%;
+    position: absolute;
+    font-size: 54px;
+    width: 180px;
+    height: 90px;
+    right:38%;
+}
 </style>
