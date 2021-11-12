@@ -4,14 +4,11 @@
     <div>
         <p class="speak">{{speak}}</p>
     </div>
-    <div class="start-btn">
-        <div class="start" @click="init()"> 시작 </div>
-    </div> 
-
+    <p class="timer">{{Timer}}</p>
     <div class="set-count">
-        <div class="cont">{{this.set}}세트 {{this.success_cnt}}회</div>
+        <div class="cont">{{this.set}}세트 {{this.cnt}}회</div>
         <div id="chart">
-        <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="chart.series"></apexchart>
+            <apexchart type="radialBar" height="150" :options="chart.chartOptions" v-bind:series="this.chart.series"></apexchart>
         </div>   
     </div> 
 
@@ -23,7 +20,7 @@
 import * as tmPose from "@teachablemachine/pose";
 import VueApexCharts from 'vue-apexcharts'
 import wait from "waait"
-const URL = "https://teachablemachine.withgoogle.com/models/mZu-ppxDG/";
+const URL = "https://teachablemachine.withgoogle.com/models/Tt5WzWwqn/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 export default {
@@ -39,9 +36,12 @@ export default {
         speak :"",
         set:0,
         count:0,
+        time:0,
+        accuracy:0,
         apexchart:VueApexCharts,
+        value:0,
         chart: {
-            series: [],
+            series: [0],
             chartOptions: {
             chart: {
             height: 150,
@@ -54,9 +54,11 @@ export default {
                 }
             },
             },
-            labels: ['count'],
+            labels: ['set'],
             },      
-        },        
+        },
+        stopWatch: 0,
+        timer: undefined  
     };
     },
     created(){
@@ -94,6 +96,8 @@ export default {
         async predict() {
         const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
         const prediction = await model.predict(posenetOutput);
+        
+        //덤벨로우
 
         if(!this.dialog){
             this.speak = "정자세로 서주시기 바랍니다" 
@@ -101,18 +105,18 @@ export default {
         if (prediction[0].probability.toFixed(2) == 1.0 && !this.dialog) {
             this.stat = "stand";
             this.dialog = true; // 서있는 자세를 정확하게 했을 경우
-            this.speak = "좋습니다 시작합니다 시작해주세요"
+            this.speak = "좋습니다 시작해주세요 타이머 ON ⏰"
+            this.start()  
         }else if (prediction[1].probability.toFixed(2) == 1.0 && this.dialog ) {
             if (this.stat == "up_true" && this.is_wrong == false) {
                 this.cnt++;
+                this.addChart();
                 this.success_cnt++;
-                //this.$emit("Count",this.success_cnt);
                 this.speak ="자세 좋습니다"
-                //console.log(this.cnt);
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
-                console.log(this.rate);
             } else if (this.stat != "up_true" && this.is_wrong == true && this.dialog) {
                 this.cnt++;
+                this.addChart();
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
             }
                 this.is_wrong = false;
@@ -123,13 +127,14 @@ export default {
         } else if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
             this.stat = "up_false";
             this.is_wrong = true;
-            this.speak ="팔 넓이를 좁혀 주세요"
+            this.speak ="허리를 펴고, 팔을 상체와 가깝게 붙이고 들어올려주세요"
         } else if (prediction[4].probability.toFixed(2) == 1.0 && this.dialog) {
             this.stat = "down_false";
             this.is_wrong = true;
-            this.speak ="팔을 어깨 선과 맞춰 주세요."
+            this.speak ="허리를 펴주세요."
         } else if (prediction[5].probability.toFixed(2) == 1.0 && this.dialog) {
             this.is_wrong = false;
+            this.speak = "허리를 펴고, 팔을 상체와 가깝게 붙이고 내려주세요"
             this.stat = "basic_false";
         } 
         // 만약 10개를 달성하면 일단 정지 
@@ -139,12 +144,18 @@ export default {
                 await this.webcam.stop();
         }
             //1세트 다 끝나면
-        if( this.cnt == 3){
+        if( this.cnt == 5){
             this.set++;
             this.cnt=0;
-            this.$emit("Set",this.set);
-            this.$emit("Count",this.cnt);
-            if( this.set == 1){
+            if( this.set == 2){
+                this.stop();
+                console.log("시간:"+this.stopWatch/1000);
+                let record = {
+                    exercise_idx:1,
+                    time: this.stopWatch/1000,
+                    accuracy: this.rate,
+                };   
+                this.$store.state.record = record;
                 this.$emit("Index");
             } 
         }
@@ -161,6 +172,29 @@ export default {
             }
         }
         },
+        start() {
+            this.timer = setInterval(() => {
+                this.stopWatch += 1000;
+            }, 1000);
+        },
+        stop() {
+            clearInterval(this.timer);
+        },
+        addChart() {
+            this.value=this.value+20;
+            this.chart.series.splice(0,1,this.value);
+            if(this.value==100){
+                this.value=0;
+            }
+        },
+    },
+    computed: {
+        Timer() {
+            const date = new Date(null);
+            date.setSeconds(this.stopWatch / 1000);
+            const utc = date.toUTCString();
+            return utc.substr(20, 5);
+        }
     },
 };
 </script>

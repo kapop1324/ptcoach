@@ -6,9 +6,9 @@
     </div>
     <p class="timer">{{Timer}}</p>
     <div class="set-count">
-        <div class="cont">{{this.set}}세트 {{this.success_cnt}}회</div>
+        <div class="cont">{{this.set}}세트 {{this.cnt}}회</div>
         <div id="chart">
-        <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="chart.series"></apexchart>
+            <apexchart type="radialBar" height="150" :options="chart.chartOptions" v-bind:series="this.chart.series"></apexchart>
         </div>   
     </div> 
 
@@ -40,8 +40,9 @@ export default {
         time:0,
         accuracy:0,
         apexchart:VueApexCharts,
+        value:0,
         chart: {
-            series: [],
+            series: [0],
             chartOptions: {
             chart: {
             height: 150,
@@ -54,7 +55,7 @@ export default {
                 }
             },
             },
-            labels: ['count'],
+            labels: ['set'],
             },      
         },
         stopWatch: 0,
@@ -64,6 +65,7 @@ export default {
     created(){
         this.init();
     },
+    //숄더프레스 
     methods: {
         async init() {   
         for(var i = 3; i > 0; i--){
@@ -102,20 +104,18 @@ export default {
         if (prediction[0].probability.toFixed(2) == 1.0 && !this.dialog) {
             this.stat = "stand";
             this.dialog = true; // 서있는 자세를 정확하게 했을 경우
-            this.speak = "좋습니다 시작해주세요"
-            this.speak = "타이머 ON ⏰"
+            this.speak = "좋습니다 시작해주세요 타이머 ON ⏰"
             this.start()  
         }else if (prediction[1].probability.toFixed(2) == 1.0 && this.dialog ) {
             if (this.stat == "up_true" && this.is_wrong == false) {
                 this.cnt++;
+                this.addChart();
                 this.success_cnt++;
-                //this.$emit("Count",this.success_cnt);
                 this.speak ="자세 좋습니다"
-                //console.log(this.cnt);
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
-                //console.log(this.rate);
             } else if (this.stat != "up_true" && this.is_wrong == true && this.dialog) {
                 this.cnt++;
+                this.addChart();
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
             }
                 this.is_wrong = false;
@@ -135,23 +135,14 @@ export default {
             this.is_wrong = false;
             this.stat = "basic_false";
         } 
-        // 만약 10개를 달성하면 일단 정지 
-        // front store에 저장하여 가지고 있도록 구성하고 
-        // 다음 코스 운동으로 넘어가기
-        else if( this.cnt == 10){
-                await this.webcam.stop();
-        }
-        //1세트 다 끝나면
-        if( this.cnt == 3){
+        if( this.cnt == 5){
             this.set++;
             this.cnt=0;
-            // this.$emit("Set",this.set);
-            // this.$emit("Count",this.cnt);
-            if( this.set == 1){
+            if( this.set == 2){
                 this.stop();
                 console.log("시간:"+this.stopWatch/1000);
                 let record = {
-                    exercise_idx:4,
+                    exercise_idx:1,
                     time: this.stopWatch/1000,
                     accuracy: this.rate,
                 };   
@@ -178,6 +169,13 @@ export default {
         },
         stop() {
             clearInterval(this.timer);
+        },
+        addChart() {
+            this.value=this.value+20;
+            this.chart.series.splice(0,1,this.value);
+            if(this.value==100){
+                this.value=0;
+            }
         },
     },
     computed: {
