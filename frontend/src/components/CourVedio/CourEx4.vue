@@ -101,40 +101,57 @@ export default {
         if(!this.dialog){
             this.speak = "정자세로 서주시기 바랍니다" 
         }
+
         if (prediction[0].probability.toFixed(2) == 1.0 && !this.dialog) {
             this.stat = "stand";
             this.dialog = true; // 서있는 자세를 정확하게 했을 경우
             this.speak = "좋습니다 시작해주세요 타이머 ON ⏰"
             this.start()  
-        }else if (prediction[1].probability.toFixed(2) == 1.0 && this.dialog ) {
+        }
+        
+        else if (prediction[1].probability.toFixed(2) == 1.0 && this.dialog ) {
             if (this.stat == "up_true" && this.is_wrong == false) {
                 this.cnt++;
                 this.addChart();
                 this.success_cnt++;
                 this.speak ="자세 좋습니다"
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
+                var audio = new Audio(require('@/assets/audio/course/'+this.cnt+'.mp3'));
+                audio.play();
+                
             } else if (this.stat != "up_true" && this.is_wrong == true && this.dialog) {
                 this.cnt++;
                 this.addChart();
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
+                var audio = new Audio(require('@/assets/audio/course/'+this.cnt+'.mp3'));
+                audio.play();
             }
                 this.is_wrong = false;
                 this.stat = "basic";
-        } else if (prediction[2].probability.toFixed(2) == 1.0) {
+        } 
+        
+        else if (prediction[2].probability.toFixed(2) == 1.0) {
             this.is_wrong = false;
             this.stat = "up_true";
-        } else if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
+        } 
+        
+        else if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
             this.stat = "up_false";
             this.is_wrong = true;
             this.speak ="팔 넓이를 좁혀 주세요"
-        } else if (prediction[4].probability.toFixed(2) == 1.0 && this.dialog) {
+        } 
+        
+        else if (prediction[4].probability.toFixed(2) == 1.0 && this.dialog) {
             this.stat = "down_false";
             this.is_wrong = true;
             this.speak ="팔을 어깨 선과 맞춰 주세요."
-        } else if (prediction[5].probability.toFixed(2) == 1.0 && this.dialog) {
+        } 
+        
+        else if (prediction[5].probability.toFixed(2) == 1.0 && this.dialog) {
             this.is_wrong = false;
             this.stat = "basic_false";
         } 
+
         if( this.cnt == 5){
             this.set++;
             this.cnt=0;
@@ -148,10 +165,13 @@ export default {
                 };   
                 this.$store.state.record = record;
                 this.$emit("Index");
+                webcam.stop();
             } 
         }
+
             this.drawPose(pose);
         },
+
         drawPose(pose) {
         if (webcam.canvas) {
             ctx.drawImage(webcam.canvas, 0, 0);
@@ -162,14 +182,17 @@ export default {
             }
         }
         },
+
         start() {
             this.timer = setInterval(() => {
                 this.stopWatch += 1000;
             }, 1000);
         },
+
         stop() {
             clearInterval(this.timer);
         },
+
         addChart() {
             this.value=this.value+20;
             this.chart.series.splice(0,1,this.value);

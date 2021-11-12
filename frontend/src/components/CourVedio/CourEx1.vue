@@ -175,6 +175,7 @@ export default {
                 };   
                 this.$store.state.record = record;
                 this.$emit("Index");
+                
             } 
         }
             this.drawPose(pose);
