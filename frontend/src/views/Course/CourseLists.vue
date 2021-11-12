@@ -25,7 +25,6 @@ export default {
     }
   },
   created() {
-    this.$router.reload()
     this.getCourseList()
   },
   methods: {
