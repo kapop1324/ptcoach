@@ -39,6 +39,7 @@ export default {
         count:0,
         time:0,
         accuracy:0,
+        value:0,
         is_wrong_right : false,
         is_wrong_left : false,
         is_spread_left : false,
@@ -234,6 +235,7 @@ export default {
                     };   
                     this.$store.state.record = record;
                     this.$emit("Index");
+                    webcam.stop();
                 } 
                 
             }
@@ -259,6 +261,13 @@ export default {
         },
         stop() {
             clearInterval(this.timer);
+        },
+        addChart() {
+            this.value=this.value+20;
+            this.chart.series.splice(0,1,this.value);
+            if(this.value==100){
+                this.value=0;
+            }
         },
     },
     computed: {

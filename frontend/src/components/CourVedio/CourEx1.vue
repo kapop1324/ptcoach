@@ -21,16 +21,16 @@ import * as tmPose from "@teachablemachine/pose";
 import VueApexCharts from 'vue-apexcharts'
 import wait from "waait"
 
-const URL = "https://teachablemachine.withgoogle.com/models/mZu-ppxDG/";
+const URL = "https://teachablemachine.withgoogle.com/models/0K-kDjfYw/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 export default {
     data: () => {
     return {
         stat: "",
-        cnt: 0,
+        total_count: 0,
         set: 0,
-        success_cnt: 0,
+        success_count: 0,
         is_wrong: false,
         rate: 0,
         dialog : false,
@@ -109,8 +109,6 @@ export default {
         
         if(prediction[0].probability.toFixed(2) == 1.0 && this.dialog){
 
-                
-
                 if(this.status == "down" && this.is_wrong == false){
 
                     this.total_count++;
@@ -119,16 +117,6 @@ export default {
                     this.addChart();
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();           
-
-                }
-
-                else if(this.status == "down" && this.is_wrong == true){
-
-                    this.total_count++;
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;  
-                    this.addChart();
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                audio.play();
 
                 }
 
@@ -141,30 +129,22 @@ export default {
                 audio.play();
 
                 }
-
                 this.is_wrong = false;
-                this.status = "stand";
-                
+                this.status = "basic";
+
 
             }
-            else if (prediction[2].probability.toFixed(2) == 1.0) {
+            else if (prediction[1].probability.toFixed(2) == 1.0) {
             this.is_wrong = false;
-            this.stat = "up_true";
-        } else if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
-            this.stat = "up_false";
+            this.status = "down";
+        } else if (prediction[2].probability.toFixed(2) == 1.0 && this.dialog) {
+            this.status = "down_false";
             this.is_wrong = true;
-            this.speak ="팔 넓이를 좁혀 주세요"
-        } else if (prediction[4].probability.toFixed(2) == 1.0 && this.dialog) {
-            this.stat = "down_false";
-            this.is_wrong = true;
-            this.speak ="팔을 어깨 선과 맞춰 주세요."
-        } else if (prediction[5].probability.toFixed(2) == 1.0 && this.dialog) {
-            this.is_wrong = false;
-            this.stat = "basic_false";
-        } 
-        if( this.cnt == 5){
+            this.speak ="허리를 펴주세요."
+        }
+        if( this.total_count == 5){
             this.set++;
-            this.cnt=0;
+            this.total_count=0;
             if( this.set == 2){
                 this.stop();
                 console.log("시간:"+this.stopWatch/1000);
@@ -175,6 +155,7 @@ export default {
                 };   
                 this.$store.state.record = record;
                 this.$emit("Index");
+                webcam.stop();
                 
             } 
         }
