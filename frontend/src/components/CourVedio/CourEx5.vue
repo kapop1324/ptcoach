@@ -41,6 +41,7 @@ export default {
         accuracy:0,
 
         apexchart:VueApexCharts,
+        value:0,
         chart: {
             series: [],
             chartOptions: {
@@ -175,6 +176,7 @@ export default {
                     };   
                     this.$store.state.record = record;
                     this.$emit("Index");
+                    webcam.stop();
                 } 
                 
             }
@@ -200,6 +202,13 @@ export default {
         },
         stop() {
             clearInterval(this.timer);
+        },
+        addChart() {
+            this.value=this.value+20;
+            this.chart.series.splice(0,1,this.value);
+            if(this.value==100){
+                this.value=0;
+            }
         },
     },
     computed: {
