@@ -116,6 +116,8 @@ export default {
                 this.success_cnt++;
                 this.speak ="자세 좋습니다"
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
+                var audio = new Audio(require('@/assets/audio/course/'+this.cnt+'.mp3'));
+                audio.play();
             } 
             
             else if (this.stat != "up_true" && this.is_wrong == true && this.dialog) {
@@ -132,8 +134,7 @@ export default {
         else if (prediction[2].probability.toFixed(2) == 1.0) {
             this.is_wrong = false;
             this.stat = "up_true";
-            var audio = new Audio(require('@/assets/audio/course/'+this.cnt+'.mp3'));
-                audio.play();
+            
         } 
         
         else if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
