@@ -293,7 +293,7 @@ export default {
 
         }else if(prediction[0].probability.toFixed(2) != 1.0 && this.clear == false){
           
-          this.speak = "정자세로 서주세요"
+          this.speak = "📢 정자세로 서주시기 바랍니다."
       
     
         }else if(this.clear == true){
