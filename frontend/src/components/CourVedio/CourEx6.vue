@@ -116,6 +116,7 @@ export default {
                 if(this.status == "top" && this.is_wrong_top == false && this.is_wrong_bottom == false){
 
                     this.total_count++;
+                    this.addChart();
                     this.success_count++;
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
@@ -126,6 +127,7 @@ export default {
                 else if(this.status == "top" && ((this.is_wrong_top == true && this.is_wrong_bottom == false) || (this.is_wrong_top == false && this.is_wrong_bottom == true) || (this.is_wrong_top == true && this.is_wrong_bottom == true) )){
 
                     this.total_count++;
+                    this.addChart();
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();
@@ -134,6 +136,7 @@ export default {
                 else if(this.status != "top" && ((this.is_wrong_top == true && this.is_wrong_bottom == false) || (this.is_wrong_top == false && this.is_wrong_bottom == true) || (this.is_wrong_top == true && this.is_wrong_bottom == true) )){
 
                     this.total_count++;
+                    this.addChart();
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();

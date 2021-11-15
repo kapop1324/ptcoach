@@ -114,6 +114,7 @@ export default {
                 if(this.status == "squat" && this.is_wrong == false){
 
                     this.total_count++;
+                    this.addChart();
                     this.success_count++;
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;         
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
@@ -124,6 +125,7 @@ export default {
                 if(this.status == "squat" && this.is_wrong == true){
 
                     this.total_count++;
+                    this.addChart();
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;  
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();
@@ -134,6 +136,7 @@ export default {
                 if(this.status != "squat" && this.is_wrong == true){
 
                     this.total_count++;
+                    this.addChart();
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;  
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();
@@ -167,7 +170,7 @@ export default {
                 this.total_count = 0;
                 this.$emit("Set",this.set);
                 this.$emit("Count",this.total_count);
-                if( this.set == 1){
+                if( this.set == 2){
                     this.stop();
                     let record = {
                         exercise_idx:5,
