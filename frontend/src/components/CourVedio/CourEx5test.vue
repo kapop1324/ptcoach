@@ -2,6 +2,7 @@
 <div class="about">
 <div class="vedio"><canvas id="canvas"></canvas></div>
     <div>
+        <p>테스트페이지</p>
         <p class="speak">{{speak}}</p>
     </div>
     <p class="timer">{{Timer}}</p>
@@ -114,7 +115,6 @@ export default {
                 if(this.status == "squat" && this.is_wrong == false){
 
                     this.total_count++;
-                    this.addChart();
                     this.success_count++;
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;         
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
@@ -125,7 +125,6 @@ export default {
                 if(this.status == "squat" && this.is_wrong == true){
 
                     this.total_count++;
-                    this.addChart();
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;  
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();
@@ -136,7 +135,6 @@ export default {
                 if(this.status != "squat" && this.is_wrong == true){
 
                     this.total_count++;
-                    this.addChart();
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;  
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();
@@ -165,7 +163,7 @@ export default {
                 this.speak ="무릎이 너무 앞으로 빠졌습니다."
             }
 
-            if(this.total_count == 5){
+            if(this.total_count == 3){
                 this.set++;
                 this.total_count = 0;
                 this.$emit("Set",this.set);
@@ -178,6 +176,7 @@ export default {
                         accuracy: this.rate,
                     };   
                     this.$store.state.record = record;
+                    await wait(1000);
                     this.$emit("Index");
                     webcam.stop();
                 } 
@@ -207,9 +206,13 @@ export default {
             clearInterval(this.timer);
         },
         addChart() {
-            this.value=this.value+20;
+            if(this.value==66.8){
+                this.value=this.value+33.2;
+            }else{
+                this.value=this.value+33.4;
+            }
             this.chart.series.splice(0,1,this.value);
-            if(this.value==100){
+            if(this.value>=100){
                 this.value=0;
             }
         },

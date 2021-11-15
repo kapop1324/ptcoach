@@ -32,7 +32,7 @@ export default {
     return {
       course_idx: '',
       step: 0,
-      coursenameList: ["코스1","코스2"],
+      coursenameList: ["코스1","코스2","코스3"],
       courseList: [],
       exerciseList: [
         {
