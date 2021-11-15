@@ -125,7 +125,7 @@ export default {
 
                 }
 
-                else if(this.status == "right_stand"  && this.is_spread_left == true && ((this.is_wrong_right == true && this.is_wrong_left == false) || (this.is_wrong_right == false && this.is_wrong_left == true) || (this.is_wrong_right == true && this.is_wrong_left == true))){
+                else if(this.status != "stand" || this.is_spread != 2 || this.is_wrong == true){
 
                     this.total_count++;
                     this.addChart();
@@ -133,47 +133,6 @@ export default {
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();
     
-                }
-
-                else if(this.status != "right_stand"  && this.is_spread_left == true && ((this.is_wrong_right == true && this.is_wrong_left == false) || (this.is_wrong_right == false && this.is_wrong_left == true) || (this.is_wrong_right == true && this.is_wrong_left == true))){
-
-                    this.total_count++;
-                    this.addChart();
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-    
-                }
-
-                if(this.status == "left_stand"  && this.is_spread_right == true && this.is_wrong_right == false && this.is_wrong_left == false){
-
-                    this.total_count++;
-                    this.addChart();
-                    this.success_count++;
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-            
-                }
-
-                else if(this.status == "left_stand"  && this.is_spread_right == true && ((this.is_wrong_right == true && this.is_wrong_left == false) || (this.is_wrong_right == false && this.is_wrong_left == true) || (this.is_wrong_right == true && this.is_wrong_left == true))){
-
-                    this.total_count++;
-                    this.addChart();
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-            
-                }
-
-                else if(this.status != "left_stand"  && this.is_spread_right == true && ((this.is_wrong_right == true && this.is_wrong_left == false) || (this.is_wrong_right == false && this.is_wrong_left == true) || (this.is_wrong_right == true && this.is_wrong_left == true))){
-
-                    this.total_count++;
-                    this.addChart();
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-            
                 }
         
                 this.is_wrong = false;
