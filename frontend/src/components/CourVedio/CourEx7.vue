@@ -40,10 +40,8 @@ export default {
         time:0,
         accuracy:0,
         value:0,
-        is_wrong_right : false,
-        is_wrong_left : false,
-        is_spread_left : false,
-        is_spread_right : false,
+        is_spread : 0,
+        
 
         apexchart:VueApexCharts,
         chart: {
@@ -115,7 +113,7 @@ export default {
 
             if(prediction[0].probability.toFixed(2) == 1.0 && this.dialog){
 
-                if(this.status == "right_stand"  && this.is_spread_left == true && this.is_wrong_right == false && this.is_wrong_left == false){
+                if(this.status == "stand"  && this.is_spread == 2 && this.is_wrong == false){
 
                     this.total_count++;
                     this.addChart();
@@ -178,10 +176,8 @@ export default {
             
                 }
         
-                this.is_wrong_left = false;
-                this.is_wrong_right = false;
-                this.is_spread_left = false;
-                this.is_spread_right = false;
+                this.is_wrong = false;
+                this.is_spread = 0;
                 this.status = "stand"
 
                 
@@ -190,39 +186,37 @@ export default {
         
             else if(prediction[1].probability.toFixed(2) >= 0.9 && this.dialog){
 
-                    this.status = "right_spread"
-                    this.is_wrong_right = false;
+                    this.status = "spread"
+                    this.is_spread++;
                 
-                }
+            }
             else if(prediction[2].probability.toFixed(2) > 0.9 && this.dialog){
 
-                this.status = "right_stand"
-                this.is_spread_right = true;
+                this.status = "stand"
 
             }
             else if(prediction[3].probability.toFixed(2) > 0.9 && this.dialog){
 
-                this.status = "left_spread"
-                this.is_wrong_left = false;
+                this.status = "spread"
+                this.is_spread++;
             
             }
             else if(prediction[4].probability.toFixed(2) > 0.9 && this.dialog){
 
-                this.status = "left_stand"
-                this.is_spread_left = true;
+                this.status = "stand"
 
             }
             else if(prediction[5].probability.toFixed(2) > 0.9 && this.dialog){
 
-                this.status = "right_spread_wrong"
-                this.is_wrong_right = true;
+                this.status = "wrong"
+                this.is_wrong = true;
                 this.speak ="다리가 너무 벌어졌습니다."
             
             }
             else if(prediction[6].probability.toFixed(2) > 0.9){
 
-                this.status = "left_spread_wrong"
-                this.is_wrong_left = true;
+                this.status = "wrong"
+                this.is_wrong = true;
                 this.speak ="다리가 너무 벌어졌습니다."
             
             }

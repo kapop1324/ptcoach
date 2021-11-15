@@ -40,8 +40,6 @@ export default {
         time:0,
         accuracy:0,
         value:0,
-        is_wrong_top : false,
-        is_wrong_bottom : false,
 
         apexchart:VueApexCharts,
         chart: {
@@ -124,7 +122,7 @@ export default {
 
                 }
 
-                else if(this.status == "top" && ((this.is_wrong_top == true && this.is_wrong_bottom == false) || (this.is_wrong_top == false && this.is_wrong_bottom == true) || (this.is_wrong_top == true && this.is_wrong_bottom == true) )){
+                else if(this.status != "top" && this.is_wrong != false){
 
                     this.total_count++;
                     this.addChart();
@@ -158,11 +156,11 @@ export default {
             }
             else if(prediction[3].probability.toFixed(2) > 0.9 && this.dialog){
                 this.status = "wrong_bottom"
-                this.is_wrong_bottom = true;
+                this.is_wrong = true;
             }
             else if(prediction[4].probability.toFixed(2) > 0.9 && this.dialog){
                 this.status = "wrong_top"
-                this.is_wrong_top = true;
+                this.is_wrong = true;
             }
 
             if(this.total_count == 5){
