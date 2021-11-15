@@ -135,7 +135,7 @@ export default {
           audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          await wait(3000);
+          await wait(1500);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -154,6 +154,7 @@ export default {
           
           this.speak = "📢 정자세로 서주시기 바랍니다.";
           this.acc = prediction[0].probability.toFixed(2) * 100;
+          await wait(1000); 
 
         }
 
@@ -168,7 +169,7 @@ export default {
           this.speak = "📢 앉아주세요.";
           var audio = new Audio(require('@/assets/audio/lunge/lungec2.mp3'));
           audio.play();
-          await wait(3000);
+          await wait(1500);
         
         }
 
@@ -189,7 +190,7 @@ export default {
           this.speak = "📢 허리를 곧게 펴주세요.";
           var audio = new Audio(require('@/assets/audio/lunge/lungec4.mp3'));
           audio.play();
-
+          await wait(1000); 
         }
 
         this.acc = prediction[1].probability.toFixed(2) * 100;
@@ -205,7 +206,7 @@ export default {
           audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          await wait(3000)
+          await wait(1500)
 
         }
         

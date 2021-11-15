@@ -139,7 +139,7 @@ export default {
           audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          await wait(3000)
+          await wait(1500)
   
         }
 
@@ -162,6 +162,7 @@ export default {
           
           this.speak = "📢 정자세로 서주시기 바랍니다.";
           this.acc = prediction[0].probability.toFixed(2) * 100;
+          await wait(1000); 
 
         }
 
@@ -171,7 +172,7 @@ export default {
       if(this.step == 2 && this.step_clear == true){
 
         if(this.send_step == false){
-          await wait(1000)
+          await wait(1500)
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "📢 앉아주세요.";
@@ -227,7 +228,7 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/squat/squatc8.mp3'));
           audio.play();          
-          await wait(3000)
+          await wait(1500)
         }
         this.acc = prediction[2].probability.toFixed(2) * 100;
         
@@ -240,6 +241,7 @@ export default {
         
           this.speak = "📢 정자세로 서주시기 바랍니다."
           this.acc = prediction[0].probability.toFixed(2) * 100;
+          await wait(1000); 
           
         }else if(this.clear == true){
           

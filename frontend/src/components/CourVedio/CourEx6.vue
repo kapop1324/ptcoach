@@ -135,7 +135,8 @@ export default {
                 
                 this.is_wrong = false;
                 this.status = "stand";
-                this.is_success = 0;
+                this.is_top = false;
+                this.is_bottom = false;
             }
         
             else if(prediction[1].probability.toFixed(2) == 1.0 && this.dialog){
