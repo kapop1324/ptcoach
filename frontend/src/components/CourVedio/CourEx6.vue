@@ -124,16 +124,7 @@ export default {
 
                 }
 
-                else if((this.status != "stand" && this.status != "top") || this.is_wrong == true || this.is_bottom == false || this.is_top == false){
-
-                    this.total_count++;
-                    this.addChart();
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-                }
-
-                else if((this.status != "stand" && this.status == "top") || this.is_wrong == true || this.is_bottom == false || this.is_top == false){
+                else if(this.status == "top" && (this.is_wrong == true || this.is_bottom == false || this.is_top == false)){
 
                     this.total_count++;
                     this.addChart();
