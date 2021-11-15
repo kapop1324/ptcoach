@@ -135,7 +135,7 @@ export default {
           audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          await wait(1000);
+          await wait(3000);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -168,7 +168,7 @@ export default {
           this.speak = "📢 앉아주세요.";
           var audio = new Audio(require('@/assets/audio/lunge/lungec2.mp3'));
           audio.play();
-          await wait(1000);
+          await wait(3000);
         
         }
 
@@ -205,7 +205,7 @@ export default {
           audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          await wait(1000)
+          await wait(3000)
 
         }
         

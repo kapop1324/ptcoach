@@ -139,7 +139,7 @@ export default {
           audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          await wait(1000)
+          await wait(3000)
   
         }
 
@@ -177,7 +177,7 @@ export default {
           this.speak = "📢 앉아주세요.";
           var audio = new Audio(require('@/assets/audio/squat/squatc2.mp3'));
           audio.play();
-          await wait(1000)
+          await wait(3000)
           
           
         }
@@ -227,7 +227,7 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/squat/squatc8.mp3'));
           audio.play();          
-          await wait(1000)
+          await wait(3000)
         }
         this.acc = prediction[2].probability.toFixed(2) * 100;
         

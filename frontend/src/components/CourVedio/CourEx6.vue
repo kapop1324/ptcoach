@@ -40,6 +40,7 @@ export default {
         time:0,
         accuracy:0,
         value:0,
+        is_success: 0,
 
         apexchart:VueApexCharts,
         chart: {
@@ -111,7 +112,7 @@ export default {
 
             if(prediction[0].probability.toFixed(2) == 1.0 && this.dialog){
 
-                if(this.status == "top" && this.is_wrong_top == false && this.is_wrong_bottom == false){
+                if(this.status == "top" && this.is_wrong == false && this.is_success == 2){
 
                     this.total_count++;
                     this.addChart();
@@ -122,16 +123,7 @@ export default {
 
                 }
 
-                else if(this.status != "top" && this.is_wrong != false){
-
-                    this.total_count++;
-                    this.addChart();
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-                }
-
-                else if(this.status != "top" && ((this.is_wrong_top == true && this.is_wrong_bottom == false) || (this.is_wrong_top == false && this.is_wrong_bottom == true) || (this.is_wrong_top == true && this.is_wrong_bottom == true) )){
+                else if(this.status != "top" || this.is_wrong != false || this.is_success != 2){
 
                     this.total_count++;
                     this.addChart();
@@ -140,25 +132,24 @@ export default {
                     audio.play();
                 }
                 
-                this.is_wrong_bottom = false;
-                this.is_wrong_top = false;
-                this.status = "stand"
-
+                this.is_wrong = false;
+                this.status = "stand";
+                this.is_success = 0;
             }
         
-            else if(prediction[1].probability.toFixed(2) >= 0.9 && this.dialog){
+            else if(prediction[1].probability.toFixed(2) == 1.0 && this.dialog){
                 this.status = "bottom"
-                this.is_wrong_bottom = false;
+                this.is_success++;
             }
-            else if(prediction[2].probability.toFixed(2) > 0.9 && this.dialog){
+            else if(prediction[2].probability.toFixed(2) == 1.0 && this.dialog){
                 this.status = "top"
-                this.is_wrong_top = false;
+                this.is_success++;
             }
-            else if(prediction[3].probability.toFixed(2) > 0.9 && this.dialog){
+            else if(prediction[3].probability.toFixed(2) == 1.0 && this.dialog){
                 this.status = "wrong_bottom"
                 this.is_wrong = true;
             }
-            else if(prediction[4].probability.toFixed(2) > 0.9 && this.dialog){
+            else if(prediction[4].probability.toFixed(2) == 1.0 && this.dialog){
                 this.status = "wrong_top"
                 this.is_wrong = true;
             }

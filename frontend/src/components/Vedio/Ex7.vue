@@ -136,7 +136,7 @@ export default {
           audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          await wait(1000);
+          await wait(3000);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -169,12 +169,13 @@ export default {
           this.speak = "📢 오른쪽으로 다리를 벌려 주세요.";
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc2.mp3'));
           audio.play();
-          await wait(1000);
+          await wait(3000);
 
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
-
+          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
+          audio.play();
           this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
@@ -206,11 +207,12 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc4.mp3'));
           audio.play();
-          await wait(1000);
+          await wait(3000);
         }
         
         if(prediction[2].probability.toFixed(2) == 1.0){
-          
+          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
+          audio.play();
           this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
@@ -239,11 +241,12 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc5.mp3'));
           audio.play();
-          await wait(1000);
+          await wait(3000);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
-          
+          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
+          audio.play();
           this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
@@ -273,11 +276,12 @@ export default {
           this.speak = "📢 왼쪽으로 다리를 벌려 주세요.";
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc6.mp3'));
           audio.play();
-          await wait(1000);
+          await wait(3000);
         }
 
         if(prediction[3].probability.toFixed(2) == 1.0){
-
+          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
+          audio.play();
           this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {
@@ -308,11 +312,12 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc7.mp3'));
           audio.play();
-          await wait(1000);
+          await wait(3000);
         }
         
         if(prediction[4].probability.toFixed(2) == 1.0){
-          
+          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
+          audio.play();
           this.speak = "📢 3초간 자세를 유지하세요."
           this.step++;
           setTimeout(() => {

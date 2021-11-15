@@ -134,11 +134,12 @@ export default {
           audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          await wait(1000)
+          await wait(3000)
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
-
+          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
+          audio.play();
           this.speak = "📢 정자세를 유지해주세요.";
           this.step++;
 
@@ -167,11 +168,11 @@ export default {
           this.speak = "📢 다리를 벌리고 손을 아래로 뻗어주세요.";
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc2.mp3'));
           audio.play();
-          await wait(1000)
+          await wait(3000)
         }
 
         if(prediction[1].probability.toFixed(2) == 1.0){
-          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc3.mp3'));
+          var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
           audio.play();
 
           this.speak = "📢 3초간 자세를 유지하세요."
@@ -207,7 +208,7 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
           audio.play();
-          await wait(1000);
+          await wait(3000);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -242,11 +243,11 @@ export default {
           this.send_step = true;
           this.speak = "📢 다리를 벌리고 손을 위로 뻗어주세요.";
           this.send_step = true;
-          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
-          await wait(1000);
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc6.mp3'));
+          await wait(3000);
         }
 
-        if(prediction[1].probability.toFixed(2) == 1.0){
+        if(prediction[2].probability.toFixed(2) == 1.0){
 
           var audio = new Audio(require('@/assets/audio/squat/squatc5.mp3'));
           audio.play();
@@ -283,7 +284,7 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc5.mp3'));
           audio.play();
-          await wait(1000);
+          await wait(3000);
 
         }
         
