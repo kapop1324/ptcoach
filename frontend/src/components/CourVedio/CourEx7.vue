@@ -126,7 +126,7 @@ export default {
 
                 }
 
-                else if(this.status != "stand" || this.left_spread == false || this.right_spread == false || this.is_wrong == true){
+                else if((this.status != "restand" && this.status != "stand") || this.left_spread == false || this.right_spread == false || this.is_wrong == true){
 
                     this.total_count++;
                     this.addChart();
@@ -139,7 +139,7 @@ export default {
                 this.is_wrong = false;
                 this.left_spread = false;
                 this.right_spread = false;
-                this.status = "stand"
+                this.status = "restand"
 
                 
 

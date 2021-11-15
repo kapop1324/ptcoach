@@ -124,7 +124,7 @@ export default {
 
                 }
 
-                else if(this.status != "top" || this.is_wrong == true || this.is_bottom == false || this.is_top == false){
+                else if((this.status != "stand" && this.status != "top") || this.is_wrong == true || this.is_bottom == false || this.is_top == false){
 
                     this.total_count++;
                     this.addChart();
