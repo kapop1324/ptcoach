@@ -40,7 +40,8 @@ export default {
         time:0,
         accuracy:0,
         value:0,
-        is_spread : 0,
+        left_spread : false,
+        right_spread : false,
         
 
         apexchart:VueApexCharts,
@@ -113,7 +114,7 @@ export default {
 
             if(prediction[0].probability.toFixed(2) == 1.0 && this.dialog){
 
-                if(this.status == "stand"  && this.is_spread == 2 && this.is_wrong == false){
+                if(this.status == "stand" && this.is_wrong == false && this.left_spread == true && this.right_spread == true){
 
                     this.total_count++;
                     this.addChart();
@@ -125,7 +126,7 @@ export default {
 
                 }
 
-                else if(this.status != "stand" || this.is_spread != 2 || this.is_wrong == true){
+                else if(this.status != "stand" || this.left_spread == false || this.right_spread == false || this.is_wrong == true){
 
                     this.total_count++;
                     this.addChart();
@@ -136,7 +137,8 @@ export default {
                 }
         
                 this.is_wrong = false;
-                this.is_spread = 0;
+                this.left_spread = false;
+                this.right_spread = false;
                 this.status = "stand"
 
                 
@@ -146,7 +148,7 @@ export default {
             else if(prediction[1].probability.toFixed(2) >= 0.9 && this.dialog){
 
                     this.status = "spread"
-                    this.is_spread++;
+                    this.left_spread = true;
                 
             }
             else if(prediction[2].probability.toFixed(2) > 0.9 && this.dialog){
@@ -157,7 +159,7 @@ export default {
             else if(prediction[3].probability.toFixed(2) > 0.9 && this.dialog){
 
                 this.status = "spread"
-                this.is_spread++;
+                this.right_spread = true;
             
             }
             else if(prediction[4].probability.toFixed(2) > 0.9 && this.dialog){
