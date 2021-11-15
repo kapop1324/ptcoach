@@ -135,6 +135,16 @@ export default {
                     audio.play();
     
                 }
+
+                else if((this.status != "restand" && this.status == "stand") || this.left_spread == false || this.right_spread == false || this.is_wrong == true){
+
+                    this.total_count++;
+                    this.addChart();
+                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
+                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
+                    audio.play();
+    
+                }
         
                 this.is_wrong = false;
                 this.left_spread = false;
