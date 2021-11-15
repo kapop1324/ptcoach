@@ -6,8 +6,10 @@
             <CourEx1 v-if="exList[index].exercise_image[0].exercise_idx==1" v-on:Index="addIndex"></CourEx1>
             <CourEx2 v-if="exList[index].exercise_image[0].exercise_idx==2" v-on:Index="addIndex"></CourEx2>  
             <CourEx3 v-if="exList[index].exercise_image[0].exercise_idx==3" v-on:Index="addIndex"></CourEx3>
-            <CourEx4 v-if="exList[index].exercise_image[0].exercise_idx==4" v-on:Index="addIndex"></CourEx4>
-            <CourEx5 v-if="exList[index].exercise_image[0].exercise_idx==5" v-on:Index="addIndex"></CourEx5>
+            <CourEx4 v-if="exList[index].exercise_image[0].coursename!='코스3' && exList[index].exercise_image[0].exercise_idx==4" v-on:Index="addIndex"></CourEx4>
+            <CourEx4test v-if="exList[index].exercise_image[0].coursename=='코스3' && exList[index].exercise_image[0].exercise_idx==4" v-on:Index="addIndex"></CourEx4test>
+            <CourEx5 v-if="exList[index].exercise_image[0].coursename!='코스3' && exList[index].exercise_image[0].exercise_idx==5" v-on:Index="addIndex"></CourEx5>
+            <CourEx5test v-if="exList[index].exercise_image[0].coursename=='코스3' && exList[index].exercise_image[0].exercise_idx==5" v-on:Index="addIndex"></CourEx5test>
             <CourEx6 v-if="exList[index].exercise_image[0].exercise_idx==6" v-on:Index="addIndex"></CourEx6>
             <CourEx7 v-if="exList[index].exercise_image[0].exercise_idx==7" v-on:Index="addIndex"></CourEx7>  
       </div>
@@ -25,9 +27,11 @@ import CourStep from '@/components/Detail/CourStep.vue'
 import CourEx2 from '@/components/CourVedio/CourEx2.vue'
 import CourEx6 from '@/components/CourVedio/CourEx6.vue'
 import CourEx4 from '@/components/CourVedio/CourEx4.vue'
+import CourEx4test from '@/components/CourVedio/CourEx4test.vue'
 import CourEx1 from '@/components/CourVedio/CourEx1.vue'
 import CourEx3 from '@/components/CourVedio/CourEx3.vue'
 import CourEx5 from '@/components/CourVedio/CourEx5.vue'
+import CourEx5test from '@/components/CourVedio/CourEx5test.vue'
 import CourEx7 from '@/components/CourVedio/CourEx7.vue'
 export default {
   name: 'Detail',
@@ -35,9 +39,11 @@ export default {
     CourEx2:CourEx2,
     CourEx1:CourEx1,
     CourEx6:CourEx6,
-    CourEx4:CourEx4,   
+    CourEx4:CourEx4,
+    CourEx4test:CourEx4test,   
     CourEx3:CourEx3,
-    CourEx5:CourEx5,        
+    CourEx5:CourEx5,
+    CourEx5test:CourEx5test,            
     CourEx7:CourEx7, 
     //Clock,
     //apexchart:VueApexCharts,

@@ -44,12 +44,12 @@ const routes = [
     path: '/course/exp/:id',
     name: 'CourseExp',
     component: CourseExp,
-  },
+  }, 
   {
     path: '/course/:id',
     name: 'CourseDetail',
     component: CourseDetail,
-  },
+  }, 
   {
     path: '/course/res/:id',
     name: 'CourseRes',
