@@ -54,12 +54,20 @@ export default {
     }
   },
   created() {
-   this.getDashboard()
+    if(this.isLogin){
+      console.log(this.email)
+      this.getDashboard()
+    }else{
+      console.log("no value")
+      this.alltime = '로그인 후 사용 가능 😥'
+      this.monthtime = '로그인 후 사용 가능 😥'
+    }
   },
   methods: {
     getDashboard() {
-      DashboardApi.GetDashboard(
+      DashboardApi.GetDashboard(this.email,
         res => {
+          console.log(res)
           const secAlltime = res.data.alltime
           const secMontime = res.data.monthtime
 
@@ -90,6 +98,14 @@ export default {
       }
     },
   },
+  computed: {
+    email() {
+      return this.$store.getters.getLoginEmail;
+    },
+    isLogin() {
+      return this.$store.getters.getIsLogin;
+    },
+  }
 }
 </script>
 
