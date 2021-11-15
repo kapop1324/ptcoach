@@ -17,7 +17,7 @@
                 <label>비밀번호</label>
             </div>
             <div class='right'>
-                <input v-model="password" placeholder="password" type="text">
+                <input v-model="password" placeholder="password" type="password">
             </div>
         </div>
         <div class='midForm'>

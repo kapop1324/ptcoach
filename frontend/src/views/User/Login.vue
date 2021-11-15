@@ -7,7 +7,7 @@
         <input class="id" v-model="email" placeholder="이메일" type="text">
       </div>
       <div class="passForm">
-        <input class="pw" v-model="password" placeholder="비밀번호" type="text">
+        <input class="pw" v-model="password" placeholder="비밀번호" type="password">
       </div>
       <button type="submit" class="btn" @click="login">
         LOG IN
