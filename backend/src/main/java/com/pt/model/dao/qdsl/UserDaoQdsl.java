@@ -45,7 +45,7 @@ public class UserDaoQdsl{
 	
 	public User login(User user) {
 		
-		User login = jpaQueryFactory.select(qUser).from(qUser).where(qUser.email.eq(user.getEmail())).fetchOne();
+		User login = jpaQueryFactory.select(qUser).from(qUser).where(qUser.email.eq(user.getEmail()).and(qUser.password.eq(user.getPassword()))).fetchOne();
 		
 		return login;
 		

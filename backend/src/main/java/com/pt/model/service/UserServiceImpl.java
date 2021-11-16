@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserService {
     @Override
 	public User login(User user) throws Exception {
 		
-		//return userRepositorySupport.login(user);
-    	return userDao.findByEmail(user.getEmail());
+		return userRepositorySupport.login(user);
+    	
 	}
     
 	@Override
