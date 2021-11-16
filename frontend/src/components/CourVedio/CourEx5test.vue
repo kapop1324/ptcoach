@@ -175,7 +175,8 @@ export default {
                         time: this.stopWatch/1000,
                         accuracy: this.rate,
                     };   
-                    this.$store.state.record.push(record);
+                    // this.$store.state.record.push(record);
+                    this.$store.commit('ADD_EXERCISE_RECORD',record);
                     await wait(1000);
                     this.$emit("Index");
                     webcam.stop();

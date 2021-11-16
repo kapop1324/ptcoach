@@ -13,4 +13,7 @@ export default {
     FETCH_EXERCISE_LIST: function (state, res) {
         state.exerciseList = res
     },
+    ADD_EXERCISE_RECORD: function (state, res) {
+        state.record.push(res)
+    },
 }
