@@ -153,7 +153,7 @@ export default {
                     time: this.stopWatch/1000,
                     accuracy: this.rate,
                 };   
-                this.$store.state.record = record;
+                this.$store.state.record.push(record);
                 this.$emit("Index");
                 webcam.stop();
                 

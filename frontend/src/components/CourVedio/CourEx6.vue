@@ -161,14 +161,14 @@ export default {
                 this.total_count = 0;
                 this.$emit("Set",this.set);
                 this.$emit("Count",this.total_count);
-                if( this.set == 1){
+                if( this.set == 2){
                     this.stop();
                     let record = {
                         exercise_idx:6,
                         time: this.stopWatch/1000,
                         accuracy: this.rate,
                     };   
-                    this.$store.state.record = record;
+                    this.$store.state.record.push(record);
                     this.$emit("Index");
                     webcam.stop();
                 } 
