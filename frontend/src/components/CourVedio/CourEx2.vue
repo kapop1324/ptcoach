@@ -167,11 +167,11 @@ export default {
                 this.stop();
                 console.log("시간:"+this.stopWatch/1000);
                 let record = {
-                    exercise_idx:1,
+                    exercise_idx:2,
                     time: this.stopWatch/1000,
                     accuracy: this.rate,
                 };   
-                this.$store.state.record = record;
+                this.$store.state.record.push(record);
                 this.$emit("Index");
                 webcam.stop();
             } 

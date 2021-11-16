@@ -163,19 +163,19 @@ export default {
                 this.speak ="무릎이 너무 앞으로 빠졌습니다."
             }
 
-            if(this.total_count == 3){
+            if(this.total_count == 2){
                 this.set++;
                 this.total_count = 0;
                 this.$emit("Set",this.set);
                 this.$emit("Count",this.total_count);
-                if( this.set == 2){
+                if( this.set == 1){
                     this.stop();
                     let record = {
                         exercise_idx:5,
                         time: this.stopWatch/1000,
                         accuracy: this.rate,
                     };   
-                    this.$store.state.record = record;
+                    this.$store.state.record.push(record);
                     await wait(1000);
                     this.$emit("Index");
                     webcam.stop();
@@ -206,15 +206,20 @@ export default {
             clearInterval(this.timer);
         },
         addChart() {
-            if(this.value==66.8){
-                this.value=this.value+33.2;
-            }else{
-                this.value=this.value+33.4;
-            }
+            this.value=this.value+50;
             this.chart.series.splice(0,1,this.value);
-            if(this.value>=100){
+            if(this.value==100){
                 this.value=0;
-            }
+            }            
+            // if(this.value==66.8){
+            //     this.value=this.value+33.2;
+            // }else{
+            //     this.value=this.value+33.4;
+            // }
+            // this.chart.series.splice(0,1,this.value);
+            // if(this.value>=100){
+            //     this.value=0;
+            // }
         },
     },
     computed: {

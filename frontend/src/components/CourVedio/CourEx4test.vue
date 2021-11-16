@@ -153,18 +153,18 @@ export default {
             this.stat = "basic_false";
         } 
 
-        if( this.cnt == 3){
+        if( this.cnt == 2){
             this.set++;
             this.cnt=0;
-            if( this.set == 2){
+            if( this.set == 1){
                 this.stop();
                 console.log("시간:"+this.stopWatch/1000);
                 let record = {
-                    exercise_idx:1,
+                    exercise_idx:4,
                     time: this.stopWatch/1000,
                     accuracy: this.rate,
                 };   
-                this.$store.state.record = record;
+                this.$store.state.record.push(record);
                 await wait(1000);
                 this.$emit("Index");
                 webcam.stop();
@@ -194,17 +194,21 @@ export default {
         stop() {
             clearInterval(this.timer);
         },
-
         addChart() {
-            if(this.value==66.8){
-                this.value=this.value+33.2;
-            }else{
-                this.value=this.value+33.4;
-            }
+            this.value=this.value+50;
             this.chart.series.splice(0,1,this.value);
-            if(this.value>=100){
+            if(this.value==100){
                 this.value=0;
-            }
+            }            
+            // if(this.value==66.8){
+            //     this.value=this.value+33.2;
+            // }else{
+            //     this.value=this.value+33.4;
+            // }
+            // this.chart.series.splice(0,1,this.value);
+            // if(this.value>=100){
+            //     this.value=0;
+            // }
         },
     },
     computed: {
