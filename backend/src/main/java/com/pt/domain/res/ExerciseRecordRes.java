@@ -13,15 +13,17 @@ public class ExerciseRecordRes {
     private String desc;
     private int exercise_idx;
     private String exercise_name;
+    private int course_idx;
 
     @Builder
 
-    public ExerciseRecordRes(String coursename, String path, int image_step, String desc, int exercise_idx, String exercise_name) {
+    public ExerciseRecordRes(String coursename, String path, int image_step, String desc, int exercise_idx, String exercise_name, int course_idx) {
         this.coursename = coursename;
         this.path = path;
         this.image_step = image_step;
         this.desc = desc;
         this.exercise_idx = exercise_idx;
         this.exercise_name = exercise_name;
+        this.course_idx = course_idx;
     }
 }
