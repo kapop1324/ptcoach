@@ -54,16 +54,13 @@ export default {
           data,
           res => {
             if(res.data.message == "success"){
-
+              console.log(res.data.user)
               this.$store.state.userEmail = data.email
               this.$store.dispatch("login",data.email);
               this.$router.push({name:'Home'});
             }else if(res.data.message == "fail"){
-              alert("로그인 실패");
-          
-            }else{
-              alert("로그인 실패");
-
+              alert("아이디 또는 비밀번호를 확인해주세요.");
+              this.$router.push({name:'Home'});
             }
           },
           error => {
@@ -71,7 +68,6 @@ export default {
             console.log(error);
           }
         );
-
     }
   },
 
