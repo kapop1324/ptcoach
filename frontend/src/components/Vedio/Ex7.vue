@@ -343,7 +343,6 @@ export default {
       if(this.step == 7 && this.step_clear == false){
 
         if(this.send_step == false){
-          await wait(1000);
           this.$emit("sendStep",this.step);
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/sidestep/sidestepc5.mp3'));

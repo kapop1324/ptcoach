@@ -134,11 +134,10 @@ export default {
 
 
         if(this.send_step == false){
-          await wait(1000)
-          var audio = new Audio(require('@/assets/audio/squat/squatc1.mp3'));
-          audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/squat/squatc1.mp3'));
+          audio.play();
           await wait(1500)
   
         }
@@ -172,13 +171,13 @@ export default {
       if(this.step == 2 && this.step_clear == true){
 
         if(this.send_step == false){
-          await wait(1500)
+          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "📢 앉아주세요.";
           var audio = new Audio(require('@/assets/audio/squat/squatc2.mp3'));
           audio.play();
-          await wait(3000)
+          await wait(1500)
           
           
         }

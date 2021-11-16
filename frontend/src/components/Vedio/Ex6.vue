@@ -129,11 +129,10 @@ export default {
       if(this.step == 1 ){
 
         if(this.send_step == false){
-            await wait(1000)
-          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc1.mp3'));
-          audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
+          var audio = new Audio(require('@/assets/audio/jumpingjack/jumpingjackc1.mp3'));
+          audio.play();
           await wait(1500)
         }
         
