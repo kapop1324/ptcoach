@@ -103,13 +103,13 @@ export default {
     },
     addIndex(){
       this.index++;
-      if(this.index==4){
+      if(this.index==this.exList.length){
         this.$router.push(`/course/res/${this.$route.params.id}`);
       }
     },    
   },
   created() {
-    console.log(this.exList)
+    console.log(this.exList.length)
   },
   computed: {
     exList() {
