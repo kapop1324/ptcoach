@@ -16,4 +16,7 @@ export default {
     ADD_EXERCISE_RECORD: function (state, res) {
         state.record.push(res)
     },
+    RESET_EXERCISE_RECORD: function (state) {
+        state.record = []
+    },
 }

@@ -12,11 +12,7 @@ let state = {
     isLogin: false,
     courseList: [],
     exerciseList: [],
-    record: [{
-        exercise_idx:0,
-        time: 0,
-        accuracy: 0,
-    }],
+    record: [],
 }
 
 export default new Vuex.Store({
