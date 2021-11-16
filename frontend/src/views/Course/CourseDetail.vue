@@ -110,6 +110,7 @@ export default {
   },
   created() {
     console.log(this.exList.length)
+    this.$store.commit('RESET_EXERCISE_RECORD');
   },
   computed: {
     exList() {

@@ -47,12 +47,10 @@ export default {
   },
   created() {
     this.exerciseList = this.$store.getters.getExerciseList;
-    console.log(this.exerciseList)
+    // console.log(this.exerciseList)
     this.exerciseRecord = this.$store.getters.getRecord;
     // console.log(this.exerciseList);
     this.setExerciseFilter();
-    console.log('FILTER');
-    console.log(this.exerciseListFilter);
   },
   methods: {
     toHome(){
@@ -78,7 +76,6 @@ export default {
               }
             }
           )
-          // this.$store.dispatch("saveResult", this.exercise_record);
         }
       }
       
@@ -90,11 +87,13 @@ export default {
       console.log(this.exerciseRecord)
       if(this.exerciseRecord){
         for(let i=0; i<this.exerciseList.length; i++){
-          record.push({
+          if(this.exerciseRecord[i].accuracy < 80){
+            record.push({
             course_idx: this.exerciseList[i].exercise_image[0].course_idx,
             exercise_name: this.exerciseList[i].exercise_image[0].exercise_name,
             accuracy: this.exerciseRecord[i].accuracy
           });
+          }
         }
       }
       this.exerciseListFilter = record;
