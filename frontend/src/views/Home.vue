@@ -49,7 +49,7 @@
     <div class="s-container">
       <div data-aos="fade-right">
         <div class="scren-img">
-          <img src="@/assets/main/posture.jpg" alt="코스운동 예시 이미지">
+          <img src="@/assets/main/posture.png" alt="코스운동 예시 이미지">
         </div>
       </div>
       <div data-aos="fade-left">
