@@ -114,7 +114,7 @@ public class UserDaoQdsl{
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(to);
-		cal.add(Calendar.DATE, -1);
+		//cal.add(Calendar.DATE, -1);
 		Date from = cal.getTime();
 
     	List<String> course_list = jpaQueryFactory.select(qCourse.coursename)
