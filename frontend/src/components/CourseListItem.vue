@@ -62,8 +62,8 @@ export default {
   margin-bottom: 10px;
 }
 .ex-img > img {
-  width: 100%;
-  height: 100%;
+  width: 100px;
+  height: 100px;
 }
 .cor-div:active, .cor-div:hover {
   transform:scale(1.013);
