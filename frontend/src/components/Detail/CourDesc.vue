@@ -1,28 +1,20 @@
 <template>
     <div id="DescriptionRoot">
-    <!-- //exList[0].exercise_image[0].path
-    //exList[0].exercise_image[1].path
-    //exList[0].exercise_image[2].path
-    //exList[0].exercise_image[3].path         -->
-    <carousel class="carousel" :items="1" :autoplay=true :nav=false>
-        <div v-for="(exercise,i) in exList[newstep].exercise_image" v-bind:key="i">
-            <img :src="exercise.path" >
-        </div>
-    </carousel>        
-
+    <div class="gif">
+        <img :src="exList[newstep].exercise_image[exList[newstep].exercise_image.length-1].path" >
+    </div>
     </div>
 </template>
 
 <script>
-import carousel from 'vue-owl-carousel'
 export default {
     name: "Description",
     props: {
         newstep:Number,
     },
-    components: { carousel },    
     computed: {
         exList() {
+            console.log(this.$store.getters.getExerciseList);
             return this.$store.getters.getExerciseList;
             },
         },
@@ -31,11 +23,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/common.scss";
-.carousel {
+.gif img{
     position: absolute;
     top:44%;
-    width: 230px;
-    height:60px;
+    width: 220px;
+    height:320px;
     right:34%;
 }
 

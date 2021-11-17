@@ -27,8 +27,13 @@ export default {
       exerciseList: [],
     }
   },
+  watch:{
+    $route(to,from){
+        if (to.path != from.path) console.log("변경")
+    }
+  },  
   created() {
-   this.getPostureList()
+    this.getPostureList()
   },
   methods: {
     getPostureList() {
