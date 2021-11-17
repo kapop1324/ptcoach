@@ -60,7 +60,7 @@ export default {
               this.$router.push({name:'Home'});
             }else if(res.data.message == "fail"){
               alert("아이디 또는 비밀번호를 확인해주세요.");
-              this.$router.push({name:'Home'});
+              this.$router.push({name:'Login'});
             }
           },
           error => {
