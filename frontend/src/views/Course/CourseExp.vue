@@ -2,11 +2,11 @@
 <template>
   <div class="contents">
       <div class="title"><h1>{{exerciseList[step].exercise_image[0].exercise_name}}</h1></div>        
-      <div class="imageDiv"><img :src="exerciseList[step].exercise_image[0].path" alt="샘플이미지"/></div>
+      <div class="imageDiv"><img :src="exerciseList[step].exercise_image[exerciseList[step].exercise_image.length-1].path" alt="샘플이미지"/></div>
       <div class="Desc" v-for="(exercise,i) in exerciseFilter" :key="i">
-        <p v-for="(exercise,j) in exercise.exercise_image" :key="j">
-          {{exercise.desc}}
-        </p>
+        <div v-for="(image,j) in exercise.exercise_image" :key="j">
+          <p v-if="image.image_step != exerciseList[step].exercise_image.length">{{image.desc}}</p>
+        </div>
       </div>
       <!-- step 개수에 따라서 component 만들기 -->
       <div class="course-content-step">
@@ -55,7 +55,7 @@ export default {
     const course_idx = this.$route.params.id
     //courseList에서 id-1인 course의 coursename을 보내줘서 get해오면 됨
     this.course_idx = course_idx
-    console.log(this.coursenameList[this.course_idx-1])
+    // console.log(this.coursenameList[this.course_idx-1])
     CourseApi.FetchExerciseList(
       this.coursenameList[this.course_idx-1],
       res => {
@@ -115,7 +115,7 @@ h1 {
 }
 
 .imageDiv img {
-  width: 200px;
+  width: 300px;
   height: 400px;
 }
 
