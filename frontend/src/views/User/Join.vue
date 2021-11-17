@@ -16,7 +16,7 @@
           <label>비밀번호</label>
         </div>
         <div class="inputForm">
-          <input v-model="password" placeholder="비밀번호를 입력하세요" type="text">
+          <input v-model="password" placeholder="비밀번호를 입력하세요" type="password">
         </div>
       </div>
       <div class="midForm">
