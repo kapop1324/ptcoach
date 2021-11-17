@@ -26,7 +26,7 @@ import lombok.ToString;
 public class ExerciseRecord {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idx;
 	
 	@Column(name = "user_email")
