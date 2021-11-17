@@ -60,8 +60,8 @@ export default {
         },
         stopWatch: 0,
         timer: undefined  
-    };
-    },
+        };
+    },     
     created(){
         this.init();
     },

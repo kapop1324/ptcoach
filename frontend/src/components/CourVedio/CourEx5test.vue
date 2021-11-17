@@ -2,7 +2,6 @@
 <div class="about">
 <div class="vedio"><canvas id="canvas"></canvas></div>
     <div>
-        <p>테스트페이지</p>
         <p class="speak">{{speak}}</p>
     </div>
     <p class="timer">{{Timer}}</p>

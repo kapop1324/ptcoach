@@ -16,12 +16,23 @@ import Footer from "@/components/Common/Footer.vue"
 
 export default {
   name: "App",
+  data: () => {
+    return {
+      check: false,
+    };
+  },  
   components:{
     Nav,
     Footer,
   },
+  watch:{
+    $route(to,from){
+        if (to.path != from.path) {
+          location.reload();
+      }
+    },
+  }
 }
-
 </script>
 
 <style lang="scss">

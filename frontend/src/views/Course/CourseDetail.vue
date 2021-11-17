@@ -75,7 +75,7 @@ export default {
       index:0,
   }
     
-  },  
+  },   
   methods: {
     start(){
       if(this.msg=="시작"){
