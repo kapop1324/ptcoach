@@ -13,7 +13,7 @@
       <course-res-item v-for="(exercise,i) in exerciseRecord"
       :key="i" :exercise="exercise" :num="i"/>
     </div>
-    <button id="okBtn" @click="toHome">확인</button>
+    <button id="okBtn" @click="toCourseList">확인</button>
   </div>
 </template>
 
@@ -51,35 +51,37 @@ export default {
     this.exerciseRecord = this.$store.getters.getRecord;
     // console.log(this.exerciseList);
     this.setExerciseFilter();
-  },
-  methods: {
-    toHome(){
-      //email이 비어있으면 바로 홈으로, 아니면 post(저장) 후에 홈으로
-      if(this.isLogin){
-        let record = [];
-        for(let i=0; i<this.exerciseRecord.length; i++){
-          record.push({useremail: this.email, 
-          courseidx:this.exerciseList[i].exercise_image[0].course_idx,
-          time: this.exerciseRecord[i].time,
-          accuracy:this.exerciseRecord[i].accuracy })
-        }
-        
-        if(!(this.email == null || this.email == '')){
-          CourseApi.SaveRecord(
-            record,
-            res => {
-              if(res.data.message == "success"){
-                alert("기록 저장 성공");
-              }else{
-                console.log(record)
-                alert("기록 저장 실패");
-              }
-            }
-          )
-        }
+
+    //email이 비어있으면 바로 홈으로, 아니면 post(저장) 후에 홈으로
+    if(this.isLogin){
+      let record = [];
+      for(let i=0; i<this.exerciseRecord.length; i++){
+        record.push({useremail: this.email, 
+        courseidx:this.exerciseList[i].exercise_image[0].course_idx,
+        time: this.exerciseRecord[i].time,
+        accuracy:this.exerciseRecord[i].accuracy })
       }
       
-      this.$router.push('/');
+      if(!(this.email == null || this.email == '')){
+        CourseApi.SaveRecord(
+          record,
+          res => {
+            if(res.data.message == "success"){
+              alert("기록이 저장되었습니다.");
+            }else{
+              console.log(record)
+              alert("기록 저장 실패");
+            }
+          }
+        )
+      }else{
+        alert("기록저장은 로그인 후 가능합니다.")
+      }
+    }
+  },
+  methods: {
+    toCourseList(){
+      this.$router.push({name:'CourseLists'});
     },
     setExerciseFilter() {
       let record = [];
