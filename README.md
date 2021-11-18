@@ -41,7 +41,7 @@
 
 - Logo
 
-![](./images/logo.png)
+![](./images/logo2.png)
 
 ## 4. 핵심라이브러리
 
