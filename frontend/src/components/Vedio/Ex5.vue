@@ -117,12 +117,6 @@ export default {
       //step0 
       if(this.step==0){
 
-        this.speak = "카메라를 불러오고 있습니다."
-        for(var i = 3; i > 0; i--){
-          
-          await wait(1000);
-        }
-
         this.speak = "📢 정자세로 서주시기 바랍니다." 
         this.step++;
         
@@ -138,7 +132,7 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/squat/squatc1.mp3'));
           audio.play();
-          await wait(1500)
+          await wait(1000)
   
         }
 
@@ -161,7 +155,7 @@ export default {
           
           this.speak = "📢 정자세로 서주시기 바랍니다.";
           this.acc = prediction[0].probability.toFixed(2) * 100;
-          await wait(1000); 
+
 
         }
 
@@ -171,13 +165,12 @@ export default {
       if(this.step == 2 && this.step_clear == true){
 
         if(this.send_step == false){
-          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
           this.speak = "📢 앉아주세요.";
           var audio = new Audio(require('@/assets/audio/squat/squatc2.mp3'));
           audio.play();
-          await wait(1500)
+          await wait(1000)
           
           
         }
@@ -202,15 +195,13 @@ export default {
           
           this.speak = "📢 허리를 곧게 펴주세요.";
           var audio = new Audio(require('@/assets/audio/squat/squatc6.mp3'));
-          audio.play();
-          await wait(1000);          
+          audio.play();        
 
         }else if(prediction[3].probability.toFixed(2) == 1.0){
         
           this.speak = "📢 무릎은 발 안쪽으로 넣어주세요";
           var audio = new Audio(require('@/assets/audio/squat/squatc7.mp3'));
           audio.play();
-          await wait(1000);
           
         }
 
@@ -222,12 +213,11 @@ export default {
       if(this.step == 3 && this.step_clear == false){
 
         if(this.send_step == false){
-          await wait(1000)
           this.$emit("sendStep",this.step);
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/squat/squatc8.mp3'));
           audio.play();          
-          await wait(1500)
+          await wait(1000)
         }
         this.acc = prediction[2].probability.toFixed(2) * 100;
         

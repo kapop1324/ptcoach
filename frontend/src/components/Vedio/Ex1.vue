@@ -115,12 +115,6 @@ export default {
       //step0 
       if(this.step==0){
 
-        this.speak = "카메라를 불러오고 있습니다."
-        for(var i = 3; i > 0; i--){
-          
-          await wait(1000);
-        }
-
         this.speak = "📢 정자세로 서주시기 바랍니다." 
         this.step++;
       }
@@ -134,7 +128,7 @@ export default {
           this.send_step = true;
           var audio = new Audio(require('@/assets/audio/lunge/lungec1.mp3'));
           audio.play();
-          await wait(1500);
+          await wait(1000);
         }
         
         if(prediction[0].probability.toFixed(2) == 1.0){
@@ -153,7 +147,6 @@ export default {
           
           this.speak = "📢 정자세로 서주시기 바랍니다.";
           this.acc = prediction[0].probability.toFixed(2) * 100;
-          await wait(1000); 
 
         }
 
@@ -168,7 +161,7 @@ export default {
           this.speak = "📢 앉아주세요.";
           var audio = new Audio(require('@/assets/audio/lunge/lungec2.mp3'));
           audio.play();
-          await wait(1500);
+          await wait(1000);
         
         }
 
@@ -189,7 +182,6 @@ export default {
           this.speak = "📢 허리를 곧게 펴주세요.";
           var audio = new Audio(require('@/assets/audio/lunge/lungec4.mp3'));
           audio.play();
-          await wait(1000); 
         }
 
         this.acc = prediction[1].probability.toFixed(2) * 100;
@@ -200,12 +192,11 @@ export default {
       if(this.step == 3 && this.step_clear == false){
 
         if(this.send_step == false){
-          await wait(1000)
           var audio = new Audio(require('@/assets/audio/lunge/lungec6.mp3'));
           audio.play();
           this.$emit("sendStep",this.step);
           this.send_step = true;
-          await wait(1500)
+          await wait(1000)
 
         }
         
