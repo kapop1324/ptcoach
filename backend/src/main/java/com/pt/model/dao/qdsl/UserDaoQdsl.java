@@ -58,6 +58,7 @@ public class UserDaoQdsl{
 				.set(qUser.password, user.getPassword())
 				.set(qUser.height, user.getHeight())
 				.set(qUser.weight, user.getWeight())
+				.set(qUser.age, user.getAge())
 				.set(qUser.gender, user.getGender())
 				.where(qUser.email.eq(user.getEmail()))
 				.execute();
