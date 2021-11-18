@@ -97,6 +97,7 @@ export default {
             res => {
             if(res.data.message == "success"){
                 this.email = res.data.userinfo.email;
+                this.password = res.data.userinfo.password;
                 this.age = res.data.userinfo.age;
                 this.name = res.data.userinfo.name;
                 this.height = res.data.userinfo.height;
