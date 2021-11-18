@@ -71,7 +71,18 @@ export default {
             path: "",
             step: 0,
           }
-        ]
+        ],
+        test_list:[
+          {
+            category:"",
+            desc: "",
+            exercisename: "",
+            idx: 0,
+            part: "",
+            path: "",
+            step: 0,
+          }
+        ],        
       }
     },
     created() {
@@ -84,6 +95,7 @@ export default {
             res => {
             if(res.data.message == "success"){
               this.ex_list=res.data.exercise_list;
+              this.ex_list.pop();
               //console.log(this.ex_list);
             }else if(res.data.message == "fail"){
                 alert("정보불러오기 실패");
