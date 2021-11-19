@@ -43,36 +43,48 @@ import Ex7 from '@/components/Vedio/Ex7.vue'
 import Description from '@/components/Detail/Description.vue'
 import Step from '@/components/Detail/Step.vue'
 export default {
-  name: 'PostureDetail',
-  components:{
-    Ex1: Ex1,
-    Ex2: Ex2,  
-    Ex3: Ex3,
-    Ex4: Ex4,
-    Ex5: Ex5,  
-    Ex6: Ex6,
-    Ex7: Ex7,
-    Description:Description,
-    Step: Step,
-  },
-  data(){
-    return{
-      id: 0,
-      newstep:1,
-      desc_step:1,
-      ex_list:[
-        {
-          category:"",
-          desc: "",
-          exercisename: "",
-          idx: 0,
-          part: "",
-          path: "",
-          step: 0,
-        }
-      ]
-    }
-  },
+    name: 'PostureDetail',
+    components:{
+      Ex1: Ex1,
+      Ex2: Ex2,  
+      Ex3: Ex3,
+      Ex4: Ex4,
+      Ex5: Ex5,  
+      Ex6: Ex6,
+      Ex7: Ex7,
+      Description:Description,
+      Step: Step,
+    },
+    data(){
+      return{
+        id: 0,
+        newstep:1,
+        desc_step:1,
+        check: false,      
+        ex_list:[
+          {
+            category:"",
+            desc: "",
+            exercisename: "",
+            idx: 0,
+            part: "",
+            path: "",
+            step: 0,
+          }
+        ],
+        test_list:[
+          {
+            category:"",
+            desc: "",
+            exercisename: "",
+            idx: 0,
+            part: "",
+            path: "",
+            step: 0,
+          }
+        ],        
+      }
+    },
     created() {
         let data = {
             id:this.$route.params.id,
@@ -83,7 +95,8 @@ export default {
             res => {
             if(res.data.message == "success"){
               this.ex_list=res.data.exercise_list;
-              console.log(this.ex_list);
+              this.ex_list.pop();
+              //console.log(this.ex_list);
             }else if(res.data.message == "fail"){
                 alert("정보불러오기 실패");
             }else{

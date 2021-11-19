@@ -175,7 +175,7 @@ public class DashboardDaoQdsl {
 			SimpleDateFormat fm = new SimpleDateFormat("MM/dd");
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
-			cal.add(Calendar.DATE, -1);
+			//cal.add(Calendar.DATE, -1);
 			Date from = cal.getTime();
 			String to = fm.format(from);
 			recent_stack.add(new AccuracyRes(part1,time1,to));
@@ -240,7 +240,7 @@ public class DashboardDaoQdsl {
 			SimpleDateFormat fm = new SimpleDateFormat("MM/dd");
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
-			cal.add(Calendar.DATE, -1);
+			//cal.add(Calendar.DATE, -1);
 			Date from = cal.getTime();
 			String to = fm.format(from);
 			accuracy_stack.add(new AccuracyRes(ex,rate,to));

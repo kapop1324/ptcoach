@@ -6,7 +6,7 @@
     </div>
     <p class="timer">{{Timer}}</p>
     <div class="set-count">
-        <div class="cont">{{this.set}}세트 {{this.total_count}}회</div>
+        <div class="cont">{{this.set+1}}세트 {{this.total_count}}회</div>
         <div id="chart">
             <apexchart type="radialBar" height="150" :options="chart.chartOptions" v-bind:series="this.chart.series"></apexchart>
         </div>   
@@ -60,8 +60,8 @@ export default {
         },
         stopWatch: 0,
         timer: undefined  
-    };
-    },
+        };
+    },     
     created(){
         this.init();
     },
@@ -153,7 +153,8 @@ export default {
                     time: this.stopWatch/1000,
                     accuracy: this.rate,
                 };   
-                this.$store.state.record = record;
+                // this.$store.state.record.push(record);
+                this.$store.commit('ADD_EXERCISE_RECORD',record);
                 this.$emit("Index");
                 webcam.stop();
                 

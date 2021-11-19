@@ -6,7 +6,7 @@
     </div>
     <p class="timer">{{Timer}}</p>
     <div class="set-count">
-        <div class="cont">{{this.set}}세트 {{this.total_count}}회</div>
+        <div class="cont">{{this.set+1}}세트 {{this.total_count}}회</div>
         <div id="chart">
         <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="chart.series"></apexchart>
         </div>   
@@ -40,10 +40,9 @@ export default {
         time:0,
         accuracy:0,
         value:0,
-        is_wrong_right : false,
-        is_wrong_left : false,
-        is_spread_left : false,
-        is_spread_right : false,
+        left_spread : false,
+        right_spread : false,
+        
 
         apexchart:VueApexCharts,
         chart: {
@@ -115,9 +114,10 @@ export default {
 
             if(prediction[0].probability.toFixed(2) == 1.0 && this.dialog){
 
-                if(this.status == "right_stand"  && this.is_spread_left == true && this.is_wrong_right == false && this.is_wrong_left == false){
+                if(this.status == "stand" && this.is_wrong == false && this.left_spread == true && this.right_spread == true){
 
                     this.total_count++;
+                    this.addChart();
                     this.success_count++;
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
@@ -126,57 +126,22 @@ export default {
 
                 }
 
-                else if(this.status == "right_stand"  && this.is_spread_left == true && ((this.is_wrong_right == true && this.is_wrong_left == false) || (this.is_wrong_right == false && this.is_wrong_left == true) || (this.is_wrong_right == true && this.is_wrong_left == true))){
+                else if( this.status == "stand" && ( this.left_spread == false || this.right_spread == false || this.is_wrong == true)){
 
                     this.total_count++;
+                    this.addChart();
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();
     
                 }
 
-                else if(this.status != "right_stand"  && this.is_spread_left == true && ((this.is_wrong_right == true && this.is_wrong_left == false) || (this.is_wrong_right == false && this.is_wrong_left == true) || (this.is_wrong_right == true && this.is_wrong_left == true))){
-
-                    this.total_count++;
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-    
-                }
-
-                if(this.status == "left_stand"  && this.is_spread_right == true && this.is_wrong_right == false && this.is_wrong_left == false){
-
-                    this.total_count++;
-                    this.success_count++;
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-            
-                }
-
-                else if(this.status == "left_stand"  && this.is_spread_right == true && ((this.is_wrong_right == true && this.is_wrong_left == false) || (this.is_wrong_right == false && this.is_wrong_left == true) || (this.is_wrong_right == true && this.is_wrong_left == true))){
-
-                    this.total_count++;
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-            
-                }
-
-                else if(this.status != "left_stand"  && this.is_spread_right == true && ((this.is_wrong_right == true && this.is_wrong_left == false) || (this.is_wrong_right == false && this.is_wrong_left == true) || (this.is_wrong_right == true && this.is_wrong_left == true))){
-
-                    this.total_count++;
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-            
-                }
+          
         
-                this.is_wrong_left = false;
-                this.is_wrong_right = false;
-                this.is_spread_left = false;
-                this.is_spread_right = false;
-                this.status = "stand"
+                this.is_wrong = false;
+                this.left_spread = false;
+                this.right_spread = false;
+                this.status = "restand"
 
                 
 
@@ -184,39 +149,37 @@ export default {
         
             else if(prediction[1].probability.toFixed(2) >= 0.9 && this.dialog){
 
-                    this.status = "right_spread"
-                    this.is_wrong_right = false;
+                    this.status = "spread"
+                    this.left_spread = true;
                 
-                }
+            }
             else if(prediction[2].probability.toFixed(2) > 0.9 && this.dialog){
 
-                this.status = "right_stand"
-                this.is_spread_right = true;
+                this.status = "stand"
 
             }
             else if(prediction[3].probability.toFixed(2) > 0.9 && this.dialog){
 
-                this.status = "left_spread"
-                this.is_wrong_left = false;
+                this.status = "spread"
+                this.right_spread = true;
             
             }
             else if(prediction[4].probability.toFixed(2) > 0.9 && this.dialog){
 
-                this.status = "left_stand"
-                this.is_spread_left = true;
+                this.status = "stand"
 
             }
             else if(prediction[5].probability.toFixed(2) > 0.9 && this.dialog){
 
-                this.status = "right_spread_wrong"
-                this.is_wrong_right = true;
+                this.status = "wrong"
+                this.is_wrong = true;
                 this.speak ="다리가 너무 벌어졌습니다."
             
             }
             else if(prediction[6].probability.toFixed(2) > 0.9){
 
-                this.status = "left_spread_wrong"
-                this.is_wrong_left = true;
+                this.status = "wrong"
+                this.is_wrong = true;
                 this.speak ="다리가 너무 벌어졌습니다."
             
             }
@@ -226,14 +189,15 @@ export default {
                 this.total_count = 0;
                 this.$emit("Set",this.set);
                 this.$emit("Count",this.total_count);
-                if( this.set == 1){
+                if( this.set == 2){
                     this.stop();
                     let record = {
                         exercise_idx:7,
                         time: this.stopWatch/1000,
                         accuracy: this.rate,
                     };   
-                    this.$store.state.record = record;
+                    // this.$store.state.record.push(record);
+                    this.$store.commit('ADD_EXERCISE_RECORD',record);
                     this.$emit("Index");
                     webcam.stop();
                 } 

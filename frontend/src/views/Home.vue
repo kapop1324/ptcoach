@@ -40,7 +40,7 @@
       </div>
       <div data-aos="fade-left">
         <div class="scren-img">
-          <img src="@/assets/eximg.jpg" alt="코스운동 예시 이미지">
+          <img src="@/assets/main/course.jpg" alt="코스운동 예시 이미지">
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@
     <div class="s-container">
       <div data-aos="fade-right">
         <div class="scren-img">
-          <img src="@/assets/eximg.jpg" alt="코스운동 예시 이미지">
+          <img src="@/assets/main/posture.png" alt="코스운동 예시 이미지">
         </div>
       </div>
       <div data-aos="fade-left">
@@ -78,7 +78,7 @@
       </div>
       <div data-aos="fade-left">
         <div class="scren-img">
-          <img src="@/assets/eximg.jpg" alt="코스운동 예시 이미지">
+          <img src="@/assets/main/dashboard.jpg" alt="코스운동 예시 이미지">
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@
     <div class="s-container">
       <div data-aos="fade-right">
         <div class="scren-img">
-          <img src="@/assets/eximg.jpg" alt="코스운동 예시 이미지">
+          <img src="@/assets/main/mypage.jpg" alt="코스운동 예시 이미지">
         </div>
       </div>
       <div data-aos="fade-left">
@@ -102,7 +102,7 @@
     </div>
 
     <!-- 2-5. 캐릭터 소개 -->
-    <div class="s-container" style="padding-bottom:350px;">
+    <!-- <div class="s-container" style="padding-bottom:350px;">
       <div data-aos="fade-right">
         <div class="s-numbering">05</div>
         <div class="s-title">
@@ -117,7 +117,7 @@
           <img src="@/assets/eximg.jpg" alt="코스운동 예시 이미지">
         </div>
       </div>
-    </div>
+    </div> -->
 
     <GoTop />
   </div>

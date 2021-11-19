@@ -2,20 +2,18 @@
 <template>
   <div class='contents'>
     <div><h1>오늘의 운동 결과</h1></div>
-    <!-- <div id="comment">{{exercise}} 자세 이상! </div> -->
     <div id="comment">
-      <p v-for="course in courseListFilter" :key="course.course_idx">
-        {{course.exercise_name}} 자세 이상!
+      <p v-for="(exercise,i) in exerciseListFilter" :key="i">
+        {{exercise.exercise_name}} 자세 이상!
       </p>
-      <!-- 아직 perfect부분 해결이 안됨, 언제 값을 변경해줄 수 있지 -->
       <p v-if="perfect"> 잘 하고 있어요! </p> 
       <p v-else> 조금 더 노력해보아요! </p>
     </div>
     <div class="results">
-      <course-res-item v-for="course in courseList"
-      :key="course.coursecode" :course="course"/>
+      <course-res-item v-for="(exercise,i) in exerciseRecord"
+      :key="i" :exercise="exercise" :num="i"/>
     </div>
-    <button id="okBtn" @click="toHome">확인</button>
+    <button id="okBtn" @click="toCourseList">확인</button>
   </div>
 </template>
 
@@ -30,51 +28,96 @@ export default {
   },
   data(){
     return {
-      excercise: '스쿼트',
-      perfect: true,
-      courseList: [{course_idx:1, exercise_name:'squat', accuracy: 88},
-        {course_idx:2, exercise_name:'lunge', accuracy: 70 }],
-      exercise_record: [{user_email:'ssafy@ssafy.com',course_idx:1, time:180, accuracy:88},
-				{user_email:'ssafy@ssafy.com',course_idx:2, time:200, accuracy:70}],
+      exerciseList: [{
+          idx:'', 
+          exercise_image:[
+            {
+              coursename: "",
+              path: "",
+              image_step: 0,
+              desc: "",
+              exercise_idx: 0,
+              exercise_name: "",
+            },
+          ],
+        }],
+      exerciseRecord: [],
+      exerciseListFilter: [],
     }
   },
   created() {
-    console.log(this.email)
-  },
-  methods: {
-    toHome(){
-      //email이 비어있으면 바로 홈으로, 아니면 post(저장) 후에 홈으로
-      let record = [{useremail: this.email, courseidx:1, time:60, accuracy:88 },
-                    {useremail: this.email, courseidx:4, time:80, accuracy:82}]
-        
-      console.log(this.email)
+    this.exerciseList = this.$store.getters.getExerciseList;
+    // console.log(this.exerciseList)
+    this.exerciseRecord = this.$store.getters.getRecord;
+    // console.log(this.exerciseList);
+    this.setExerciseFilter();
+
+    //email이 비어있으면 바로 홈으로, 아니면 post(저장) 후에 홈으로
+    if(this.isLogin){
+      let record = [];
+      for(let i=0; i<this.exerciseRecord.length; i++){
+        record.push({useremail: this.email, 
+        courseidx:this.exerciseList[i].exercise_image[0].course_idx,
+        time: this.exerciseRecord[i].time,
+        accuracy:this.exerciseRecord[i].accuracy })
+      }
+      
       if(!(this.email == null || this.email == '')){
         CourseApi.SaveRecord(
           record,
           res => {
             if(res.data.message == "success"){
-              alert("기록 저장 성공");
+              alert("기록이 저장되었습니다.");
             }else{
               console.log(record)
               alert("기록 저장 실패");
             }
           }
         )
-        // this.$store.dispatch("saveResult", this.exercise_record);
+      }else{
+        alert("기록저장은 로그인 후 가능합니다.")
       }
-      this.$router.push('/');
+    }
+  },
+  methods: {
+    toCourseList(){
+      this.$router.push({name:'CourseLists'});
     },
+    setExerciseFilter() {
+      let record = [];
+      console.log(this.exerciseRecord.length)
+      console.log(this.exerciseRecord)
+      if(this.exerciseRecord){
+        for(let i=0; i<this.exerciseList.length; i++){
+          if(this.exerciseRecord[i].accuracy < 80){
+            record.push({
+            course_idx: this.exerciseList[i].exercise_image[0].course_idx,
+            exercise_name: this.exerciseList[i].exercise_image[0].exercise_name,
+            accuracy: this.exerciseRecord[i].accuracy
+          });
+          }
+        }
+      }
+      this.exerciseListFilter = record;
+    }
   },
   computed: {
-    courseListFilter: function() {
-      return this.courseList.filter(function (course) {
-        // if(course.accuracy < 80) this.perfect = false
-        return course.accuracy < 80
-      })
-    },
     email() {
       return this.$store.getters.getLoginEmail;
-    }
+    },
+    isLogin(){
+      return this.$store.getters.getIsLogin;
+    },
+    perfect() {
+      let flag = true;
+      for(let i=0; i<this.exerciseRecord.length; i++){
+        if(this.exerciseRecord[i].accuracy < 80){
+          flag = false;
+          break;
+        }
+      }
+      return flag
+    },
   }
 }
 </script>

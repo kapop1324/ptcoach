@@ -6,7 +6,7 @@
     </div>
     <p class="timer">{{Timer}}</p>
     <div class="set-count">
-        <div class="cont">{{this.set}}세트 {{this.cnt}}회</div>
+        <div class="cont">{{this.set+1}}세트 {{this.cnt}}회</div>
         <div id="chart">
             <apexchart type="radialBar" height="150" :options="chart.chartOptions" v-bind:series="this.chart.series"></apexchart>
         </div>   
@@ -116,6 +116,8 @@ export default {
                 this.success_cnt++;
                 this.speak ="자세 좋습니다"
                 this.rate = (this.success_cnt / this.cnt).toFixed(2) * 100;
+                var audio = new Audio(require('@/assets/audio/course/'+this.cnt+'.mp3'));
+                audio.play();
             } 
             
             else if (this.stat != "up_true" && this.is_wrong == true && this.dialog) {
@@ -132,8 +134,7 @@ export default {
         else if (prediction[2].probability.toFixed(2) == 1.0) {
             this.is_wrong = false;
             this.stat = "up_true";
-            var audio = new Audio(require('@/assets/audio/course/'+this.cnt+'.mp3'));
-                audio.play();
+            
         } 
         
         else if (prediction[3].probability.toFixed(2) == 1.0 && this.dialog) {
@@ -165,11 +166,12 @@ export default {
                 this.stop();
                 console.log("시간:"+this.stopWatch/1000);
                 let record = {
-                    exercise_idx:1,
+                    exercise_idx:3,
                     time: this.stopWatch/1000,
                     accuracy: this.rate,
                 };   
-                this.$store.state.record = record;
+                // this.$store.state.record.push(record);
+                this.$store.commit('ADD_EXERCISE_RECORD',record);
                 this.$emit("Index");
                 webcam.stop();
             } 
@@ -255,5 +257,13 @@ export default {
     font-size: 30px;
     color: $logo-color;
     font-weight: bold;
+}
+.timer {
+    top:20%;
+    position: absolute;
+    font-size: 54px;
+    width: 180px;
+    height: 90px;
+    right:38%;
 }
 </style>

@@ -45,7 +45,7 @@ public class UserDaoQdsl{
 	
 	public User login(User user) {
 		
-		User login = jpaQueryFactory.select(qUser).from(qUser).where(qUser.email.eq(user.getEmail())).fetchOne();
+		User login = jpaQueryFactory.select(qUser).from(qUser).where(qUser.email.eq(user.getEmail()).and(qUser.password.eq(user.getPassword()))).fetchOne();
 		
 		return login;
 		
@@ -58,6 +58,7 @@ public class UserDaoQdsl{
 				.set(qUser.password, user.getPassword())
 				.set(qUser.height, user.getHeight())
 				.set(qUser.weight, user.getWeight())
+				.set(qUser.age, user.getAge())
 				.set(qUser.gender, user.getGender())
 				.where(qUser.email.eq(user.getEmail()))
 				.execute();
@@ -99,7 +100,7 @@ public class UserDaoQdsl{
     		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
     		Calendar cal = Calendar.getInstance();
     		cal.setTime(day.get(i));
-    		cal.add(Calendar.DATE, -1);
+    		//cal.add(Calendar.DATE, -1);
 			String to = fm.format(cal.getTime());
 			res.add(to);
     	}

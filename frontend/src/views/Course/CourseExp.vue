@@ -2,13 +2,12 @@
 <template>
   <div class="contents">
       <div class="title"><h1>{{exerciseList[step].exercise_image[0].exercise_name}}</h1></div>        
-      <div class="imageDiv"><img :src="exerciseList[step].exercise_image[0].path" alt="샘플이미지"/></div>
-      <!-- <div>{{this.$route.params}}</div> -->
-      <!-- <div class="Desc">
-        <p v-for="(exercise,i) in exerciseFilter[0].exercise_image" :key="i">
-          {{exercise.desc}}
-        </p>
-      </div> -->
+      <div class="imageDiv"><img :src="exerciseList[step].exercise_image[exerciseList[step].exercise_image.length-1].path" alt="샘플이미지"/></div>
+      <div class="Desc" v-for="(exercise,i) in exerciseFilter" :key="i">
+        <div v-for="(image,j) in exercise.exercise_image" :key="j">
+          <p v-if="image.image_step != exerciseList[step].exercise_image.length">{{image.desc}}</p>
+        </div>
+      </div>
       <!-- step 개수에 따라서 component 만들기 -->
       <div class="course-content-step">
         <Seq @change-step= 'changeStep' v-for="(exercise,i) in exerciseList" :num="i+1" :selected="step+1" :key="i"></Seq>
@@ -33,7 +32,7 @@ export default {
     return {
       course_idx: '',
       step: 0,
-      coursenameList: ["코스1","코스2"],
+      coursenameList: ["코스1","코스2","코스3"],
       courseList: [],
       exerciseList: [
         {
@@ -56,7 +55,7 @@ export default {
     const course_idx = this.$route.params.id
     //courseList에서 id-1인 course의 coursename을 보내줘서 get해오면 됨
     this.course_idx = course_idx
-    console.log(this.coursenameList[this.course_idx-1])
+    // console.log(this.coursenameList[this.course_idx-1])
     CourseApi.FetchExerciseList(
       this.coursenameList[this.course_idx-1],
       res => {
@@ -82,18 +81,11 @@ export default {
     },
     changeStep(i) {
       this.step = i-1;
-      console.log(this.step);
     },
   },
   computed: {
-    // src(){
-    //   //return `http://i5c102.p.ssafy.io/api/feed/${this.feed.images[0].newname}`
-    //   return `this.exerciseList[this.step].exercise_image[0].path`;
-    // },
     exerciseFilter: function() {
       return this.exerciseList.filter((exercise) => {
-        // console.log(exercise.idx)
-        // console.log(this.step)
         return exercise.idx === (this.step+1);
       });
     },
@@ -109,11 +101,6 @@ h1 {
   font-size: 32px;
 }
 
-// img {
-//   width: 80%;
-//   height: 80%;
-// }
-
 .contents {
   // width: 100%;
   text-align: center;
@@ -125,15 +112,11 @@ h1 {
   width: 40%;
   height: 30%;
   display: inline-block;  
-  // top: 24%;
-  // left: 13%;
-  // position: absolute;
-
 }
 
 .imageDiv img {
-  width: 100%;
-  height: 100%;
+  width: 300px;
+  height: 400px;
 }
 
 .course-content-step {

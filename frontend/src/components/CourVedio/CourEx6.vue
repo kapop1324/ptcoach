@@ -6,7 +6,7 @@
     </div>
     <p class="timer">{{Timer}}</p>
     <div class="set-count">
-        <div class="cont">{{this.set}}세트 {{this.total_count}}회</div>
+        <div class="cont">{{this.set+1}}세트 {{this.total_count}}회</div>
         <div id="chart">
         <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="chart.series"></apexchart>
         </div>   
@@ -40,8 +40,8 @@ export default {
         time:0,
         accuracy:0,
         value:0,
-        is_wrong_top : false,
-        is_wrong_bottom : false,
+        is_top: false,
+        is_bottom : false,
 
         apexchart:VueApexCharts,
         chart: {
@@ -113,9 +113,10 @@ export default {
 
             if(prediction[0].probability.toFixed(2) == 1.0 && this.dialog){
 
-                if(this.status == "top" && this.is_wrong_top == false && this.is_wrong_bottom == false){
+                if(this.status == "top" && this.is_wrong == false &&  this.is_bottom == true && this.is_top == true){
 
                     this.total_count++;
+                    this.addChart();
                     this.success_count++;
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
@@ -123,43 +124,36 @@ export default {
 
                 }
 
-                else if(this.status == "top" && ((this.is_wrong_top == true && this.is_wrong_bottom == false) || (this.is_wrong_top == false && this.is_wrong_bottom == true) || (this.is_wrong_top == true && this.is_wrong_bottom == true) )){
+                else if(this.status == "top" && (this.is_wrong == true || this.is_bottom == false || this.is_top == false)){
 
                     this.total_count++;
-                    this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
-                    var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
-                    audio.play();
-                }
-
-                else if(this.status != "top" && ((this.is_wrong_top == true && this.is_wrong_bottom == false) || (this.is_wrong_top == false && this.is_wrong_bottom == true) || (this.is_wrong_top == true && this.is_wrong_bottom == true) )){
-
-                    this.total_count++;
+                    this.addChart();
                     this.rate = (this.success_count / this.total_count).toFixed(2) * 100;
                     var audio = new Audio(require('@/assets/audio/course/'+this.total_count+'.mp3'));
                     audio.play();
                 }
                 
-                this.is_wrong_bottom = false;
-                this.is_wrong_top = false;
-                this.status = "stand"
-
+                this.is_wrong = false;
+                this.status = "stand";
+                this.is_top = false;
+                this.is_bottom = false;
             }
         
-            else if(prediction[1].probability.toFixed(2) >= 0.9 && this.dialog){
+            else if(prediction[1].probability.toFixed(2) == 1.0 && this.dialog){
                 this.status = "bottom"
-                this.is_wrong_bottom = false;
+                this.is_bottom = true;
             }
-            else if(prediction[2].probability.toFixed(2) > 0.9 && this.dialog){
+            else if(prediction[2].probability.toFixed(2) == 1.0 && this.dialog){
                 this.status = "top"
-                this.is_wrong_top = false;
+                this.is_top = true;
             }
-            else if(prediction[3].probability.toFixed(2) > 0.9 && this.dialog){
+            else if(prediction[3].probability.toFixed(2) == 1.0 && this.dialog){
                 this.status = "wrong_bottom"
-                this.is_wrong_bottom = true;
+                this.is_wrong = true;
             }
-            else if(prediction[4].probability.toFixed(2) > 0.9 && this.dialog){
+            else if(prediction[4].probability.toFixed(2) == 1.0 && this.dialog){
                 this.status = "wrong_top"
-                this.is_wrong_top = true;
+                this.is_wrong = true;
             }
 
             if(this.total_count == 5){
@@ -167,14 +161,15 @@ export default {
                 this.total_count = 0;
                 this.$emit("Set",this.set);
                 this.$emit("Count",this.total_count);
-                if( this.set == 1){
+                if( this.set == 2){
                     this.stop();
                     let record = {
                         exercise_idx:6,
                         time: this.stopWatch/1000,
                         accuracy: this.rate,
                     };   
-                    this.$store.state.record = record;
+                    // this.$store.state.record.push(record);
+                    this.$store.commit('ADD_EXERCISE_RECORD',record);
                     this.$emit("Index");
                     webcam.stop();
                 } 

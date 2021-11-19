@@ -17,7 +17,7 @@
                 <label>비밀번호</label>
             </div>
             <div class='right'>
-                <input v-model="password" placeholder="password" type="text">
+                <input v-model="password" placeholder="password" type="password">
             </div>
         </div>
         <div class='midForm'>
@@ -97,6 +97,7 @@ export default {
             res => {
             if(res.data.message == "success"){
                 this.email = res.data.userinfo.email;
+                this.password = res.data.userinfo.password;
                 this.age = res.data.userinfo.age;
                 this.name = res.data.userinfo.name;
                 this.height = res.data.userinfo.height;

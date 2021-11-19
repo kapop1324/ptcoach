@@ -71,7 +71,7 @@ public class ExerciseRecordDaoQdsl {
         for(Tuple t : tuple){
             Course c = t.get(0, Course.class);
             ExerciseImage exi = t.get(1,ExerciseImage.class);
-            stack.add(new ExerciseRecordRes(c.getCoursename(),exi.getPath(), exi.getStep(),exi.getDesc(),c.getExerciseidx(), c.getExercisename()));
+            stack.add(new ExerciseRecordRes(c.getCoursename(),exi.getPath(), exi.getStep(),exi.getDesc(),c.getExerciseidx(), c.getExercisename(), c.getIdx()));
         }
         while(!stack.isEmpty()){
             image_list.add(stack.pop());
@@ -93,7 +93,9 @@ public class ExerciseRecordDaoQdsl {
                             image_list.get(j).getImage_step(),
                             image_list.get(j).getDesc(),
                             image_list.get(j).getExercise_idx(),
-                            image_list.get(j).getExercise_name()
+                            image_list.get(j).getExercise_name(),
+                            image_list.get(j).getCourse_idx()
+
                     ));
                 }
             }

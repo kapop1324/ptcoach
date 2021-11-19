@@ -6,7 +6,7 @@
     </div>
     <p class="timer">{{Timer}}</p>
     <div class="set-count">
-        <div class="cont">{{this.set}}세트 {{this.cnt}}회</div>
+        <div class="cont">{{this.set+1}}세트 {{this.cnt}}회</div>
         <div id="chart">
         <apexchart type="radialBar" height="150" :options="chart.chartOptions" :series="this.chart.series"></apexchart>
         </div>   
@@ -167,11 +167,12 @@ export default {
                 this.stop();
                 console.log("시간:"+this.stopWatch/1000);
                 let record = {
-                    exercise_idx:1,
+                    exercise_idx:2,
                     time: this.stopWatch/1000,
                     accuracy: this.rate,
                 };   
-                this.$store.state.record = record;
+                // this.$store.state.record.push(record);
+                this.$store.commit('ADD_EXERCISE_RECORD',record);
                 this.$emit("Index");
                 webcam.stop();
             } 

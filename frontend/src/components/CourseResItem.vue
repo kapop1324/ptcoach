@@ -1,7 +1,7 @@
 <template>
   <div class="result">
-    <div id="course-img"><img src="@/assets/squat.png"/></div>
-    <div id="course-comment">{{course.accuracy}}% 정확성! :)</div>
+    <div id="course-img"><img v-if="exerciseList[num]" :src="exerciseList[num].exercise_image[0].path"/></div>
+    <div id="course-comment">{{exercise.accuracy}}% 정확성! :)</div>
   </div>
 </template>
 
@@ -9,20 +9,33 @@
 export default {
   data(){
     return {
-      // accuracy: '',
-      // src: '@/assets/squat.png',
+      exerciseList: [{
+          idx:'', 
+          exercise_image:[
+            {
+              coursename: "",
+              path: "",
+              image_step: 0,
+              desc: "",
+              exercise_idx: 0,
+              exercise_name: "",
+            },
+          ],
+        }],
     }
   },
   props: {
-    course: {
+    exercise: {
       type: Object
     },
+    num:{
+      type: Number
+    },
   },
-  computed: {
-    // src() {
-    //   return '@/assets/squat.png'; //`http://i5c102.p.ssafy.io/api/feed/${this.feed.images[0].newname}`
-    // },
-  }
+  created() {
+    this.exerciseList = this.$store.getters.getExerciseList;
+    // console.log(exerciseList)
+  },
 }
 </script>
 

@@ -3,13 +3,13 @@
   <div id="NavRoot">
     <div class="logo"><router-link to="/"><img src="@/assets/logo2.png" style="height:47px" alt=""></router-link></div>
     <div class="menus">
-      <div class="menu-item">
+      <div class="menu-item" @click="reload()">
         <router-link to="/course">코스 운동</router-link>
       </div>          
-      <div class="menu-item">          
+      <div class="menu-item"  @click="reload()">          
         <router-link to="/posture">자세 교정</router-link>
       </div>             
-      <div class="menu-item">           
+      <div class="menu-item"  @click="reload()">           
         <router-link to="/dashboard">대시 보드</router-link>
       </div>    
     </div>
@@ -31,7 +31,11 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
+      this.$router.push({name:'Login'});
     },
+    reload() {
+      location.reload();
+    },    
   },
   computed: {
     isLogin() {
