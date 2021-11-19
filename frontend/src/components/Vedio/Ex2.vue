@@ -161,7 +161,7 @@ export default {
             var audio = new Audio(require('@/assets/2audio/3.mp3'));
           audio.play();
           await wait(1000)
-            this.speak = "step3 클리어!⭐️"
+            this.speak = "step2 클리어!⭐️"
             this.stat = "basic"
           }
           this.acc = prediction[0].probability.toFixed(2) * 100;
